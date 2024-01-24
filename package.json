@@ -1,0 +1,23 @@
+{
+  "name": "boombox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "json-server --watch server/db.json",
+    "start": "electron main.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.0",
+    "json-server": "^1.0.0-alpha.22",
+    "sass": "^1.70.0"
+  },
+  "devDependencies": {
+    "electron": "^28.1.4",
+    "electron-reload": "^2.0.0-alpha.1"
+  }
+}
