@@ -1,4 +1,9 @@
 {
-    "users": [],
+    "users": [
+        {
+            "id": 1,
+            "name": "Allan"
+        }
+    ],
     "tracks":[]
 }
