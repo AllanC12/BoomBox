@@ -1,0 +1,33 @@
+@import "../../mixins/mainMixins.scss";
+
+html,body{
+   height: 100%;
+}
+
+body{
+   @include resetBodySpacement;
+}
+
+.banner_login{
+   @include maxDimensions;
+   background-image: url('../../assets/bg_login.png');
+   background-position: top;
+   background-size: cover;
+   background-repeat: no-repeat;
+}
+
+.banner_login nav{
+   @include defineFlex(row,space-between,center);
+   @include spacementDefault;
+   height: 2vh;
+   background-color: #292d33;
+}
+
+nav ul{
+   @include defineFlex(row,center,center);
+   background-color: red;
+   gap: 40px;
+   list-style-type: none;
+
+}
+
