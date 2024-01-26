@@ -20,10 +20,11 @@ body {
 .banner_login nav {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
-  width: 100%;
+  max-width: 100%;
   padding: 15px 1%;
+  gap: 50%;
   height: 2vh;
   background-color: #292d33;
 }
@@ -34,6 +35,5 @@ nav ul {
   justify-content: center;
   align-items: center;
   background-color: red;
-  gap: 40px;
   list-style-type: none;
 }/*# sourceMappingURL=form.css.map */
