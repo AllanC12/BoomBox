@@ -17,8 +17,9 @@ body{
 }
 
 .banner_login nav{
-   @include defineFlex(row,space-between,center);
+   @include defineFlex(row,space-around,center);
    @include spacementDefault;
+   gap: 50%;
    height: 2vh;
    background-color: #292d33;
 }
@@ -26,7 +27,6 @@ body{
 nav ul{
    @include defineFlex(row,center,center);
    background-color: red;
-   gap: 40px;
    list-style-type: none;
 
 }
