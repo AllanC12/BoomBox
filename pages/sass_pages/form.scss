@@ -14,20 +14,89 @@ body{
    background-position: top;
    background-size: cover;
    background-repeat: no-repeat;
+   
+
+   nav{
+      @include defineFlex(row,space-around,center);
+      @include spacementDefault;
+      gap: 50%;
+      height: 2vh;
+      background-color: #292d33;
+   
+      .logo{
+         font-family: 'Bungee Shade', sans-serif;
+         font-size: 22px;
+         
+         a{
+            color: #fff;
+            text-decoration: none;
+         }
+      }
+   
+      ul{
+         @include defineFlex(row,space-between,center);
+         font-family: "Roboto";
+         gap: 5vw;
+         list-style-type: none;
+   
+         li a{
+            color: #fff;
+            font-size: 22px;
+            text-decoration: none;
+         }
+      
+      }
+
+      
+   }
+
+   .content-form{
+      @include defineFlex(row,center,center);
+      width: 100%;
+      height: 100%;
+
+      .form-login{
+         width: 350px;
+         height: 400px;
+         background-color: rgba(225, 230, 226,0.1);
+         border: 1px solid #fff;
+         border-radius: 8px;
+         backdrop-filter: blur(10px);
+
+         .profile-photo{
+            margin: 10% auto;
+            border-radius: 50%;
+            width: 26%;
+            height: 23%;
+            background-color: red;
+         }
+
+         input{
+            display: block;
+            margin: 0 auto;
+            outline: 0;
+     
+         }
+
+         input[type="email"],input[type="password"]{
+            width: 100%;
+            max-width: 200px;
+            height: 20px;
+            padding-left: 5px;
+            margin-bottom: 35px;
+            border: none;
+            border: 1px solid #fff;
+            appearance: none;
+
+         }
+      }
+   }
+
+      
+
 }
 
-.banner_login nav{
-   @include defineFlex(row,space-around,center);
-   @include spacementDefault;
-   gap: 50%;
-   height: 2vh;
-   background-color: #292d33;
-}
 
-nav ul{
-   @include defineFlex(row,center,center);
-   background-color: red;
-   list-style-type: none;
 
-}
+
 
