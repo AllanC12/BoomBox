@@ -9,15 +9,18 @@
     height: 100%;
 }
 
-@mixin defineFlex($direction,$horiz, $vert){
+@mixin defineFlex($horiz, $vert){
     display: flex;
-    flex-direction: $direction;
     justify-content: $horiz;
     align-items: $vert;
 }
 
 @mixin spacementDefault{
-    max-width: 100%;
+    width: 100%;
     padding: 15px 1%;
+}
+
+@mixin applyBorder($thickness,$color){
+    border: $thickness solid $color;
 }
 
