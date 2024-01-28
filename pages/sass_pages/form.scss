@@ -1,33 +1,123 @@
 @import "../../mixins/mainMixins.scss";
 
+*{
+   @include resetBodySpacement;
+}
+
 html,body{
    height: 100%;
 }
 
-body{
-   @include resetBodySpacement;
+nav{
+   @include defineFlex(center,center);
+   @include spacementDefault;
+   padding: 20px;
+   gap: 60%;
+   height: 6vh;
+   background-color: #292d33;
+
+   .logo{
+      font-family: 'Bungee Shade', sans-serif;
+      font-size: 18px;
+      
+      a{
+         color: #fff;
+         text-decoration: none;
+      }
+   }
+
+   ul{
+      @include defineFlex(center,center);
+      margin-top: 14px;
+      font-family: "Roboto";
+      gap: 5vw;
+      list-style-type: none;
+
+      li a{
+         color: #fff;
+         font-size: 18px;
+         text-decoration: none;
+      }
+   
+   }
+
+   
 }
 
 .banner_login{
-   @include maxDimensions;
+   width: 100%;
+   height: 94vh;
    background-image: url('../../assets/bg_login.png');
-   background-position: top;
+   background-position: center;
    background-size: cover;
    background-repeat: no-repeat;
+   
+   .content-form{
+      @include defineFlex(center,center);
+      @include maxDimensions;
+
+      .form-login{
+         @include applyBorder(1px,#fff);
+         width: 350px;
+         height: 400px;
+         background-color: rgba(225, 230, 226,0.1);
+         border-radius: 8px;
+         backdrop-filter: blur(10px);
+
+         .profile-photo{
+            @include applyBorder(1px,#fff);
+            margin: 10% auto;
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+         }
+
+         label{
+            display: block;
+            text-align: center;
+         
+         }
+
+         input{
+            outline: 0;
+         }
+
+         input[type="email"],input[type="password"]{
+            width: 100%;
+            max-width: 250px;
+            height: 35px;
+            padding-left: 5px;
+            margin-bottom: 35px;
+            border: none;
+            appearance: none;
+
+         }
+
+         input[type="submit"]{   
+            @include applyBorder(1px,#fff);
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 140px;
+            padding: 5px;
+            border-radius: 20px;
+            background-color: transparent;
+            color: #fff;
+            transition: .5s;
+         }
+
+         input[type="submit"]:hover{
+            background-color: #fff;
+            color: #0a0a0a;
+         }
+      }
+   }
+
+      
+
 }
 
-.banner_login nav{
-   @include defineFlex(row,space-around,center);
-   @include spacementDefault;
-   gap: 50%;
-   height: 2vh;
-   background-color: #292d33;
-}
 
-nav ul{
-   @include defineFlex(row,center,center);
-   background-color: red;
-   list-style-type: none;
 
-}
+
 
