@@ -59,39 +59,51 @@ nav{
       .form-login{
          @include applyBorder(1px,#fff);
          width: 350px;
-         height: 400px;
          background-color: rgba(225, 230, 226,0.1);
          border-radius: 8px;
          backdrop-filter: blur(10px);
+         padding: 15px 0;
 
          .profile-photo{
             @include applyBorder(1px,#fff);
-            margin: 10% auto;
+            @include defineFlex(center,center);
+            margin: 8% auto;
             border-radius: 50%;
             width: 90px;
             height: 90px;
+            font-size: 6em;
+            color: #fff;
          }
 
          label{
             display: block;
             text-align: center;
-         
+            position: relative;
+
+            i.bi-envelope-fill,i.bi-lock-fill,i.bi-camera-fill{
+               position: absolute;
+               right: 42px;
+               top: -4px;
+               font-size: 26px;
+               color: #ccc;
+            }
          }
 
-         input{
-            outline: 0;
+         input::placeholder{
+            color: #ccc;
          }
 
-         input[type="email"],input[type="password"]{
+         input[type="email"],input[type="password"],input[type="text"]{
             width: 100%;
-            max-width: 250px;
+            max-width: 270px;
             height: 35px;
             padding-left: 5px;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             border: none;
-            appearance: none;
-
+            border-radius: 4px;
          }
+
+
 
          input[type="submit"]{   
             @include applyBorder(1px,#fff);
@@ -110,7 +122,15 @@ nav{
             background-color: #fff;
             color: #0a0a0a;
          }
-      }
+
+         span.link-register,span.link-login{
+           text-decoration: none;
+           cursor: pointer;
+           display: block;
+           margin-left: 15%;
+           margin-top: 14px;
+           color: #fff;
+         }
    }
 
       
@@ -118,6 +138,6 @@ nav{
 }
 
 
-
+}
 
 
