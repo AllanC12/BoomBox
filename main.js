@@ -4,9 +4,12 @@ const electronReload = require("electron-reload")
 const {exec} = require("child_process")
 
 let mainWindow
+const port = (max,min) => {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
 
 const startJsonServer = () => {
-    const jsonServerProcess = exec('json-server --watch server/db.json --port 3006',(error,stdout,stdeer) => {
+    const jsonServerProcess = exec(`json-server --watch server/db.json --port ${port(3999,3000)}`,(error,stdout,stdeer) => {
         if(error){
             throw new Error(`Erro ao executar json-server: ${error.message}`)
             return
@@ -25,7 +28,7 @@ app.on('ready',() => {
 
     mainWindow.loadFile("pages/login.html")
 
-    mainWindow.removeMenu()
+    // mainWindow.removeMenu()
 
     startJsonServer()
 
