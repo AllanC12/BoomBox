@@ -11,3 +11,4 @@ const register = new Register();
 btnLogin.addEventListener('click', () => {
     register.defineRoute('login');
 });
+console.log('teste');

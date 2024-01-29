@@ -14,3 +14,4 @@ btnLogin!.addEventListener('click', () => {
 });
 
 
+console.log('teste')
