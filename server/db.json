@@ -1,9 +1,12 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "name": "Allan"
-        }
-    ],
-    "tracks":[]
+  "users": [
+    {
+      "id": "14c3",
+      "email": "allandevfront@gmail.com",
+      "password": "allan",
+      "confirmPassword": "allan",
+      "urlPhoto": "asdasd"
+    }
+  ],
+  "tracks": []
 }

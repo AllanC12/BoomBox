@@ -1,4 +1,4 @@
-const btnRegister = document.querySelector(".link-register") as HTMLElement;
+const btnRedirectRegister = document.querySelector(".link-register") as HTMLElement;
 const titlePagelogin:string = document.title
 
 class Login{
@@ -8,7 +8,7 @@ class Login{
 } 
 const login = new Login();
 
-btnRegister!.addEventListener('click', () => {
+btnRedirectRegister!.addEventListener('click', () => {
     login.defineRoute('register');
 });
 

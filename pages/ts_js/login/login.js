@@ -1,5 +1,5 @@
 "use strict";
-const btnRegister = document.querySelector(".link-register");
+const btnRedirectRegister = document.querySelector(".link-register");
 const titlePagelogin = document.title;
 class Login {
     defineRoute(page) {
@@ -7,6 +7,6 @@ class Login {
     }
 }
 const login = new Login();
-btnRegister.addEventListener('click', () => {
+btnRedirectRegister.addEventListener('click', () => {
     login.defineRoute('register');
 });

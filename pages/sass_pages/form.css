@@ -90,6 +90,9 @@ nav ul li a {
   font-size: 26px;
   color: #ccc;
 }
+.banner_login .content-form .form-login input {
+  outline: 0;
+}
 .banner_login .content-form .form-login input::-moz-placeholder {
   color: #ccc;
 }
@@ -120,6 +123,9 @@ nav ul li a {
 .banner_login .content-form .form-login input[type=submit]:hover {
   background-color: #fff;
   color: #0a0a0a;
+}
+.banner_login .content-form .form-login input[type=email]:focus, .banner_login .content-form .form-login input[type=password]:focus, .banner_login .content-form .form-login input[type=text]:focus {
+  border: none;
 }
 .banner_login .content-form .form-login span.link-register, .banner_login .content-form .form-login span.link-login {
   text-decoration: none;

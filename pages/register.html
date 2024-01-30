@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Registrar</title>
-  <script defer src="ts_js/register/register.js"></script>
+  <script defer src="ts_js/register/register.js" type="module"></script>
   <link rel="stylesheet" type="text/css" href="sass_pages/form.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,21 +38,21 @@
         </div>
         <label for="email">
           <i class="bi bi-envelope-fill"></i>
-          <input placeholder="Insira seu email" type="email" name="email">
+          <input placeholder="Insira seu email" required type="email" id="inputEmail">
         </label>
         <label for="password">
           <i class="bi bi-lock-fill"></i>
-          <input placeholder="Crie uma senha" type="password" name="password">
+          <input placeholder="Crie uma senha" required type="password" id="inputPassword">
         </label>
         <label for="password">
           <i class="bi bi-lock-fill"></i>
-          <input placeholder="Confirme sua senha" type="password" name="confirm-password">
+          <input placeholder="Confirme sua senha" required type="password" id="inputConfirmPassword">
         </label>
         <label for="password">
           <i class="bi bi-camera-fill"></i>
-          <input placeholder="Insira a URL de uma foto" type="text" name="insert-photo">
+          <input placeholder="Insira a URL de uma foto" type="text" id="inputUrlPhoto">
         </label>
-        <input type="submit" value="Cadastrar">
+        <input type="submit" value="Cadastrar" id="btnRegister">
         <span class="link-login">Ja possuo cadastro!</span>
       </form>
     </div>
