@@ -4,12 +4,9 @@ const electronReload = require("electron-reload")
 const {exec} = require("child_process")
 
 let mainWindow
-const port = (max,min) => {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
 
 const startJsonServer = () => {
-    const jsonServerProcess = exec(`json-server --watch server/db.json --port ${port(3999,3000)}`,(error,stdout,stdeer) => {
+    const jsonServerProcess = exec(`json-server --watch server/db.json --port 3004`,(error,stdout) => {
         if(error){
             throw new Error(`Erro ao executar json-server: ${error.message}`)
             return
@@ -21,6 +18,7 @@ const startJsonServer = () => {
     jsonServerProcess.on('close',(code) => {
         console.log("O json-server foi encerrado com código" + code)
     })
+
 }
 
 app.on('ready',() => {

@@ -89,6 +89,10 @@ nav{
             }
          }
 
+         input{
+            outline: 0;
+         }
+
          input::placeholder{
             color: #ccc;
          }
@@ -121,6 +125,10 @@ nav{
          input[type="submit"]:hover{
             background-color: #fff;
             color: #0a0a0a;
+         }
+
+         input[type="email"]:focus,input[type="password"]:focus,input[type="text"]:focus{
+            border: none;
          }
 
          span.link-register,span.link-login{
