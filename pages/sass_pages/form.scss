@@ -1,151 +1,149 @@
 @import "../../mixins/mainMixins.scss";
 
-*{
-   @include resetBodySpacement;
+* {
+  @include resetBodySpacement;
 }
 
-html,body{
-   height: 100%;
+html,
+body {
+  height: 100%;
 }
 
-nav{
-   @include defineFlex(center,center);
-   @include spacementDefault;
-   padding: 20px;
-   gap: 60%;
-   height: 6vh;
-   background-color: #292d33;
+nav {
+  @include defineFlex(center, center);
+  @include spacementDefault;
+  padding: 20px;
+  gap: 60%;
+  height: 6vh;
+  background-color: #292d33;
 
-   .logo{
-      font-family: 'Bungee Shade', sans-serif;
+  .logo {
+    font-family: "Bungee Shade", sans-serif;
+    font-size: 18px;
+
+    a {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
+
+  ul {
+    @include defineFlex(center, center);
+    margin-top: 14px;
+    font-family: "Roboto";
+    gap: 5vw;
+    list-style-type: none;
+
+    li a {
+      color: #fff;
       font-size: 18px;
-      
-      a{
-         color: #fff;
-         text-decoration: none;
+      text-decoration: none;
+    }
+  }
+}
+
+.banner_login {
+  width: 100%;
+  height: 94vh;
+  background-image: url("../../assets/bg_login.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  .content-form {
+    @include defineFlex(center, center);
+    @include maxDimensions;
+
+    .form-login,
+    .form-register {
+      @include applyBorder(1px, #fff);
+      width: 350px;
+      background-color: rgba(225, 230, 226, 0.1);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      padding: 15px 0;
+
+      .profile-photo {
+        @include applyBorder(1px, #fff);
+        @include defineFlex(center, center);
+        margin: 8% auto;
+        border-radius: 50%;
+        width: 90px;
+        height: 90px;
+        font-size: 6em;
+        color: #fff;
       }
-   }
 
-   ul{
-      @include defineFlex(center,center);
-      margin-top: 14px;
-      font-family: "Roboto";
-      gap: 5vw;
-      list-style-type: none;
+      label {
+        display: block;
+        text-align: center;
+        position: relative;
 
-      li a{
-         color: #fff;
-         font-size: 18px;
-         text-decoration: none;
+        i.bi-envelope-fill,
+        i.bi-lock-fill,
+        i.bi-camera-fill {
+          position: absolute;
+          right: 42px;
+          top: -4px;
+          font-size: 26px;
+          color: #ccc;
+          cursor: pointer;
+        }
       }
-   
-   }
 
-   
+      input {
+        outline: 0;
+      }
+
+      input::placeholder {
+        color: #ccc;
+      }
+
+      input[type="email"],
+      input[type="password"],
+      input[type="text"] {
+        width: 100%;
+        max-width: 270px;
+        height: 35px;
+        padding-left: 5px;
+        margin-bottom: 30px;
+        border: none;
+        border-radius: 4px;
+      }
+
+      input[type="submit"] {
+        @include applyBorder(1px, #fff);
+        display: block;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 140px;
+        padding: 5px;
+        border-radius: 20px;
+        background-color: transparent;
+        color: #fff;
+        transition: 0.5s;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #fff;
+        color: #0a0a0a;
+      }
+
+      input[type="email"]:focus,
+      input[type="password"]:focus,
+      input[type="text"]:focus {
+        border: none;
+      }
+
+      span.link-register,
+      span.link-login {
+        text-decoration: none;
+        cursor: pointer;
+        display: block;
+        margin-left: 15%;
+        margin-top: 14px;
+        color: #fff;
+      }
+    }
+  }
 }
-
-.banner_login{
-   width: 100%;
-   height: 94vh;
-   background-image: url('../../assets/bg_login.png');
-   background-position: center;
-   background-size: cover;
-   background-repeat: no-repeat;
-   
-   .content-form{
-      @include defineFlex(center,center);
-      @include maxDimensions;
-
-      .form-login{
-         @include applyBorder(1px,#fff);
-         width: 350px;
-         background-color: rgba(225, 230, 226,0.1);
-         border-radius: 8px;
-         backdrop-filter: blur(10px);
-         padding: 15px 0;
-
-         .profile-photo{
-            @include applyBorder(1px,#fff);
-            @include defineFlex(center,center);
-            margin: 8% auto;
-            border-radius: 50%;
-            width: 90px;
-            height: 90px;
-            font-size: 6em;
-            color: #fff;
-         }
-
-         label{
-            display: block;
-            text-align: center;
-            position: relative;
-
-            i.bi-envelope-fill,i.bi-lock-fill,i.bi-camera-fill{
-               position: absolute;
-               right: 42px;
-               top: -4px;
-               font-size: 26px;
-               color: #ccc;
-            }
-         }
-
-         input{
-            outline: 0;
-         }
-
-         input::placeholder{
-            color: #ccc;
-         }
-
-         input[type="email"],input[type="password"],input[type="text"]{
-            width: 100%;
-            max-width: 270px;
-            height: 35px;
-            padding-left: 5px;
-            margin-bottom: 30px;
-            border: none;
-            border-radius: 4px;
-         }
-
-
-
-         input[type="submit"]{   
-            @include applyBorder(1px,#fff);
-            display: block;
-            margin: 0 auto;
-            width: 100%;
-            max-width: 140px;
-            padding: 5px;
-            border-radius: 20px;
-            background-color: transparent;
-            color: #fff;
-            transition: .5s;
-         }
-
-         input[type="submit"]:hover{
-            background-color: #fff;
-            color: #0a0a0a;
-         }
-
-         input[type="email"]:focus,input[type="password"]:focus,input[type="text"]:focus{
-            border: none;
-         }
-
-         span.link-register,span.link-login{
-           text-decoration: none;
-           cursor: pointer;
-           display: block;
-           margin-left: 15%;
-           margin-top: 14px;
-           color: #fff;
-         }
-   }
-
-      
-
-}
-
-
-}
-
-

@@ -1,5 +1,5 @@
-import { User } from "../../../interfaces/User";
-
+import { IUser } from "../../../interfaces/User";
+const formRegister = document.querySelector('.form-register') as HTMLFormElement;
 const inputEmailElement = document.getElementById(
   "inputEmail"
 ) as HTMLInputElement;
@@ -12,15 +12,10 @@ const inputConfirmPasswordElement = document.getElementById(
 const inputUrlPhotoElement = document.getElementById(
   "inputUrlPhoto"
 ) as HTMLInputElement;
-const btnRedirectLogin = document.querySelector(".link-login") as HTMLElement;
-const btnRegister = document.getElementById("btnRegister") as HTMLInputElement;
-const titlePageRegister: string = document.title;
+const btnRedirectLogin = document.querySelector(".link-login") as HTMLElement
 
-class Register {
-   defineRoute(page: string) {
-    location.href = location.href.replace("register", page);
-  }
 
+class Formulary {
   protected accessDenied(target: HTMLInputElement) {
     target.style.setProperty("border", "2px solid red");
   }
@@ -36,10 +31,22 @@ class Register {
       inputElement.style.setProperty("border", "2px solid #287a33");
     });
   }
+}
 
-   protected validateRegister(): boolean {
+class Register extends Formulary {
+  defineRoute(page: string) {
+    location.href = location.href.replace("register", page);
+  }
+
+  protected validateRegister(): boolean {
     if (inputEmailElement.value === "") {
       this.accessDenied(inputEmailElement);
+      return false;
+    } else if (
+      inputPasswordElement.value === "" ||
+      inputConfirmPasswordElement.value === ""
+    ) {
+      this.accessDenied(inputConfirmPasswordElement);
       return false;
     } else if (
       inputPasswordElement.value !== inputConfirmPasswordElement.value
@@ -52,45 +59,49 @@ class Register {
     }
   }
 
-  protected async postData(data: object,url: string) {  
-    await fetch(url,{
-      method: "POST",
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify(data)
-    })
+  private async postData(data: object, url: string) {
+    try { 
+      await fetch(url, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (error:any) {
+      throw new Error(error)
+    }
+
   }
 
-  async sendDataUser() {
-    const registerValidated = this.validateRegister();
-    let message: string;
+  public async sendDataUser() {
+    const registerValidated: boolean = this.validateRegister();
+    const urlServer: string = `http://boomboxapi.glitch.me/users`;
 
-    if(registerValidated){
-      const urlServer = `http://localhost:3004/users`
-
-      const dataUser: User = {
+    if (registerValidated) {
+      const dataUser: IUser = {
         email: inputEmailElement.value,
         password: inputPasswordElement.value,
         confirmPassword: inputConfirmPasswordElement.value,
-        urlPhoto: inputUrlPhotoElement.value !== '' ? inputUrlPhotoElement.value : null
-      }
-
-
-      this.postData(dataUser,urlServer)
-     
-    }else{
-      message = `Verifique os dados registrados`
+        urlPhoto: inputUrlPhotoElement.value !== "" ? inputUrlPhotoElement.value : null,
+      };
+      await this.postData(dataUser, urlServer);
+    } else {
+      throw new Error("Verifique os dados preenchidos!");
     }
   }
 }
 const register = new Register();
 
-btnRedirectLogin!.addEventListener("click", () => {
+btnRedirectLogin.addEventListener("click", () => {
   register.defineRoute("login");
 });
 
-btnRegister.addEventListener("click", (e) => {
+formRegister.addEventListener("submit", (e:SubmitEvent) => {
   e.preventDefault();
-  register.sendDataUser()
+  console.log("recarregando");
+  register.sendDataUser();
+  setTimeout(() => {
+    register.defineRoute("login")
+  },2000)
 });
