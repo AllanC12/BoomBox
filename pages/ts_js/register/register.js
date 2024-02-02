@@ -13,17 +13,17 @@ const inputPasswordElement = document.getElementById("inputPassword");
 const inputConfirmPasswordElement = document.getElementById("inputConfirmPassword");
 const inputUrlPhotoElement = document.getElementById("inputUrlPhoto");
 const btnRedirectLogin = document.querySelector(".link-login");
+const listInput = [
+    inputEmailElement,
+    inputPasswordElement,
+    inputConfirmPasswordElement,
+    inputUrlPhotoElement,
+];
 class Formulary {
     accessDenied(target) {
         target.style.setProperty("border", "2px solid red");
     }
-    accessAccepted() {
-        const listInput = [
-            inputEmailElement,
-            inputPasswordElement,
-            inputConfirmPasswordElement,
-            inputUrlPhotoElement,
-        ];
+    accessAccepted(listInput) {
         listInput.forEach((inputElement) => {
             inputElement.style.setProperty("border", "2px solid #287a33");
         });
@@ -48,7 +48,7 @@ class Register extends Formulary {
             return false;
         }
         else {
-            this.accessAccepted();
+            this.accessAccepted(listInput);
             return true;
         }
     }
@@ -88,15 +88,15 @@ class Register extends Formulary {
     }
 }
 const register = new Register();
+const formulary = new Formulary();
 btnRedirectLogin.addEventListener("click", () => {
     register.defineRoute("login");
 });
 formRegister.addEventListener("submit", (e) => {
     e.preventDefault();
-    console.log("recarregando");
     register.sendDataUser();
     setTimeout(() => {
         register.defineRoute("login");
     }, 2000);
 });
-export {};
+export const { accessAccepted, accessDenied } = formulary;
