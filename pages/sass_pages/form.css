@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
@@ -57,7 +58,8 @@ nav ul li a {
   width: 100%;
   height: 100%;
 }
-.banner_login .content-form .form-login {
+.banner_login .content-form .form-login,
+.banner_login .content-form .form-register {
   border: 1px solid #fff;
   width: 350px;
   background-color: rgba(225, 230, 226, 0.1);
@@ -66,7 +68,8 @@ nav ul li a {
           backdrop-filter: blur(10px);
   padding: 15px 0;
 }
-.banner_login .content-form .form-login .profile-photo {
+.banner_login .content-form .form-login .profile-photo,
+.banner_login .content-form .form-register .profile-photo {
   border: 1px solid #fff;
   display: flex;
   justify-content: center;
@@ -78,28 +81,42 @@ nav ul li a {
   font-size: 6em;
   color: #fff;
 }
-.banner_login .content-form .form-login label {
+.banner_login .content-form .form-login label,
+.banner_login .content-form .form-register label {
   display: block;
   text-align: center;
   position: relative;
 }
-.banner_login .content-form .form-login label i.bi-envelope-fill, .banner_login .content-form .form-login label i.bi-lock-fill, .banner_login .content-form .form-login label i.bi-camera-fill {
+.banner_login .content-form .form-login label i.bi-envelope-fill,
+.banner_login .content-form .form-login label i.bi-lock-fill,
+.banner_login .content-form .form-login label i.bi-camera-fill,
+.banner_login .content-form .form-register label i.bi-envelope-fill,
+.banner_login .content-form .form-register label i.bi-lock-fill,
+.banner_login .content-form .form-register label i.bi-camera-fill {
   position: absolute;
   right: 42px;
   top: -4px;
   font-size: 26px;
   color: #ccc;
+  cursor: pointer;
 }
-.banner_login .content-form .form-login input {
+.banner_login .content-form .form-login input,
+.banner_login .content-form .form-register input {
   outline: 0;
 }
-.banner_login .content-form .form-login input::-moz-placeholder {
+.banner_login .content-form .form-login input::-moz-placeholder, .banner_login .content-form .form-register input::-moz-placeholder {
   color: #ccc;
 }
-.banner_login .content-form .form-login input::placeholder {
+.banner_login .content-form .form-login input::placeholder,
+.banner_login .content-form .form-register input::placeholder {
   color: #ccc;
 }
-.banner_login .content-form .form-login input[type=email], .banner_login .content-form .form-login input[type=password], .banner_login .content-form .form-login input[type=text] {
+.banner_login .content-form .form-login input[type=email],
+.banner_login .content-form .form-login input[type=password],
+.banner_login .content-form .form-login input[type=text],
+.banner_login .content-form .form-register input[type=email],
+.banner_login .content-form .form-register input[type=password],
+.banner_login .content-form .form-register input[type=text] {
   width: 100%;
   max-width: 270px;
   height: 35px;
@@ -108,7 +125,8 @@ nav ul li a {
   border: none;
   border-radius: 4px;
 }
-.banner_login .content-form .form-login input[type=submit] {
+.banner_login .content-form .form-login input[type=submit],
+.banner_login .content-form .form-register input[type=submit] {
   border: 1px solid #fff;
   display: block;
   margin: 0 auto;
@@ -120,14 +138,23 @@ nav ul li a {
   color: #fff;
   transition: 0.5s;
 }
-.banner_login .content-form .form-login input[type=submit]:hover {
+.banner_login .content-form .form-login input[type=submit]:hover,
+.banner_login .content-form .form-register input[type=submit]:hover {
   background-color: #fff;
   color: #0a0a0a;
 }
-.banner_login .content-form .form-login input[type=email]:focus, .banner_login .content-form .form-login input[type=password]:focus, .banner_login .content-form .form-login input[type=text]:focus {
+.banner_login .content-form .form-login input[type=email]:focus,
+.banner_login .content-form .form-login input[type=password]:focus,
+.banner_login .content-form .form-login input[type=text]:focus,
+.banner_login .content-form .form-register input[type=email]:focus,
+.banner_login .content-form .form-register input[type=password]:focus,
+.banner_login .content-form .form-register input[type=text]:focus {
   border: none;
 }
-.banner_login .content-form .form-login span.link-register, .banner_login .content-form .form-login span.link-login {
+.banner_login .content-form .form-login span.link-register,
+.banner_login .content-form .form-login span.link-login,
+.banner_login .content-form .form-register span.link-register,
+.banner_login .content-form .form-register span.link-login {
   text-decoration: none;
   cursor: pointer;
   display: block;

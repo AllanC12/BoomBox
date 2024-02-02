@@ -7,17 +7,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+const formRegister = document.querySelector('.form-register');
 const inputEmailElement = document.getElementById("inputEmail");
 const inputPasswordElement = document.getElementById("inputPassword");
 const inputConfirmPasswordElement = document.getElementById("inputConfirmPassword");
 const inputUrlPhotoElement = document.getElementById("inputUrlPhoto");
 const btnRedirectLogin = document.querySelector(".link-login");
-const btnRegister = document.getElementById("btnRegister");
-const titlePageRegister = document.title;
-class Register {
-    defineRoute(page) {
-        location.href = location.href.replace("register", page);
-    }
+class Formulary {
     accessDenied(target) {
         target.style.setProperty("border", "2px solid red");
     }
@@ -32,9 +28,19 @@ class Register {
             inputElement.style.setProperty("border", "2px solid #287a33");
         });
     }
+}
+class Register extends Formulary {
+    defineRoute(page) {
+        location.href = location.href.replace("register", page);
+    }
     validateRegister() {
         if (inputEmailElement.value === "") {
             this.accessDenied(inputEmailElement);
+            return false;
+        }
+        else if (inputPasswordElement.value === "" ||
+            inputConfirmPasswordElement.value === "") {
+            this.accessDenied(inputConfirmPasswordElement);
             return false;
         }
         else if (inputPasswordElement.value !== inputConfirmPasswordElement.value) {
@@ -48,31 +54,35 @@ class Register {
     }
     postData(data, url) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield fetch(url, {
-                method: "POST",
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+            try {
+                yield fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify(data),
+                });
+            }
+            catch (error) {
+                throw new Error(error);
+            }
         });
     }
     sendDataUser() {
         return __awaiter(this, void 0, void 0, function* () {
             const registerValidated = this.validateRegister();
-            let message;
+            const urlServer = `http://boomboxapi.glitch.me/users`;
             if (registerValidated) {
-                const urlServer = `http://localhost:3004/users`;
                 const dataUser = {
                     email: inputEmailElement.value,
                     password: inputPasswordElement.value,
                     confirmPassword: inputConfirmPasswordElement.value,
-                    urlPhoto: inputUrlPhotoElement.value !== '' ? inputUrlPhotoElement.value : null
+                    urlPhoto: inputUrlPhotoElement.value !== "" ? inputUrlPhotoElement.value : null,
                 };
-                this.postData(dataUser, urlServer);
+                yield this.postData(dataUser, urlServer);
             }
             else {
-                message = `Verifique os dados registrados`;
+                throw new Error("Verifique os dados preenchidos!");
             }
         });
     }
@@ -81,8 +91,12 @@ const register = new Register();
 btnRedirectLogin.addEventListener("click", () => {
     register.defineRoute("login");
 });
-btnRegister.addEventListener("click", (e) => {
+formRegister.addEventListener("submit", (e) => {
     e.preventDefault();
+    console.log("recarregando");
     register.sendDataUser();
+    setTimeout(() => {
+        register.defineRoute("login");
+    }, 2000);
 });
 export {};
