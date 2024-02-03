@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
-  <script defer src="ts_js/login/login.js"></script>
+  <script defer src="ts_js/login/login.js" type="module"></script>
   <link rel="stylesheet" type="text/css" href="sass_pages/form.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,11 +38,11 @@
         </div>
         <label for="email">
           <i class="bi bi-envelope-fill"></i>
-          <input placeholder="Email" type="email" name="email">
+          <input placeholder="Email" type="email" name="email" id="email">
         </label>
         <label for="password">
           <i class="bi bi-lock-fill"></i>
-          <input placeholder="Senha" type="password" name="password">
+          <input placeholder="Senha" type="password" name="password" id="password">
         </label>
         <input type="submit" value="Entrar">
         <span class="link-register">Não possui cadastro? Clique aqui!</span>

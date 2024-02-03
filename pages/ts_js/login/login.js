@@ -1,4 +1,4 @@
-"use strict";
+import { accessAccepted } from "../register/register.js";
 const btnRedirectRegister = document.querySelector(".link-register");
 const titlePagelogin = document.title;
 class Login {
@@ -7,6 +7,7 @@ class Login {
     }
 }
 const login = new Login();
+console.log(accessAccepted);
 btnRedirectRegister.addEventListener('click', () => {
     login.defineRoute('register');
 });
