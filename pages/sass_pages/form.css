@@ -88,10 +88,12 @@ nav ul li a {
   position: relative;
 }
 .banner_login .content-form .form-login label i.bi-envelope-fill,
-.banner_login .content-form .form-login label i.bi-lock-fill,
+.banner_login .content-form .form-login label i.bi-eye,
+.banner_login .content-form .form-login label i.bi-eye-slash,
 .banner_login .content-form .form-login label i.bi-camera-fill,
 .banner_login .content-form .form-register label i.bi-envelope-fill,
-.banner_login .content-form .form-register label i.bi-lock-fill,
+.banner_login .content-form .form-register label i.bi-eye,
+.banner_login .content-form .form-register label i.bi-eye-slash,
 .banner_login .content-form .form-register label i.bi-camera-fill {
   position: absolute;
   right: 42px;
@@ -99,6 +101,10 @@ nav ul li a {
   font-size: 26px;
   color: #ccc;
   cursor: pointer;
+}
+.banner_login .content-form .form-login label i.bi-eye-slash,
+.banner_login .content-form .form-register label i.bi-eye-slash {
+  display: none;
 }
 .banner_login .content-form .form-login input,
 .banner_login .content-form .form-register input {

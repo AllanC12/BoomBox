@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { accessAccepted, accessDenied } from "../formConfigs/formConfig";
 const formRegister = document.querySelector('.form-register');
 const inputEmailElement = document.getElementById("inputEmail");
 const inputPasswordElement = document.getElementById("inputPassword");
@@ -19,36 +20,26 @@ const listInput = [
     inputConfirmPasswordElement,
     inputUrlPhotoElement,
 ];
-class Formulary {
-    accessDenied(target) {
-        target.style.setProperty("border", "2px solid red");
-    }
-    accessAccepted(listInput) {
-        listInput.forEach((inputElement) => {
-            inputElement.style.setProperty("border", "2px solid #287a33");
-        });
-    }
-}
-class Register extends Formulary {
+class Register {
     defineRoute(page) {
         location.href = location.href.replace("register", page);
     }
     validateRegister() {
         if (inputEmailElement.value === "") {
-            this.accessDenied(inputEmailElement);
+            accessDenied(inputEmailElement);
             return false;
         }
         else if (inputPasswordElement.value === "" ||
             inputConfirmPasswordElement.value === "") {
-            this.accessDenied(inputConfirmPasswordElement);
+            accessDenied(inputConfirmPasswordElement);
             return false;
         }
         else if (inputPasswordElement.value !== inputConfirmPasswordElement.value) {
-            this.accessDenied(inputConfirmPasswordElement);
+            accessDenied(inputConfirmPasswordElement);
             return false;
         }
         else {
-            this.accessAccepted(listInput);
+            accessAccepted(listInput);
             return true;
         }
     }
@@ -88,9 +79,9 @@ class Register extends Formulary {
     }
 }
 const register = new Register();
-const formulary = new Formulary();
 btnRedirectLogin.addEventListener("click", () => {
     register.defineRoute("login");
+    console.log('ok');
 });
 formRegister.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -99,4 +90,3 @@ formRegister.addEventListener("submit", (e) => {
         register.defineRoute("login");
     }, 2000);
 });
-export const { accessAccepted, accessDenied } = formulary;
