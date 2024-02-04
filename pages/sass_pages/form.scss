@@ -80,14 +80,19 @@ nav {
         position: relative;
 
         i.bi-envelope-fill,
-        i.bi-lock-fill,
-        i.bi-camera-fill {
+        i.bi-eye,
+        i.bi-eye-slash,
+        i.bi-camera-fill{
           position: absolute;
           right: 42px;
           top: -4px;
           font-size: 26px;
           color: #ccc;
           cursor: pointer;
+        }
+
+        i.bi-eye-slash{
+          display: none;
         }
       }
 

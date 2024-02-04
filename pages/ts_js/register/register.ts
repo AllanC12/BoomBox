@@ -1,4 +1,5 @@
 import { IUser } from "../../../interfaces/User";
+import { accessAccepted,accessDenied } from "../formConfigs/formConfig";
 
 const formRegister = document.querySelector('.form-register') as HTMLFormElement;
 const inputEmailElement = document.getElementById(
@@ -23,41 +24,30 @@ const listInput: HTMLInputElement[] = [
 ];
 
 
- class Formulary {
-  public accessDenied(target: HTMLInputElement) {
-    target.style.setProperty("border", "2px solid red");
-  }
 
-  public accessAccepted(listInput?: HTMLInputElement[]) {
 
-    listInput!.forEach((inputElement) => {
-      inputElement.style.setProperty("border", "2px solid #287a33");
-    });
-  }
-}
-
-class Register extends Formulary {
+class Register{
   defineRoute(page: string) {
     location.href = location.href.replace("register", page);
   }
 
   protected validateRegister(): boolean {
     if (inputEmailElement.value === "") {
-      this.accessDenied(inputEmailElement);
+      accessDenied(inputEmailElement);
       return false;
     } else if (
       inputPasswordElement.value === "" ||
       inputConfirmPasswordElement.value === ""
     ) {
-      this.accessDenied(inputConfirmPasswordElement);
+      accessDenied(inputConfirmPasswordElement);
       return false;
     } else if (
       inputPasswordElement.value !== inputConfirmPasswordElement.value
     ) {
-      this.accessDenied(inputConfirmPasswordElement);
+      accessDenied(inputConfirmPasswordElement);
       return false;
     } else {
-      this.accessAccepted(listInput);
+      accessAccepted(listInput);
       return true;
     }
   }
@@ -95,10 +85,10 @@ class Register extends Formulary {
   }
 }
 const register = new Register();
-const formulary = new Formulary()
 
 btnRedirectLogin!.addEventListener("click", ():void => {
   register.defineRoute("login");
+  console.log('ok')
 });
 
 formRegister!.addEventListener("submit", (e:SubmitEvent):void => {
@@ -110,6 +100,5 @@ formRegister!.addEventListener("submit", (e:SubmitEvent):void => {
 });
 
 
-export const { accessAccepted,accessDenied } = formulary
 
  

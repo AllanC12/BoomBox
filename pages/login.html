@@ -32,7 +32,7 @@
   </nav>
   <div class="banner_login">
     <div class="content-form">
-      <form class="form-login">
+      <form class="form-login" id="form-login">
         <div class="profile-photo">
           <i class="bi bi-person-circle"></i>
         </div>
@@ -41,7 +41,10 @@
           <input placeholder="Email" type="email" name="email" id="email">
         </label>
         <label for="password">
-          <i class="bi bi-lock-fill"></i>
+          <div id="visibility-password">
+            <i class="bi bi-eye" id="show-password"></i>
+            <i class="bi bi-eye-slash" id="hide-password"></i>
+          </div>
           <input placeholder="Senha" type="password" name="password" id="password">
         </label>
         <input type="submit" value="Entrar">
