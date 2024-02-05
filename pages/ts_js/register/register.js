@@ -7,13 +7,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { accessAccepted, accessDenied } from "../formConfigs/formConfig";
+import { getProfilePhoto, accessAccepted, accessDenied, changeVisibilityPassword } from "../formConfigs/formConfig.js";
 const formRegister = document.querySelector('.form-register');
 const inputEmailElement = document.getElementById("inputEmail");
 const inputPasswordElement = document.getElementById("inputPassword");
 const inputConfirmPasswordElement = document.getElementById("inputConfirmPassword");
 const inputUrlPhotoElement = document.getElementById("inputUrlPhoto");
 const btnRedirectLogin = document.querySelector(".link-login");
+const visibilityPassword = document.getElementById('visibility-password');
+const showPassword = document.getElementById('show-password');
+const hidePassword = document.getElementById('hide-password');
+const profilePhotoElement = document.getElementById("profile-photo");
+const profilePhotoChildren = profilePhotoElement.children;
 const listInput = [
     inputEmailElement,
     inputPasswordElement,
@@ -63,14 +68,20 @@ class Register {
         return __awaiter(this, void 0, void 0, function* () {
             const registerValidated = this.validateRegister();
             const urlServer = `http://boomboxapi.glitch.me/users`;
+            const dataUser = {
+                email: inputEmailElement.value,
+                password: inputPasswordElement.value,
+                confirmPassword: inputConfirmPasswordElement.value,
+                urlPhoto: inputUrlPhotoElement.value === null ? '' : inputUrlPhotoElement.value,
+            };
             if (registerValidated) {
-                const dataUser = {
-                    email: inputEmailElement.value,
-                    password: inputPasswordElement.value,
-                    confirmPassword: inputConfirmPasswordElement.value,
-                    urlPhoto: inputUrlPhotoElement.value !== "" ? inputUrlPhotoElement.value : null,
-                };
-                yield this.postData(dataUser, urlServer);
+                try {
+                    yield this.postData(dataUser, urlServer);
+                    getProfilePhoto(dataUser.urlPhoto, profilePhotoElement, profilePhotoChildren);
+                }
+                catch (error) {
+                    console.log(error);
+                }
             }
             else {
                 throw new Error("Verifique os dados preenchidos!");
@@ -79,9 +90,11 @@ class Register {
     }
 }
 const register = new Register();
+visibilityPassword.addEventListener('click', () => {
+    changeVisibilityPassword(inputPasswordElement, showPassword, hidePassword);
+});
 btnRedirectLogin.addEventListener("click", () => {
     register.defineRoute("login");
-    console.log('ok');
 });
 formRegister.addEventListener("submit", (e) => {
     e.preventDefault();

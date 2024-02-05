@@ -72,6 +72,12 @@ nav {
         height: 90px;
         font-size: 6em;
         color: #fff;
+
+        .photo-user{
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+       }
       }
 
       label {
