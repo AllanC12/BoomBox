@@ -1,5 +1,5 @@
 import { IUser } from "../../../interfaces/User";
-import { accessAccepted,accessDenied } from "../formConfigs/formConfig";
+import {getProfilePhoto, accessAccepted,accessDenied,changeVisibilityPassword } from "../formConfigs/formConfig.js";
 
 const formRegister = document.querySelector('.form-register') as HTMLFormElement;
 const inputEmailElement = document.getElementById(
@@ -15,6 +15,13 @@ const inputUrlPhotoElement = document.getElementById(
   "inputUrlPhoto"
 ) as HTMLInputElement;
 const btnRedirectLogin = document.querySelector(".link-login") as HTMLElement
+const visibilityPassword = document.getElementById('visibility-password') as HTMLElement;
+const showPassword = document.getElementById('show-password') as HTMLElement
+const hidePassword = document.getElementById('hide-password') as HTMLElement
+const profilePhotoElement = document.getElementById(
+  "profile-photo"
+) as HTMLElement;
+const profilePhotoChildren = profilePhotoElement.children as HTMLCollection
 
 const listInput: HTMLInputElement[] = [
   inputEmailElement,
@@ -22,8 +29,6 @@ const listInput: HTMLInputElement[] = [
   inputConfirmPasswordElement,
   inputUrlPhotoElement,
 ];
-
-
 
 
 class Register{
@@ -71,14 +76,21 @@ class Register{
     const registerValidated: boolean = this.validateRegister();
     const urlServer: string = `http://boomboxapi.glitch.me/users`;
 
+    const dataUser: IUser = {
+      email: inputEmailElement.value,
+      password: inputPasswordElement.value,
+      confirmPassword: inputConfirmPasswordElement.value,
+      urlPhoto: inputUrlPhotoElement.value === null ?  '' : inputUrlPhotoElement.value,
+    };
+    
+
     if (registerValidated) {
-      const dataUser: IUser = {
-        email: inputEmailElement.value,
-        password: inputPasswordElement.value,
-        confirmPassword: inputConfirmPasswordElement.value,
-        urlPhoto: inputUrlPhotoElement.value !== "" ? inputUrlPhotoElement.value : null,
-      };
-      await this.postData(dataUser, urlServer);
+      try {
+        await this.postData(dataUser, urlServer);
+        getProfilePhoto(dataUser.urlPhoto,profilePhotoElement,profilePhotoChildren)
+      } catch (error) {
+        console.log(error)
+      }
     } else {
       throw new Error("Verifique os dados preenchidos!");
     }
@@ -86,9 +98,12 @@ class Register{
 }
 const register = new Register();
 
+visibilityPassword.addEventListener('click',() => {
+    changeVisibilityPassword(inputPasswordElement,showPassword,hidePassword)
+})
+
 btnRedirectLogin!.addEventListener("click", ():void => {
   register.defineRoute("login");
-  console.log('ok')
 });
 
 formRegister!.addEventListener("submit", (e:SubmitEvent):void => {

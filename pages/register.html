@@ -33,7 +33,7 @@
   <div class="banner_login">
     <div class="content-form">
       <form class="form-register">
-        <div class="profile-photo">
+        <div class="profile-photo" id="profile-photo">
           <i class="bi bi-person-circle"></i>
         </div>
         <label for="email">
@@ -41,11 +41,13 @@
           <input placeholder="Insira seu email" required type="email" id="inputEmail">
         </label>
         <label for="password">
-          <i class="bi bi-lock-fill"></i>
+          <div id="visibility-password">
+            <i class="bi bi-eye" id="show-password"></i>
+            <i class="bi bi-eye-slash" id="hide-password"></i>
+          </div>
           <input placeholder="Crie uma senha" required type="password" id="inputPassword">
         </label>
         <label for="password">
-          <i class="bi bi-lock-fill"></i>
           <input placeholder="Confirme sua senha" required type="password" id="inputConfirmPassword">
         </label>
         <label for="password">
