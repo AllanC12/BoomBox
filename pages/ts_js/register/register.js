@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { getProfilePhoto, accessAccepted, accessDenied, changeVisibilityPassword } from "../formConfigs/formConfig.js";
+import { getProfilePhoto, accessAccepted, accessDenied, changeVisibilityPassword, insertBoxMsg } from "../formConfigs/formConfig.js";
 const formRegister = document.querySelector('.form-register');
 const inputEmailElement = document.getElementById("inputEmail");
 const inputPasswordElement = document.getElementById("inputPassword");
@@ -17,6 +17,7 @@ const btnRedirectLogin = document.querySelector(".link-login");
 const visibilityPassword = document.getElementById('visibility-password');
 const showPassword = document.getElementById('show-password');
 const hidePassword = document.getElementById('hide-password');
+const boxMessage = document.getElementById('msg-user-register');
 const profilePhotoElement = document.getElementById("profile-photo");
 const profilePhotoChildren = profilePhotoElement.children;
 const listInput = [
@@ -32,19 +33,23 @@ class Register {
     validateRegister() {
         if (inputEmailElement.value === "") {
             accessDenied(inputEmailElement);
+            insertBoxMsg('Insira um email', boxMessage);
             return false;
         }
         else if (inputPasswordElement.value === "" ||
             inputConfirmPasswordElement.value === "") {
             accessDenied(inputConfirmPasswordElement);
+            insertBoxMsg('Crie uma senha', boxMessage);
             return false;
         }
         else if (inputPasswordElement.value !== inputConfirmPasswordElement.value) {
             accessDenied(inputConfirmPasswordElement);
+            insertBoxMsg('As senhas precisam ser iguais', boxMessage);
             return false;
         }
         else {
             accessAccepted(listInput);
+            insertBoxMsg('usuário cadastrado com sucesso!', boxMessage);
             return true;
         }
     }
@@ -78,13 +83,16 @@ class Register {
                 try {
                     yield this.postData(dataUser, urlServer);
                     getProfilePhoto(dataUser.urlPhoto, profilePhotoElement, profilePhotoChildren);
+                    setTimeout(() => {
+                        this.defineRoute("login");
+                    }, 2000);
                 }
                 catch (error) {
                     console.log(error);
                 }
             }
             else {
-                throw new Error("Verifique os dados preenchidos!");
+                return;
             }
         });
     }
@@ -99,7 +107,4 @@ btnRedirectLogin.addEventListener("click", () => {
 formRegister.addEventListener("submit", (e) => {
     e.preventDefault();
     register.sendDataUser();
-    setTimeout(() => {
-        register.defineRoute("login");
-    }, 2000);
 });

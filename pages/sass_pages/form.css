@@ -150,6 +150,18 @@ nav ul li a {
   color: #fff;
   transition: 0.5s;
 }
+.banner_login .content-form .form-login .msg-user,
+.banner_login .content-form .form-register .msg-user {
+  text-align: center;
+  margin: 15px 0;
+}
+.banner_login .content-form .form-login .msg-user p.msg,
+.banner_login .content-form .form-register .msg-user p.msg {
+  display: inline;
+  background-color: #fff;
+  padding: 3px 30px;
+  border-radius: 5px;
+}
 .banner_login .content-form .form-login input[type=submit]:hover,
 .banner_login .content-form .form-register input[type=submit]:hover {
   background-color: #fff;

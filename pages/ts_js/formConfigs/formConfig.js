@@ -1,21 +1,20 @@
 class Formulary {
     getProfilePhoto(url, profilePhotoElement, childrenProfilePhoto) {
-        let strUrl;
         if (url) {
-            strUrl = url.split("//");
-            if (strUrl.length === 0) {
-                const iconUser = document.createElement("i");
-                iconUser.classList.add("bi bi-person-circle");
-                profilePhotoElement.appendChild(iconUser);
-            }
-            else {
+            if (url.includes("https://")) {
                 const photoUser = document.createElement("img");
                 photoUser.classList.add("photo-user");
                 photoUser.setAttribute("src", url);
                 profilePhotoElement.removeChild(childrenProfilePhoto[0]);
                 profilePhotoElement.appendChild(photoUser);
             }
+            else {
+                return;
+            }
         }
+    }
+    insertBoxMsg(msgText, elementMessage) {
+        elementMessage.innerHTML = `<div class='msg-user'><p class='msg'>${msgText}</p></div>`;
     }
     accessDenied(target) {
         target.style.setProperty("border", "2px solid red");
@@ -39,4 +38,4 @@ class Formulary {
     }
 }
 const formulary = new Formulary();
-export const { getProfilePhoto, accessAccepted, accessDenied, changeVisibilityPassword, } = formulary;
+export const { getProfilePhoto, accessAccepted, accessDenied, changeVisibilityPassword, insertBoxMsg, } = formulary;
