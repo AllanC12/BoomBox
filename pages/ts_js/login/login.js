@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { accessAccepted, accessDenied, changeVisibilityPassword } from "../formConfigs/formConfig.js";
+import { insertBoxMsg, accessAccepted, accessDenied, changeVisibilityPassword } from "../formConfigs/formConfig.js";
 const titlePagelogin = document.title;
 const formELement = document.getElementById('form-login');
 const emailElement = document.getElementById("email");
@@ -17,6 +17,7 @@ const btnRedirectRegister = document.querySelector(".link-register");
 const visibilityPassword = document.getElementById('visibility-password');
 const showPassword = document.getElementById('show-password');
 const hidePassword = document.getElementById('hide-password');
+const boxMessage = document.getElementById('msg-user-login');
 let dataUserLogin;
 class Login {
     defineRoute(page) {
@@ -24,17 +25,17 @@ class Login {
     }
     validateLoginUser(dataUser) {
         if (dataUser.length === 0) {
-            throw new Error('Email não cadastrado');
+            insertBoxMsg('Email não cadastrado', boxMessage);
             accessDenied(emailElement);
             return false;
         }
         else if (dataUser[0].password !== passwordElement.value) {
+            insertBoxMsg('Senha incorreta', boxMessage);
             accessDenied(passwordElement);
-            throw new Error('Senha incorreta');
             return false;
         }
         else {
-            console.log('Seja bem vindo!!!');
+            insertBoxMsg('Bem vindo!', boxMessage);
             accessAccepted(inputListElement);
             return true;
         }

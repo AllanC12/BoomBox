@@ -1,22 +1,24 @@
-
-
 class Formulary {
-  public getProfilePhoto(url: string | null,profilePhotoElement: HTMLElement,childrenProfilePhoto: HTMLCollection) {
-    let strUrl: string[];
+  public getProfilePhoto(
+    url: string | null,
+    profilePhotoElement: HTMLElement,
+    childrenProfilePhoto: HTMLCollection
+  ) {
     if (url) {
-      strUrl = url.split("//");
-      if (strUrl.length === 0) {
-        const iconUser = document.createElement("i");
-        iconUser.classList.add("bi bi-person-circle");
-        profilePhotoElement.appendChild(iconUser);
-      } else {
+      if (url.includes("https://")) {
         const photoUser = document.createElement("img");
         photoUser.classList.add("photo-user");
-        photoUser.setAttribute("src",url)
-        profilePhotoElement.removeChild(childrenProfilePhoto[0])
+        photoUser.setAttribute("src", url);
+        profilePhotoElement.removeChild(childrenProfilePhoto[0]);
         profilePhotoElement.appendChild(photoUser);
+      } else {
+        return
       }
     }
+  }
+
+  public insertBoxMsg(msgText: string, elementMessage: HTMLElement): void {
+    elementMessage.innerHTML = `<div class='msg-user'><p class='msg'>${msgText}</p></div>`;
   }
 
   public accessDenied(target: HTMLInputElement) {
@@ -53,4 +55,5 @@ export const {
   accessAccepted,
   accessDenied,
   changeVisibilityPassword,
+  insertBoxMsg,
 } = formulary;

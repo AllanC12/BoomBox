@@ -1,5 +1,5 @@
 import { IUser } from "../../../interfaces/User";
-import {getProfilePhoto, accessAccepted,accessDenied,changeVisibilityPassword } from "../formConfigs/formConfig.js";
+import {getProfilePhoto, accessAccepted,accessDenied,changeVisibilityPassword,insertBoxMsg } from "../formConfigs/formConfig.js";
 
 const formRegister = document.querySelector('.form-register') as HTMLFormElement;
 const inputEmailElement = document.getElementById(
@@ -18,6 +18,7 @@ const btnRedirectLogin = document.querySelector(".link-login") as HTMLElement
 const visibilityPassword = document.getElementById('visibility-password') as HTMLElement;
 const showPassword = document.getElementById('show-password') as HTMLElement
 const hidePassword = document.getElementById('hide-password') as HTMLElement
+const boxMessage = document.getElementById('msg-user-register') as HTMLElement
 const profilePhotoElement = document.getElementById(
   "profile-photo"
 ) as HTMLElement;
@@ -39,20 +40,24 @@ class Register{
   protected validateRegister(): boolean {
     if (inputEmailElement.value === "") {
       accessDenied(inputEmailElement);
+      insertBoxMsg('Insira um email',boxMessage)
       return false;
     } else if (
       inputPasswordElement.value === "" ||
       inputConfirmPasswordElement.value === ""
     ) {
       accessDenied(inputConfirmPasswordElement);
+      insertBoxMsg('Crie uma senha',boxMessage)
       return false;
     } else if (
       inputPasswordElement.value !== inputConfirmPasswordElement.value
     ) {
       accessDenied(inputConfirmPasswordElement);
+      insertBoxMsg('As senhas precisam ser iguais',boxMessage)
       return false;
     } else {
       accessAccepted(listInput);
+      insertBoxMsg('usuário cadastrado com sucesso!',boxMessage)
       return true;
     }
   }
@@ -80,7 +85,7 @@ class Register{
       email: inputEmailElement.value,
       password: inputPasswordElement.value,
       confirmPassword: inputConfirmPasswordElement.value,
-      urlPhoto: inputUrlPhotoElement.value === null ?  '' : inputUrlPhotoElement.value,
+      urlPhoto: inputUrlPhotoElement.value === null ? '' : inputUrlPhotoElement.value,
     };
     
 
@@ -88,11 +93,14 @@ class Register{
       try {
         await this.postData(dataUser, urlServer);
         getProfilePhoto(dataUser.urlPhoto,profilePhotoElement,profilePhotoChildren)
+        setTimeout(() => {
+          this.defineRoute("login")
+        },2000)
       } catch (error) {
         console.log(error)
       }
     } else {
-      throw new Error("Verifique os dados preenchidos!");
+      return;
     }
   }
 }
@@ -109,9 +117,6 @@ btnRedirectLogin!.addEventListener("click", ():void => {
 formRegister!.addEventListener("submit", (e:SubmitEvent):void => {
   e.preventDefault();
   register.sendDataUser();
-  setTimeout(() => {
-    register.defineRoute("login")
-  },2000)
 });
 
 
