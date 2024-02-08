@@ -3,6 +3,7 @@
 html,body{
     height: 100%;
     font-family: 'Roboto', sans-serif;
+    overflow: hidden;
 }
 
 *{
@@ -20,7 +21,7 @@ aside{
     height: 100%;
     background-color:#f5e4ea;
     padding: 30px 15px;
-    border-right: 1px solid#e0b1c2;
+    border-right: 1px solid #e0b1c2;
 
     div.wraper-input{
         position: relative;
@@ -76,4 +77,43 @@ aside{
     width: 100%;
     height: 100%;
     background-color: #faf5f7;
+    padding:16px;
+
+    h2.title{
+        font-family: "Bungee Shade", sans-serif;
+        font-size: 18px;
+    }
+
+    nav{
+        padding: 10px 0;
+        border-bottom: 4px solid #e9ebf0;
+
+        a{
+            text-decoration: none;
+            font-size: 1.5em;
+            color:#121111;
+            margin-right: 25px;
+            padding-bottom: 10px;
+        }
+        
+        a:active{
+            border-bottom: 1px solid black;
+        }
+    }
+
+    .content-library{
+
+        @include defineFlex(space-between,flex-start);
+        flex-wrap: wrap;
+        padding: 10px 0px;
+        height: 85%;
+        overflow-y: auto;
+
+        .box-music{
+            width: 200px;
+            height: 200px;
+            background-color: #ccc;
+            margin: 10px 0;
+        }
+    }
 }
