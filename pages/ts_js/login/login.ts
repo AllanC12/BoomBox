@@ -41,7 +41,7 @@ class Login{
       dataUserLogin = await fetch(`${urlServer}?email=${emailElement.value}`).then(resp => resp.json())
       const dataLoginValidated: boolean = this.validateLoginUser(dataUserLogin)
       if(dataLoginValidated){
-        console.log('ir pra home')
+        this.defineRoute("home");
       }
     } catch (error:any) {
       throw new Error(error)

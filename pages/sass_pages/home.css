@@ -1,0 +1,68 @@
+html, body {
+  height: 100%;
+  font-family: "Roboto", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+aside {
+  width: 25%;
+  height: 100%;
+  background-color: #f5e4ea;
+  padding: 30px 15px;
+  border-right: 1px solid #e0b1c2;
+}
+aside div.wraper-input {
+  position: relative;
+}
+aside div.wraper-input input[type=text] {
+  width: 100%;
+  height: 30px;
+  padding-left: 2px;
+  outline: 0;
+}
+aside div.wraper-input i.bi-search {
+  position: absolute;
+  right: 5px;
+  top: 7px;
+  cursor: pointer;
+}
+aside ul {
+  list-style-type: none;
+}
+aside ul li {
+  margin: 30px 0;
+}
+aside ul li i {
+  margin-right: 5px;
+}
+aside ul li a {
+  text-decoration: none;
+  font-size: 1em;
+  color: #121111;
+}
+aside .division {
+  width: 95%;
+  height: 1px;
+  background-color: #b0a0a6;
+}
+aside h3 {
+  margin: 15px 0;
+}
+
+.library {
+  width: 100%;
+  height: 100%;
+  background-color: #faf5f7;
+}/*# sourceMappingURL=home.css.map */
