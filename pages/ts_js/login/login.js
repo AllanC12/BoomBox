@@ -47,7 +47,7 @@ class Login {
                 dataUserLogin = yield fetch(`${urlServer}?email=${emailElement.value}`).then(resp => resp.json());
                 const dataLoginValidated = this.validateLoginUser(dataUserLogin);
                 if (dataLoginValidated) {
-                    console.log('ir pra home');
+                    this.defineRoute("home");
                 }
             }
             catch (error) {
