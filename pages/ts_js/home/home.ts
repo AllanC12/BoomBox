@@ -1,10 +1,20 @@
+import { IMusicChart } from "../../../interfaces/dataMusic"
 
-const getMusic = async (endPoint: string) => {
+const connectApi = async (endPoint: string):Promise<IMusicChart> => {
   const resp = await fetch(endPoint).then(resp => resp.json())
-  
-
-// const constructLayout = (listMusic: )
-
-console.log(getMusic('https://api.deezer.com/chart/0'))
-
+  return resp
 }
+
+
+// const constructLayout = ():void => {
+
+// }
+
+const insetData = ():void => {
+  connectApi('https://api.deezer.com/chart/0').then(resp => {
+    console.log(resp.tracks)
+  })
+  
+}
+
+insetData()
