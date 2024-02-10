@@ -18,7 +18,7 @@ main {
 }
 
 aside {
-  width: 25%;
+  width: 24%;
   height: 100%;
   background-color: #f5e4ea;
   padding: 30px 15px;
@@ -88,7 +88,7 @@ aside h3 {
 }
 .library .content-library {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-start;
   flex-wrap: wrap;
   padding: 10px 0px;
@@ -97,7 +97,21 @@ aside h3 {
 }
 .library .content-library .box-music {
   width: 200px;
-  height: 200px;
+  height: 250px;
   background-color: #ccc;
   margin: 10px 0;
+  cursor: pointer;
+  transition: 0.5s;
+  border-radius: 5px;
+}
+.library .content-library .box-music .image-box {
+  height: 80%;
+  background-color: red;
+  border-radius: 5px;
+}
+.library .content-library .box-music .title-music {
+  margin: 7px;
+}
+.library .content-library .box-music:hover {
+  scale: 1.05;
 }/*# sourceMappingURL=home.css.map */

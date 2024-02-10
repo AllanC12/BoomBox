@@ -17,7 +17,7 @@ main{
 
 aside{
 
-    width: 25%;
+    width: 24%;
     height: 100%;
     background-color:#f5e4ea;
     padding: 30px 15px;
@@ -103,7 +103,7 @@ aside{
 
     .content-library{
 
-        @include defineFlex(space-between,flex-start);
+        @include defineFlex(space-around,flex-start);
         flex-wrap: wrap;
         padding: 10px 0px;
         height: 85%;
@@ -111,9 +111,27 @@ aside{
 
         .box-music{
             width: 200px;
-            height: 200px;
+            height: 250px;
             background-color: #ccc;
             margin: 10px 0;
+            cursor: pointer;
+            transition: .5s;
+            border-radius: 5px;
+
+            .image-box{
+                height: 80%;
+                background-color: red;
+                border-radius: 5px;
+
+            }
+
+            .title-music{
+                margin: 7px;
+            }
+        }
+
+        .box-music:hover{
+            scale: 1.05;
         }
     }
 }
