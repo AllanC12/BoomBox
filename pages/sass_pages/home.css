@@ -109,6 +109,13 @@ aside h3 {
   background-color: red;
   border-radius: 5px;
 }
+.library .content-library .box-music .image-box img {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: center;
+     object-position: center;
+  max-width: 100%;
+}
 .library .content-library .box-music .title-music {
   margin: 7px;
 }
