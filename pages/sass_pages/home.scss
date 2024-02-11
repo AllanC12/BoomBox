@@ -123,6 +123,12 @@ aside{
                 background-color: red;
                 border-radius: 5px;
 
+                img{
+                    object-fit: cover;
+                    object-position: center;
+                    max-width: 100%;
+                }
+
             }
 
             .title-music{

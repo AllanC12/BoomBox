@@ -11,18 +11,27 @@ const connectApi = (endPoint) => __awaiter(void 0, void 0, void 0, function* () 
     const resp = yield fetch(endPoint).then(resp => resp.json());
     return resp;
 });
-const constructLayout = (image, title) => {
+const constructLayout = (title, image) => {
+    const contentLibrary = document.querySelector('.content-library');
     const boxMusic = document.createElement("div");
     boxMusic.classList.add("box-music");
-    boxMusic.innerHTML = `  <div class="image-box">${image}</div>
+    boxMusic.innerHTML = `  <div class="image-box"><img src='${image}'/></div>
   <div class="title-music">
       <p class="title">
           ${title}
       </p>
   </div>`;
+    contentLibrary.appendChild(boxMusic);
 };
 const insetData = () => {
     connectApi("https://api.deezer.com/chart/0").then((resp) => {
+        resp.albums.data.map((album) => {
+            const titleAlbum = album.title;
+            console.log(album);
+            const artistName = album.artist.name;
+            const imageLayout = album.artist.picture_big;
+            constructLayout(`${titleAlbum} - ${artistName}`, imageLayout);
+        });
     });
 };
 insetData();
