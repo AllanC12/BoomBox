@@ -6,15 +6,27 @@ const connectApi = async (endPoint: string):Promise<IMusicChart> => {
 }
 
 
-// const constructLayout = ():void => {
+const constructLayout = (image: string, title: string): void => {
+  const boxMusic = document.createElement("div");
+  boxMusic.classList.add("box-music");
+  boxMusic.innerHTML = `  <div class="image-box">${image}</div>
+  <div class="title-music">
+      <p class="title">
+          ${title}
+      </p>
+  </div>`;
+};
 
-// }
-
-const insetData = ():void => {
-  connectApi('https://api.deezer.com/chart/0').then(resp => {
-    console.log(resp.tracks)
-  })
-  
-}
+const insetData = (): void => {
+  connectApi("https://api.deezer.com/chart/0").then((resp) => {
+    resp.albums.data.forEach((data) => {
+      const title = data.albums.data[0].name
+      console.log(title)
+      // constructLayout()
+    })
+    const title = resp.albums.data[data].name
+    console.log(resp.albums.data[0].artist.name);
+  });
+};
 
 insetData()
