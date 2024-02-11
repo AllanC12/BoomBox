@@ -23,13 +23,6 @@ const constructLayout = (image, title) => {
 };
 const insetData = () => {
     connectApi("https://api.deezer.com/chart/0").then((resp) => {
-        resp.albums.data.forEach((data) => {
-            const title = data.albums.data[0].name;
-            console.log(title);
-            // constructLayout()
-        });
-        const title = resp.albums.data[data].name;
-        console.log(resp.albums.data[0].artist.name);
     });
 };
 insetData();
