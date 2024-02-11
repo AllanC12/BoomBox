@@ -11,11 +11,18 @@ const connectApi = (endPoint) => __awaiter(void 0, void 0, void 0, function* () 
     const resp = yield fetch(endPoint).then(resp => resp.json());
     return resp;
 });
-// const constructLayout = ():void => {
-// }
+const constructLayout = (image, title) => {
+    const boxMusic = document.createElement("div");
+    boxMusic.classList.add("box-music");
+    boxMusic.innerHTML = `  <div class="image-box">${image}</div>
+  <div class="title-music">
+      <p class="title">
+          ${title}
+      </p>
+  </div>`;
+};
 const insetData = () => {
-    connectApi('https://api.deezer.com/chart/0').then(resp => {
-        console.log(resp.tracks);
+    connectApi("https://api.deezer.com/chart/0").then((resp) => {
     });
 };
 insetData();
