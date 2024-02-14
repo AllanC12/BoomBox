@@ -111,7 +111,7 @@ aside{
 
         .box-music{
             width: 200px;
-            height: 250px;
+            min-height: 275px;
             background-color: #ccc;
             margin: 10px 0;
             cursor: pointer;
@@ -120,7 +120,6 @@ aside{
 
             .image-box{
                 height: 80%;
-                background-color: red;
                 border-radius: 5px;
 
                 img{
@@ -130,7 +129,6 @@ aside{
                 }
 
             }
-
             .title-music{
                 margin: 7px;
             }

@@ -23,16 +23,15 @@ const constructLayout = (title, image) => {
   </div>`;
     contentLibrary.appendChild(boxMusic);
 };
-const insetData = () => {
+const insertData = () => {
     connectApi("https://api.deezer.com/chart/0").then((resp) => {
-        resp.albums.data.map((album) => {
+        resp.tracks.data.map((album) => {
             const titleAlbum = album.title;
-            console.log(album);
             const artistName = album.artist.name;
             const imageLayout = album.artist.picture_big;
             constructLayout(`${titleAlbum} - ${artistName}`, imageLayout);
         });
     });
 };
-insetData();
+insertData();
 export {};

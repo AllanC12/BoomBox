@@ -97,7 +97,7 @@ aside h3 {
 }
 .library .content-library .box-music {
   width: 200px;
-  height: 250px;
+  min-height: 275px;
   background-color: #ccc;
   margin: 10px 0;
   cursor: pointer;
@@ -106,7 +106,6 @@ aside h3 {
 }
 .library .content-library .box-music .image-box {
   height: 80%;
-  background-color: red;
   border-radius: 5px;
 }
 .library .content-library .box-music .image-box img {
