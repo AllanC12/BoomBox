@@ -19,17 +19,15 @@ const constructLayout = ( title: string,image: String): void => {
   contentLibrary.appendChild(boxMusic)
 };
 
-const insetData = (): void => {
-  connectApi("https://api.deezer.com/chart/0").then((resp:any) => {
-     resp.albums.data.map((album: any) => {
-      const titleAlbum: String = album.title
-      console.log(album)
-      const artistName: String = album.artist.name
-      const imageLayout: String = album.artist.picture_big
-      constructLayout(`${titleAlbum} - ${artistName}`,imageLayout)
-     })
-  
+const insertData = (): void => {
+  connectApi("https://api.deezer.com/chart/0").then((resp: any) => {
+    resp.tracks.data.map((album: any) => {
+      const titleAlbum: String = album.title;
+      const artistName: String = album.artist.name;
+      const imageLayout: String = album.artist.picture_big;
+      constructLayout(`${titleAlbum} - ${artistName}`, imageLayout);
+    });
   });
 };
 
-insetData()
+insertData();
