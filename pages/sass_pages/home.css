@@ -14,7 +14,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100%;
+  height: 94%;
 }
 
 aside {
@@ -120,4 +120,10 @@ aside h3 {
 }
 .library .content-library .box-music:hover {
   scale: 1.05;
+}
+
+.player {
+  width: 100%;
+  height: 6vh;
+  background-color: #262525;
 }/*# sourceMappingURL=home.css.map */
