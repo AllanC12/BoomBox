@@ -1,5 +1,27 @@
 import { IMusicChart } from "../../../interfaces/dataMusic"
 
+const linksNav = document.getElementById('nav-links')?.children as HTMLCollection
+
+const linkTracks = document.getElementById('tracks') as HTMLElement
+const linkArtists = document.getElementById('artists') as HTMLElement
+const linkAlbums = document.getElementById('albums') as HTMLElement
+let linkVisited: HTMLElement;
+
+const styleLink = (linkVisited: HTMLElement) => {
+  for(let i = 0; i < linksNav.length; i++){
+    linksNav[i].addEventListener('click',(e) => {
+      e.preventDefault()
+      console.log(linksNav[i])
+      linkVisited?.style.setProperty('background-color','#faf5f7')
+      linkVisited?.style.setProperty('color','#000')
+      linksNav[i]?.style.setProperty('background-color','#262525')
+      linksNav[i]?.style.setProperty('color','#fff')
+      linkVisited = linksNav[i]
+    })
+  }
+ 
+}
+
 const connectApi = async (endPoint: string):Promise<IMusicChart> => {
   const resp = await fetch(endPoint).then(resp => resp.json())
   return resp
@@ -19,8 +41,8 @@ const constructLayout = ( title: string,image: String): void => {
   contentLibrary.appendChild(boxMusic)
 };
 
-const insertData = (): void => {
-  connectApi("https://api.deezer.com/chart/0").then((resp: any) => {
+const insertData = (url:string): void => {
+  connectApi(url).then((resp: any) => {
     resp.tracks.data.map((album: any) => {
       const titleAlbum: String = album.title;
       const artistName: String = album.artist.name;
@@ -28,6 +50,11 @@ const insertData = (): void => {
       constructLayout(`${titleAlbum} - ${artistName}`, imageLayout);
     });
   });
+   
+ styleLink(linkVisited)
+
 };
 
-insertData();
+// const selectMusic = 
+
+insertData("https://api.deezer.com/chart/0");
