@@ -7,6 +7,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var _a;
+const linksNav = (_a = document.getElementById('nav-links')) === null || _a === void 0 ? void 0 : _a.children;
+const linkTracks = document.getElementById('tracks');
+const linkArtists = document.getElementById('artists');
+const linkAlbums = document.getElementById('albums');
+let linkVisited;
+const styleLink = (linkVisited) => {
+    for (let i = 0; i < linksNav.length; i++) {
+        linksNav[i].addEventListener('click', (e) => {
+            var _a, _b;
+            e.preventDefault();
+            console.log(linksNav[i]);
+            linkVisited === null || linkVisited === void 0 ? void 0 : linkVisited.style.setProperty('background-color', '#faf5f7');
+            linkVisited === null || linkVisited === void 0 ? void 0 : linkVisited.style.setProperty('color', '#000');
+            (_a = linksNav[i]) === null || _a === void 0 ? void 0 : _a.style.setProperty('background-color', '#262525');
+            (_b = linksNav[i]) === null || _b === void 0 ? void 0 : _b.style.setProperty('color', '#fff');
+            linkVisited = linksNav[i];
+        });
+    }
+};
 const connectApi = (endPoint) => __awaiter(void 0, void 0, void 0, function* () {
     const resp = yield fetch(endPoint).then(resp => resp.json());
     return resp;
@@ -23,8 +43,8 @@ const constructLayout = (title, image) => {
   </div>`;
     contentLibrary.appendChild(boxMusic);
 };
-const insertData = () => {
-    connectApi("https://api.deezer.com/chart/0").then((resp) => {
+const insertData = (url) => {
+    connectApi(url).then((resp) => {
         resp.tracks.data.map((album) => {
             const titleAlbum = album.title;
             const artistName = album.artist.name;
@@ -32,6 +52,8 @@ const insertData = () => {
             constructLayout(`${titleAlbum} - ${artistName}`, imageLayout);
         });
     });
+    styleLink(linkVisited);
 };
-insertData();
+// const selectMusic = 
+insertData("https://api.deezer.com/chart/0");
 export {};
