@@ -1,7 +1,7 @@
 export interface IMusicChart {
-  albums: Object,
-  artists: Object,
-  playlists: Object,
-  podcasts: Object,
-  tracks: Object
+  album: Object,
+  artist: Object,
+  playlist: Object,
+  podcast: Object,
+  track: Object
 }
