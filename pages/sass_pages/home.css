@@ -120,7 +120,7 @@ aside h3 {
   scale: 1.05;
 }
 
-.player {
+.div-player {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -130,7 +130,7 @@ aside h3 {
   position: absolute;
   bottom: 0;
 }
-.player audio::-webkit-media-controls-panel {
-  background-color: #ccc;
-  width: 500px;
+.div-player audio::-webkit-media-controls-panel {
+  background-color: #fff;
+  width: 900px;
 }/*# sourceMappingURL=home.css.map */
