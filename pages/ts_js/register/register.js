@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { getProfilePhoto, accessAccepted, accessDenied, changeVisibilityPassword, insertBoxMsg } from "../formConfigs/formConfig.js";
+import { getProfilePhoto, accessAccepted, accessDenied, insertBoxMsg, showLoader, changeVisibilityPassword } from "../formConfigs/formConfig.js";
 const formRegister = document.querySelector('.form-register');
 const inputEmailElement = document.getElementById("inputEmail");
 const inputPasswordElement = document.getElementById("inputPassword");
@@ -20,6 +20,7 @@ const hidePassword = document.getElementById('hide-password');
 const boxMessage = document.getElementById('msg-user-register');
 const profilePhotoElement = document.getElementById("profile-photo");
 const profilePhotoChildren = profilePhotoElement.children;
+const loader = document.getElementById('loader');
 const listInput = [
     inputEmailElement,
     inputPasswordElement,
@@ -106,5 +107,6 @@ btnRedirectLogin.addEventListener("click", () => {
 });
 formRegister.addEventListener("submit", (e) => {
     e.preventDefault();
+    showLoader(loader);
     register.sendDataUser();
 });

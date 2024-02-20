@@ -1,5 +1,5 @@
 import { IUser } from "../../../interfaces/User";
-import {getProfilePhoto, accessAccepted,accessDenied,changeVisibilityPassword,insertBoxMsg } from "../formConfigs/formConfig.js";
+import {getProfilePhoto, accessAccepted,accessDenied,insertBoxMsg,showLoader,changeVisibilityPassword } from "../formConfigs/formConfig.js";
 
 const formRegister = document.querySelector('.form-register') as HTMLFormElement;
 const inputEmailElement = document.getElementById(
@@ -23,6 +23,7 @@ const profilePhotoElement = document.getElementById(
   "profile-photo"
 ) as HTMLElement;
 const profilePhotoChildren = profilePhotoElement.children as HTMLCollection
+const loader = document.getElementById('loader') as HTMLElement
 
 const listInput: HTMLInputElement[] = [
   inputEmailElement,
@@ -116,6 +117,7 @@ btnRedirectLogin!.addEventListener("click", ():void => {
 
 formRegister!.addEventListener("submit", (e:SubmitEvent):void => {
   e.preventDefault();
+  showLoader(loader)
   register.sendDataUser();
 });
 
