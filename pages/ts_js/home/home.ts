@@ -15,7 +15,29 @@ const styleLinks = (link:HTMLElement,linkVisited:HTMLElement):void => {
   linkVisited?.style.setProperty('color','#000')
 }
 
-console.log(player)
+const playMusic = (source: string | null) => {
+  if (source) {
+    player?.setAttribute("src", source);
+    player?.setAttribute("autoplay", "true");
+  }
+};
+
+const verifyMusiList = () => {
+  setTimeout(() => {
+    if (contentLibrary.children.length > 0) {
+      for (let i = 0; i < contentLibrary.children.length; i++) {
+        contentLibrary.children[i].addEventListener("click", () => {
+          let linkPreview: string | null =
+            contentLibrary.children[i].children[0].getAttribute("preview");
+          console.log(player.getAttribute("src"));
+          playMusic(linkPreview);
+        });
+      }
+    }
+  }, 2000);
+
+}
+
 for (let i = 0; i < linksNav.length; i++) {
   linksNav[i].addEventListener("click", (e) => {   
     e.preventDefault();
@@ -24,18 +46,21 @@ for (let i = 0; i < linksNav.length; i++) {
         contentLibrary.innerHTML = ``
         insertData("https://api.deezer.com/chart/0/tracks");
         styleLinks(linkTracks,linkVisited);
+        verifyMusiList()
         linkVisited = linkTracks
         break;
       case "artists":
         contentLibrary.innerHTML = ``
         insertData("https://api.deezer.com/chart/0/artists");
         styleLinks(linkArtists,linkVisited);
+        verifyMusiList()
         linkVisited = linkArtists
         break;
       case "albums":
         contentLibrary.innerHTML = ``
         insertData("https://api.deezer.com/chart/0/albums");
         styleLinks(linkAlbums,linkVisited);
+        verifyMusiList()
         linkVisited = linkAlbums
         break;
     }
@@ -69,36 +94,26 @@ const constructLayout = (title: string, image: String,preview: string): void => 
 
 const insertData = (url: string): void => {
   connectApi(url).then((resp: any) => {
-    console.log(resp);
     resp.data.map((album: any) => {
-      const imageLayout: String = url.includes('albums') || url.includes('tracks') ? album.artist.picture_big : album.picture_big;
-      const artist: String = url.includes('tracks') ? album.artist.name : album.name;
-      const title: String = url.includes('artists') ? album.name : album.title;
-      const preview: string = url.includes('tracks') ? album.preview : ''
-      constructLayout(`${title} - ${artist}`, imageLayout,preview);
+      const imageLayout: String =
+        url.includes("albums") || url.includes("tracks")
+          ? album.artist.picture_big
+          : album.picture_big;
+      const artist: String = url.includes("tracks")
+        ? album.artist.name
+        : album.name;
+      const title: String = url.includes("artists") ? album.name : album.title;
+      const preview: string = url.includes("tracks") ? album.preview : "";
+      constructLayout(`${title} - ${artist}`, imageLayout, preview);
     });
   });
 };
 
 insertData("https://api.deezer.com/chart/0/tracks");
 
-const playMusic = (source:string | null) => {
-  if(source){
-    player?.setAttribute('src',source)
-    player?.setAttribute('autoplay','true')
-  }
-}
 
-setTimeout(() => {
-  if(contentLibrary.children.length > 0){
-    for(let i = 0; i < contentLibrary.children.length; i++){
-      contentLibrary.children[i].addEventListener('click',() => {
-        let linkPreview: string | null = contentLibrary.children[i].children[0].getAttribute('preview')
-        playMusic(linkPreview)
-      })
-    }
-  }
-},2000)
+verifyMusiList()
+
 
 
 
