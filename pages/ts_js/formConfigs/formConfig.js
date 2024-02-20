@@ -36,6 +36,9 @@ class Formulary {
             hideIcon.style.setProperty("display", "none");
         }
     }
+    showLoader(loader) {
+        loader.style.setProperty('display', 'block');
+    }
 }
 const formulary = new Formulary();
-export const { getProfilePhoto, accessAccepted, accessDenied, changeVisibilityPassword, insertBoxMsg, } = formulary;
+export const { getProfilePhoto, insertBoxMsg, accessDenied, accessAccepted, changeVisibilityPassword, showLoader } = formulary;

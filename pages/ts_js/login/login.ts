@@ -1,5 +1,5 @@
 import { IUser } from "../../../interfaces/User.js";
-import { insertBoxMsg,accessAccepted,accessDenied,changeVisibilityPassword } from "../formConfigs/formConfig.js";
+import { insertBoxMsg,accessAccepted,accessDenied,changeVisibilityPassword,showLoader } from "../formConfigs/formConfig.js";
 
 const titlePagelogin:string = document.title
 const formELement = document.getElementById('form-login') as HTMLFormElement;
@@ -11,6 +11,7 @@ const visibilityPassword = document.getElementById('visibility-password') as HTM
 const showPassword = document.getElementById('show-password') as HTMLElement
 const hidePassword = document.getElementById('hide-password') as HTMLElement
 const boxMessage = document.getElementById('msg-user-login') as HTMLElement
+const loader = document.getElementById('loader') as HTMLElement
 let dataUserLogin: Array<IUser>;
 
 class Login{
@@ -52,6 +53,7 @@ const login = new Login();
 
 formELement.addEventListener('submit',(e:SubmitEvent):void => {
   e.preventDefault()
+  showLoader(loader)
   login.getLoginUser()
 })
 

@@ -46,14 +46,19 @@ class Formulary {
       hideIcon.style.setProperty("display", "none");
     }
   }
+
+  public showLoader(loader: HTMLElement): void {
+    loader.style.setProperty('display','block')
+  }
 }
 
 const formulary = new Formulary();
 
 export const {
   getProfilePhoto,
-  accessAccepted,
-  accessDenied,
-  changeVisibilityPassword,
   insertBoxMsg,
+  accessDenied,
+  accessAccepted,
+  changeVisibilityPassword,
+  showLoader
 } = formulary;

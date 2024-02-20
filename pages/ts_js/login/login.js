@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { insertBoxMsg, accessAccepted, accessDenied, changeVisibilityPassword } from "../formConfigs/formConfig.js";
+import { insertBoxMsg, accessAccepted, accessDenied, changeVisibilityPassword, showLoader } from "../formConfigs/formConfig.js";
 const titlePagelogin = document.title;
 const formELement = document.getElementById('form-login');
 const emailElement = document.getElementById("email");
@@ -18,6 +18,7 @@ const visibilityPassword = document.getElementById('visibility-password');
 const showPassword = document.getElementById('show-password');
 const hidePassword = document.getElementById('hide-password');
 const boxMessage = document.getElementById('msg-user-login');
+const loader = document.getElementById('loader');
 let dataUserLogin;
 class Login {
     defineRoute(page) {
@@ -59,6 +60,7 @@ class Login {
 const login = new Login();
 formELement.addEventListener('submit', (e) => {
     e.preventDefault();
+    showLoader(loader);
     login.getLoginUser();
 });
 visibilityPassword.addEventListener('click', () => {
