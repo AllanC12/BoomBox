@@ -115,6 +115,7 @@ aside h3 {
 }
 .library .content-library .box-music .title-music {
   margin: 7px;
+  text-align: center;
 }
 .library .content-library .box-music:hover {
   scale: 1.05;
