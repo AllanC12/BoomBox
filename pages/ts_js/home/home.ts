@@ -1,4 +1,5 @@
 import { ITrack,IArtist,IAlbum,IMusic,IData } from "../../../interfaces/dataMusic";
+import { handleLoader } from "../formConfigs/formConfig.js";
 
 let linkVisited: HTMLElement;
 const linksNav = document.getElementById("nav-links")
@@ -10,6 +11,7 @@ const contentLibrary = document.querySelector(
   ".content-library"
 ) as HTMLElement;
 const player = document.getElementById("player") as HTMLElement;
+const loader = document.getElementById('loader') as HTMLElement
 
 const styleLinks = (link: HTMLElement, linkVisited: HTMLElement): void => {
   link?.style.setProperty("background-color", "#262525");
@@ -68,8 +70,12 @@ for (let i = 0; i < linksNav.length; i++) {
   });
 }
 
+
 const connectApi = async (endPoint: string): Promise<IData> => {
+  await handleLoader(loader,"show")
   const resp = await fetch(endPoint).then((resp) => resp.json());
+ await handleLoader(loader,"none")
+
   return resp;
 };
 
@@ -82,6 +88,8 @@ const constructLayout = (
   const boxMusic = document.createElement("div");
   const titleMusic: string = title === artist ? "" : title;
   const artistMusic: string | undefined = artist ? artist : "";
+
+  handleLoader(loader,"show")
 
   boxMusic.classList.add("box-music");
   boxMusic.innerHTML = `
@@ -97,19 +105,21 @@ const constructLayout = (
     </div>
   `;
   contentLibrary.prepend(boxMusic);
+    handleLoader(loader,"none")
+
 };
 
 const insertData = (url: string): void => {
   connectApi(url).then((resp: IData) => {
-    console.log(resp);
     resp.data.map((cover:IMusic) => {
       const imageLayout: string = url.includes("albums") || url.includes("tracks") ? cover.artist.picture_big : cover.picture_big;
       const artist: string = url.includes("tracks") ? cover.artist.name : cover.name;
       const title: string = url.includes("artists") ? cover.name : cover.title;
       const preview: string = url.includes("tracks") ? cover.preview : "";
-      constructLayout(title, artist, imageLayout, preview);
+        constructLayout(title, artist, imageLayout, preview);
     });
   });
+
 };
 
 insertData("https://api.deezer.com/chart/0/tracks");

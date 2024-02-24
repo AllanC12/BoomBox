@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { getProfilePhoto, accessAccepted, accessDenied, insertBoxMsg, showLoader, changeVisibilityPassword } from "../formConfigs/formConfig.js";
+import { getProfilePhoto, accessAccepted, accessDenied, insertBoxMsg, handleLoader, changeVisibilityPassword } from "../formConfigs/formConfig.js";
 const formRegister = document.querySelector('.form-register');
 const inputEmailElement = document.getElementById("inputEmail");
 const inputPasswordElement = document.getElementById("inputPassword");
@@ -107,6 +107,6 @@ btnRedirectLogin.addEventListener("click", () => {
 });
 formRegister.addEventListener("submit", (e) => {
     e.preventDefault();
-    showLoader(loader);
+    handleLoader(loader, 'show');
     register.sendDataUser();
 });

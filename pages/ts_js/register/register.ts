@@ -1,5 +1,5 @@
 import { IUser } from "../../../interfaces/User";
-import {getProfilePhoto, accessAccepted,accessDenied,insertBoxMsg,showLoader,changeVisibilityPassword } from "../formConfigs/formConfig.js";
+import {getProfilePhoto, accessAccepted,accessDenied,insertBoxMsg,handleLoader,changeVisibilityPassword } from "../formConfigs/formConfig.js";
 
 const formRegister = document.querySelector('.form-register') as HTMLFormElement;
 const inputEmailElement = document.getElementById(
@@ -117,7 +117,7 @@ btnRedirectLogin!.addEventListener("click", ():void => {
 
 formRegister!.addEventListener("submit", (e:SubmitEvent):void => {
   e.preventDefault();
-  showLoader(loader)
+  handleLoader(loader,'show')
   register.sendDataUser();
 });
 

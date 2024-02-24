@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { insertBoxMsg, accessAccepted, accessDenied, changeVisibilityPassword, showLoader } from "../formConfigs/formConfig.js";
+import { insertBoxMsg, accessAccepted, accessDenied, changeVisibilityPassword, handleLoader } from "../formConfigs/formConfig.js";
 const titlePagelogin = document.title;
 const formELement = document.getElementById('form-login');
 const emailElement = document.getElementById("email");
@@ -60,7 +60,7 @@ class Login {
 const login = new Login();
 formELement.addEventListener('submit', (e) => {
     e.preventDefault();
-    showLoader(loader);
+    handleLoader(loader, 'show');
     login.getLoginUser();
 });
 visibilityPassword.addEventListener('click', () => {
