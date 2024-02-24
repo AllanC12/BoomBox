@@ -160,8 +160,7 @@ nav ul li a {
   color: #fff;
   margin: 15px auto;
 }
-.banner_login .content-form .form-login .loader:before,
-.banner_login .content-form .form-login .loader:after,
+.banner_login .content-form .form-login .loader:before, .banner_login .content-form .form-login .loader:after,
 .banner_login .content-form .form-register .loader:before,
 .banner_login .content-form .form-register .loader:after {
   content: "";
@@ -180,22 +179,6 @@ nav ul li a {
   color: #FF3D00;
   transform: rotateY(70deg);
   animation-delay: 0.4s;
-}
-@keyframes rotate {
-  0% {
-    transform: translate(-50%, -50%) rotateZ(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotateZ(360deg);
-  }
-}
-@keyframes rotateccw {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(-360deg);
-  }
 }
 @keyframes spin {
   0%, 100% {

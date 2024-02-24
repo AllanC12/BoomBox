@@ -1,5 +1,5 @@
 import { IUser } from "../../../interfaces/User.js";
-import { insertBoxMsg,accessAccepted,accessDenied,changeVisibilityPassword,showLoader } from "../formConfigs/formConfig.js";
+import { insertBoxMsg,accessAccepted,accessDenied,changeVisibilityPassword,handleLoader } from "../formConfigs/formConfig.js";
 
 const titlePagelogin:string = document.title
 const formELement = document.getElementById('form-login') as HTMLFormElement;
@@ -53,7 +53,7 @@ const login = new Login();
 
 formELement.addEventListener('submit',(e:SubmitEvent):void => {
   e.preventDefault()
-  showLoader(loader)
+  handleLoader(loader,'show')
   login.getLoginUser()
 })
 

@@ -36,9 +36,14 @@ class Formulary {
             hideIcon.style.setProperty("display", "none");
         }
     }
-    showLoader(loader) {
-        loader.style.setProperty('display', 'block');
+    handleLoader(loader, visibility) {
+        if (visibility === 'show') {
+            loader === null || loader === void 0 ? void 0 : loader.style.setProperty('display', 'block');
+        }
+        else {
+            loader === null || loader === void 0 ? void 0 : loader.style.setProperty('display', 'none');
+        }
     }
 }
 const formulary = new Formulary();
-export const { getProfilePhoto, insertBoxMsg, accessDenied, accessAccepted, changeVisibilityPassword, showLoader } = formulary;
+export const { getProfilePhoto, insertBoxMsg, accessDenied, accessAccepted, changeVisibilityPassword, handleLoader } = formulary;

@@ -8,6 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var _a;
+import { handleLoader } from "../formConfigs/formConfig.js";
 let linkVisited;
 const linksNav = (_a = document.getElementById("nav-links")) === null || _a === void 0 ? void 0 : _a.children;
 const linkTracks = document.getElementById("tracks");
@@ -15,6 +16,7 @@ const linkArtists = document.getElementById("artists");
 const linkAlbums = document.getElementById("albums");
 const contentLibrary = document.querySelector(".content-library");
 const player = document.getElementById("player");
+const loader = document.getElementById('loader');
 const styleLinks = (link, linkVisited) => {
     link === null || link === void 0 ? void 0 : link.style.setProperty("background-color", "#262525");
     link === null || link === void 0 ? void 0 : link.style.setProperty("color", "#fff");
@@ -68,13 +70,16 @@ for (let i = 0; i < linksNav.length; i++) {
     });
 }
 const connectApi = (endPoint) => __awaiter(void 0, void 0, void 0, function* () {
+    yield handleLoader(loader, "show");
     const resp = yield fetch(endPoint).then((resp) => resp.json());
+    yield handleLoader(loader, "none");
     return resp;
 });
 const constructLayout = (title, artist, image, preview) => {
     const boxMusic = document.createElement("div");
     const titleMusic = title === artist ? "" : title;
     const artistMusic = artist ? artist : "";
+    handleLoader(loader, "show");
     boxMusic.classList.add("box-music");
     boxMusic.innerHTML = `
   <div id='preview-link' preview='${preview}'>
@@ -89,10 +94,10 @@ const constructLayout = (title, artist, image, preview) => {
     </div>
   `;
     contentLibrary.prepend(boxMusic);
+    handleLoader(loader, "none");
 };
 const insertData = (url) => {
     connectApi(url).then((resp) => {
-        console.log(resp);
         resp.data.map((cover) => {
             const imageLayout = url.includes("albums") || url.includes("tracks") ? cover.artist.picture_big : cover.picture_big;
             const artist = url.includes("tracks") ? cover.artist.name : cover.name;
@@ -104,4 +109,3 @@ const insertData = (url) => {
 };
 insertData("https://api.deezer.com/chart/0/tracks");
 verifyMusicList();
-export {};

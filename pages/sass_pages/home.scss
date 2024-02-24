@@ -107,6 +107,12 @@ aside{
         height: 85%;
         overflow-y: auto;
 
+        #loader{
+            display: none;
+            margin-top: 25% !important;
+            @include stateLoading(&);
+        }
+
         .box-music{
             width: 200px;
             min-height: 275px;
@@ -136,6 +142,8 @@ aside{
         .box-music:hover{
             scale: 1.05;
         }
+
+
     }
 }
 

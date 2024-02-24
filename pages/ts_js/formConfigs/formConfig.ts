@@ -47,8 +47,13 @@ class Formulary {
     }
   }
 
-  public showLoader(loader: HTMLElement): void {
-    loader.style.setProperty('display','block')
+  public handleLoader(loader: HTMLElement,visibility:string): void {
+    if(visibility === 'show'){
+      loader?.style.setProperty('display','block')
+    }else{
+      loader?.style.setProperty('display','none')
+
+    }
   }
 }
 
@@ -60,5 +65,5 @@ export const {
   accessDenied,
   accessAccepted,
   changeVisibilityPassword,
-  showLoader
+  handleLoader
 } = formulary;
