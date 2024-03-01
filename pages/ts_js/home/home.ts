@@ -4,6 +4,7 @@ import { handleLoader } from "../formConfigs/formConfig.js";
 let linkVisited: HTMLElement;
 const linksNav = document.getElementById("nav-links")
   ?.children as HTMLCollection;
+const btnExplorer = document.getElementById("btn-explorer") as HTMLElement;
 const linkTracks = document.getElementById("tracks") as HTMLElement;
 const linkArtists = document.getElementById("artists") as HTMLElement;
 const linkAlbums = document.getElementById("albums") as HTMLElement;
@@ -13,12 +14,6 @@ const contentLibrary = document.querySelector(
 const player = document.getElementById("player") as HTMLElement;
 const loader = document.getElementById('loader') as HTMLElement
 
-const styleLinks = (link: HTMLElement, linkVisited: HTMLElement): void => {
-  link?.style.setProperty("background-color", "#262525");
-  link?.style.setProperty("color", "#fff");
-  linkVisited?.style.setProperty("background-color", "#faf5f7");
-  linkVisited?.style.setProperty("color", "#000");
-};
 
 const playMusic = (source: string | null) => {
   if (source) {
@@ -41,34 +36,33 @@ const verifyMusicList = () => {
   }, 2000);
 };
 
-for (let i = 0; i < linksNav.length; i++) {
-  linksNav[i].addEventListener("click", (e) => {
-    e.preventDefault();
-    switch (linksNav[i].id) {
+Array.from(linksNav).forEach((link) => {
+  link.addEventListener("click", (e):void =>{
+    e.preventDefault()
+  
+    switch (link.id) {
       case "tracks":
         contentLibrary.innerHTML = ``;
         insertData("https://api.deezer.com/chart/0/tracks");
-        styleLinks(linkTracks, linkVisited);
         verifyMusicList();
         linkVisited = linkTracks;
         break;
       case "artists":
         contentLibrary.innerHTML = ``;
         insertData("https://api.deezer.com/chart/0/artists");
-        styleLinks(linkArtists, linkVisited);
         verifyMusicList();
         linkVisited = linkArtists;
         break;
-      case "albums":
+       case "albums":
         contentLibrary.innerHTML = ``;
         insertData("https://api.deezer.com/chart/0/albums");
-        styleLinks(linkAlbums, linkVisited);
         verifyMusicList();
         linkVisited = linkAlbums;
         break;
     }
-  });
-}
+  })
+})
+
 
 
 const connectApi = async (endPoint: string): Promise<IData> => {
@@ -116,12 +110,19 @@ const insertData = (url: string): void => {
       const artist: string = url.includes("tracks") ? cover.artist.name : cover.name;
       const title: string = url.includes("artists") ? cover.name : cover.title;
       const preview: string = url.includes("tracks") ? cover.preview : "";
-        constructLayout(title, artist, imageLayout, preview);
+      constructLayout(title, artist, imageLayout, preview);
     });
   });
 
 };
 
+btnExplorer?.addEventListener('click',(e):void => {
+  e.preventDefault()
+  console.log('ok')
+  insertData('https://api.deezer.com/chart/2/tracks')
+})
+
 insertData("https://api.deezer.com/chart/0/tracks");
+
 verifyMusicList();
 
