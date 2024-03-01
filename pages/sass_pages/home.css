@@ -39,6 +39,9 @@ aside div.wraper-input i.bi-search {
   top: 7px;
   cursor: pointer;
 }
+aside span {
+  cursor: pointer;
+}
 aside ul {
   list-style-type: none;
 }
@@ -102,9 +105,6 @@ aside h3 {
   height: 30px;
   color: #fff;
   margin: 15px auto;
-}
-.library .content-library #loader {
-  display: none;
 }
 .library .content-library #loader:before, .library .content-library #loader:after {
   content: "";
