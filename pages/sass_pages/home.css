@@ -79,13 +79,18 @@ aside h3 {
   padding: 10px 0;
   border-bottom: 4px solid #e9ebf0;
 }
-.library nav a {
+.library nav span {
   text-decoration: none;
   font-size: 1.5em;
   color: #121111;
   margin-right: 25px;
   padding: 10px;
   border-radius: 5px;
+  cursor: pointer;
+}
+.library nav span:active {
+  background-color: #000;
+  color: #fff;
 }
 .library .content-library {
   display: flex;
@@ -98,7 +103,7 @@ aside h3 {
 }
 .library .content-library #loader {
   display: none;
-  margin-top: 25% !important;
+  margin-top: 25%;
   transform: rotateZ(45deg);
   border-radius: 50%;
   width: 30px;
@@ -148,6 +153,12 @@ aside h3 {
   87% {
     box-shadow: 0.2em -0.2em 0 0 currentcolor;
   }
+}
+.library .content-library .errorMsg {
+  width: 500px;
+  background-color: #f55167;
+  color: #fff;
+  text-align: center;
 }
 .library .content-library .box-music {
   width: 200px;
