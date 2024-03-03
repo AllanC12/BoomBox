@@ -94,13 +94,19 @@ aside{
         padding: 10px 0;
         border-bottom: 4px solid #e9ebf0;
 
-        a{
+        span{
             text-decoration: none;
             font-size: 1.5em;
             color:#121111;
             margin-right: 25px;
             padding: 10px;
             border-radius: 5px;
+            cursor: pointer
+        }
+
+        span:active{
+            background-color: #000;
+            color: #fff;
         }
 
     }
@@ -115,8 +121,15 @@ aside{
 
         #loader{
             display: none;
-            margin-top: 25% !important;
+            margin-top: 25%;
             @include stateLoading(&);
+        }
+
+        .errorMsg{
+            width: 500px;
+            background-color: #f55167;
+            color: #fff;
+            text-align: center;
         }
 
         .box-music{
