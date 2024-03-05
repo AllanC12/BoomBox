@@ -1,11 +1,17 @@
-import { ITrack,IArtist,IAlbum,IMusic,IData } from "../../../interfaces/dataMusic";
+import {IMusic,IData } from "../../../interfaces/dataMusic";
 import { handleLoader } from "../formConfigs/formConfig.js";
 
 const linksNav = document.getElementById("nav-links")?.children as HTMLCollection;
-const btnExplorer = document.getElementById("btn-explorer") as HTMLElement;
 const linkTracks = document.getElementById("tracks") as HTMLElement;
 const linkArtists = document.getElementById("artists") as HTMLElement;
 const linkAlbums = document.getElementById("albums") as HTMLElement;
+
+const linkExplorer = document.getElementById("explorer") as HTMLElement;
+const linkMyMusics = document.getElementById("myMusics") as HTMLElement;
+const linkRecomendations = document.getElementById("recomendations") as HTMLElement;
+const linkPlaysRecently = document.getElementById("playsRecently") as HTMLElement;
+const linkRadio = document.getElementById("radio") as HTMLElement;
+const linkPlayingNow = document.getElementById("playingNow") as HTMLElement;
 const contentLibrary = document.querySelector(".content-library") as HTMLElement;
 const player = document.getElementById("player") as HTMLElement;
 const loader = document.getElementById('loader') as HTMLElement
@@ -61,21 +67,22 @@ class HandleDataMusic{
     if (source) {
       player?.setAttribute("src", source);
       player?.setAttribute("autoplay", "true");
+    
     }
   }
+
 
   public verifyMusicList ():void {
     setTimeout(() => {
       if (contentLibrary.children.length > 0) {
         for (let i = 0; i < contentLibrary.children.length; i++) {
           contentLibrary.children[i].addEventListener("click", () => {
-            let linkPreview: string | null =
-            contentLibrary.children[i].children[0].getAttribute("preview");
+            let linkPreview: string | null = contentLibrary.children[i].children[0].getAttribute("preview");
             this.playMusic(linkPreview);
           });
         }
       }
-    }, 2000);
+    }, 1000);
   }
 
 
@@ -83,13 +90,14 @@ class HandleDataMusic{
     this.connectApi(url).then((resp: IData) => {
       if(resp.data.length === 0){
         construct.layoutError()
+        return
       }
   
       resp.data.map((cover:IMusic) => {
         const imageLayout: string = url.includes("albums") || url.includes("tracks") || url.includes('?q=') ? cover.artist.picture_big : cover.picture_big;
         const artist: string = url.includes("tracks") ? cover.artist.name : cover.name;
         const title: string = url.includes("artists") ? cover.name : cover.title;
-        const preview: string = url.includes("tracks") ? cover.preview : "";
+        const preview: string = cover.preview 
         construct.layoutBoxMusic(title, artist, imageLayout, preview);
       });
     });
@@ -109,27 +117,25 @@ class HandleLinks {
     link?.style.setProperty('color','#fff')
   }
 
+  private resetAndInsertLayout(urlContent: string,linkVisitedElement: HTMLElement): void{
+    contentLibrary.innerHTML = ``;
+    dataMusic.insertData(urlContent);
+    dataMusic.verifyMusicList();
+    linkVisited = linkVisitedElement
+  }
+
   public navigationInUpMenu (link:Element){
     switch (link.id) {
       case "tracks":
-        contentLibrary.innerHTML = ``;
-        dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
-        dataMusic.verifyMusicList();
-        linkVisited = linkTracks;
+        this.resetAndInsertLayout('https://api.deezer.com/chart/0/tracks',linkTracks)
         this.styleLinks(linkVisited)
         break;
       case "artists":
-        contentLibrary.innerHTML = ``;
-        dataMusic.insertData("https://api.deezer.com/chart/0/artists");
-        dataMusic.verifyMusicList();
-        linkVisited = linkArtists;
+        this.resetAndInsertLayout("https://api.deezer.com/chart/0/artists",linkArtists)
         this.styleLinks(linkVisited)
         break;
        case "albums":
-        contentLibrary.innerHTML = ``;
-        dataMusic.insertData("https://api.deezer.com/chart/0/albums");
-        dataMusic.verifyMusicList();
-        linkVisited = linkAlbums;
+        this.resetAndInsertLayout("https://api.deezer.com/chart/0/albums",linkAlbums)
         this.styleLinks(linkVisited)
         break;
     }
@@ -140,9 +146,8 @@ const construct = new ConstructLayout()
 const dataMusic = new HandleDataMusic()
 const manipulateLinks  = new HandleLinks()
 
-btnExplorer?.addEventListener('click',(e):void => {
+linkExplorer?.addEventListener('click',(e):void => {
   e.preventDefault()
-  console.log('ok')
   dataMusic.insertData('https://api.deezer.com/chart/2/tracks')
 })
 
@@ -157,6 +162,7 @@ searchIcon?.addEventListener('click', ():void =>{
   const searchTerm: string = searchInput.value
   contentLibrary.innerHTML = ``
   dataMusic.insertData(`${seacrhUrl}?q=${searchTerm}`)
+  dataMusic.verifyMusicList();
 })
 
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
