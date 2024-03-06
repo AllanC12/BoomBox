@@ -10,10 +10,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var _a;
 import { handleLoader } from "../formConfigs/formConfig.js";
 const linksNav = (_a = document.getElementById("nav-links")) === null || _a === void 0 ? void 0 : _a.children;
-const btnExplorer = document.getElementById("btn-explorer");
 const linkTracks = document.getElementById("tracks");
 const linkArtists = document.getElementById("artists");
 const linkAlbums = document.getElementById("albums");
+const linkExplorer = document.getElementById("explorer");
+const linkMyMusics = document.getElementById("myMusics");
+const linkRecomendations = document.getElementById("recomendations");
+const linkPlaysRecently = document.getElementById("playsRecently");
+const linkRadio = document.getElementById("radio");
+const linkPlayingNow = document.getElementById("playingNow");
 const contentLibrary = document.querySelector(".content-library");
 const player = document.getElementById("player");
 const loader = document.getElementById('loader');
@@ -76,18 +81,19 @@ class HandleDataMusic {
                     });
                 }
             }
-        }, 2000);
+        }, 1000);
     }
     insertData(url) {
         this.connectApi(url).then((resp) => {
             if (resp.data.length === 0) {
                 construct.layoutError();
+                return;
             }
             resp.data.map((cover) => {
                 const imageLayout = url.includes("albums") || url.includes("tracks") || url.includes('?q=') ? cover.artist.picture_big : cover.picture_big;
                 const artist = url.includes("tracks") ? cover.artist.name : cover.name;
                 const title = url.includes("artists") ? cover.name : cover.title;
-                const preview = url.includes("tracks") ? cover.preview : "";
+                const preview = cover.preview;
                 construct.layoutBoxMusic(title, artist, imageLayout, preview);
             });
         });
@@ -104,27 +110,24 @@ class HandleLinks {
         link === null || link === void 0 ? void 0 : link.style.setProperty('background-color', '#000');
         link === null || link === void 0 ? void 0 : link.style.setProperty('color', '#fff');
     }
+    resetAndInsertLayout(urlContent, linkVisitedElement) {
+        contentLibrary.innerHTML = ``;
+        dataMusic.insertData(urlContent);
+        dataMusic.verifyMusicList();
+        linkVisited = linkVisitedElement;
+    }
     navigationInUpMenu(link) {
         switch (link.id) {
             case "tracks":
-                contentLibrary.innerHTML = ``;
-                dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
-                dataMusic.verifyMusicList();
-                linkVisited = linkTracks;
+                this.resetAndInsertLayout('https://api.deezer.com/chart/0/tracks', linkTracks);
                 this.styleLinks(linkVisited);
                 break;
             case "artists":
-                contentLibrary.innerHTML = ``;
-                dataMusic.insertData("https://api.deezer.com/chart/0/artists");
-                dataMusic.verifyMusicList();
-                linkVisited = linkArtists;
+                this.resetAndInsertLayout("https://api.deezer.com/chart/0/artists", linkArtists);
                 this.styleLinks(linkVisited);
                 break;
             case "albums":
-                contentLibrary.innerHTML = ``;
-                dataMusic.insertData("https://api.deezer.com/chart/0/albums");
-                dataMusic.verifyMusicList();
-                linkVisited = linkAlbums;
+                this.resetAndInsertLayout("https://api.deezer.com/chart/0/albums", linkAlbums);
                 this.styleLinks(linkVisited);
                 break;
         }
@@ -133,9 +136,8 @@ class HandleLinks {
 const construct = new ConstructLayout();
 const dataMusic = new HandleDataMusic();
 const manipulateLinks = new HandleLinks();
-btnExplorer === null || btnExplorer === void 0 ? void 0 : btnExplorer.addEventListener('click', (e) => {
+linkExplorer === null || linkExplorer === void 0 ? void 0 : linkExplorer.addEventListener('click', (e) => {
     e.preventDefault();
-    console.log('ok');
     dataMusic.insertData('https://api.deezer.com/chart/2/tracks');
 });
 Array.from(linksNav).forEach((link) => {
@@ -148,6 +150,7 @@ searchIcon === null || searchIcon === void 0 ? void 0 : searchIcon.addEventListe
     const searchTerm = searchInput.value;
     contentLibrary.innerHTML = ``;
     dataMusic.insertData(`${seacrhUrl}?q=${searchTerm}`);
+    dataMusic.verifyMusicList();
 });
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
 dataMusic.verifyMusicList();
