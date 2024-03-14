@@ -11,7 +11,6 @@ var _a;
 import { handleLoader } from "../formConfigs/formConfig.js";
 const linksNav = (_a = document.getElementById("nav-links")) === null || _a === void 0 ? void 0 : _a.children;
 const linksNavAside = document.querySelectorAll(".navigation li span");
-console.log(linksNavAside);
 const linkTracks = document.getElementById("tracks");
 const linkArtists = document.getElementById("artists");
 const linkAlbums = document.getElementById("albums");
@@ -24,8 +23,10 @@ const linkPlayingNow = document.getElementById("playingNow");
 const contentLibrary = document.querySelector(".content-library");
 const player = document.getElementById("player");
 const loader = document.getElementById('loader');
+const searchForm = document.getElementById('searchForm');
 const searchInput = document.getElementById('search');
 const searchIcon = document.getElementById('searchIcon');
+const musicName = document.getElementById('musicName');
 let linkVisited;
 class ConstructLayout {
     layoutError() {
@@ -73,12 +74,24 @@ class HandleDataMusic {
             return resp;
         });
     }
+    getDataAboutMusic(element) {
+        let titleMusicElement = element.children[1].children[0];
+        let titleMusic = titleMusicElement.innerText;
+        musicName.innerText = titleMusic;
+    }
+    verifyBoxMusic(linkPreview, element) {
+        if (linkPreview === "undefined") {
+            console.log("Box de artista ou de album");
+        }
+    }
     verifyMusicList() {
         setTimeout(() => {
             if (contentLibrary.children.length > 0) {
                 for (let i = 0; i < contentLibrary.children.length; i++) {
                     contentLibrary.children[i].addEventListener("click", () => {
                         let linkPreview = contentLibrary.children[i].children[0].getAttribute("preview");
+                        this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
+                        this.getDataAboutMusic(contentLibrary.children[i]);
                         this.playMusic(linkPreview);
                     });
                 }
@@ -99,6 +112,12 @@ class HandleDataMusic {
                 construct.layoutBoxMusic(title, artist, imageLayout, preview);
             });
         });
+    }
+    searchMusic(searchTerm) {
+        const seacrhUrl = 'https://api.deezer.com/search';
+        contentLibrary.innerHTML = ``;
+        dataMusic.insertData(`${seacrhUrl}?q=${searchTerm}`);
+        dataMusic.verifyMusicList();
     }
 }
 class HandleLinks {
@@ -170,12 +189,12 @@ Array.from(linksNavAside).forEach((link) => {
         manipulateLinks.callEndPoints(link);
     });
 });
+searchForm === null || searchForm === void 0 ? void 0 : searchForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    dataMusic.searchMusic(searchInput.value);
+});
 searchIcon === null || searchIcon === void 0 ? void 0 : searchIcon.addEventListener('click', () => {
-    const seacrhUrl = 'https://api.deezer.com/search';
-    const searchTerm = searchInput.value;
-    contentLibrary.innerHTML = ``;
-    dataMusic.insertData(`${seacrhUrl}?q=${searchTerm}`);
-    dataMusic.verifyMusicList();
+    dataMusic.searchMusic(searchInput.value);
 });
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
 dataMusic.verifyMusicList();

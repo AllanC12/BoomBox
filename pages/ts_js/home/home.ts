@@ -3,7 +3,6 @@ import { handleLoader } from "../formConfigs/formConfig.js";
 
 const linksNav = document.getElementById("nav-links")?.children as HTMLCollection;
 const linksNavAside = document.querySelectorAll(".navigation li span") as NodeList
-console.log(linksNavAside)
 const linkTracks = document.getElementById("tracks") as HTMLElement;
 const linkArtists = document.getElementById("artists") as HTMLElement;
 const linkAlbums = document.getElementById("albums") as HTMLElement;
@@ -17,8 +16,11 @@ const linkPlayingNow = document.getElementById("playingNow") as HTMLElement;
 const contentLibrary = document.querySelector(".content-library") as HTMLElement;
 const player = document.getElementById("player") as HTMLElement;
 const loader = document.getElementById('loader') as HTMLElement
+const searchForm = document.getElementById('searchForm') as HTMLFormElement
 const searchInput = document.getElementById('search') as HTMLInputElement
 const searchIcon = document.getElementById('searchIcon') as HTMLElement
+const musicName = document.getElementById('musicName') as HTMLElement
+
 
 let linkVisited: HTMLElement;
 
@@ -50,7 +52,7 @@ class ConstructLayout {
           </div>
         </div>
       `;
-      contentLibrary.prepend(boxMusic);
+      contentLibrary.prepend(boxMusic)
     handleLoader(loader,"none")
   }
 }
@@ -69,17 +71,29 @@ class HandleDataMusic{
     if (source) {
       player?.setAttribute("src", source);
       player?.setAttribute("autoplay", "true");
-    
     }
   }
 
-
+  private getDataAboutMusic (element:ParentNode) {
+    let titleMusicElement = element.children[1].children[0] as HTMLElement
+    let titleMusic: string = titleMusicElement.innerText
+    musicName.innerText = titleMusic
+  }
+  
+  private verifyBoxMusic(linkPreview: string | null,element:ParentNode) {
+    if(linkPreview === "undefined"){
+      console.log("Box de artista ou de album")
+    }
+  }
+  
   public verifyMusicList ():void {
     setTimeout(() => {
       if (contentLibrary.children.length > 0) {
         for (let i = 0; i < contentLibrary.children.length; i++) {
           contentLibrary.children[i].addEventListener("click", () => {
             let linkPreview: string | null = contentLibrary.children[i].children[0].getAttribute("preview");
+            this.verifyBoxMusic(linkPreview,contentLibrary.children[i])
+            this.getDataAboutMusic(contentLibrary.children[i])
             this.playMusic(linkPreview);
           });
         }
@@ -90,6 +104,7 @@ class HandleDataMusic{
 
   public insertData (url: string): void {
     this.connectApi(url).then((resp: IData) => {
+
       if(resp.data.length === 0){
         construct.layoutError()
         return
@@ -105,13 +120,17 @@ class HandleDataMusic{
     });
   }
 
+
+  public searchMusic(searchTerm:string): void {
+    const seacrhUrl: string = 'https://api.deezer.com/search'
+    contentLibrary.innerHTML = ``
+    dataMusic.insertData(`${seacrhUrl}?q=${searchTerm}`)
+    dataMusic.verifyMusicList();
+  }
+
 }
 
-
-
 class HandleLinks {
-
-
 
   private styleLinks (link:HTMLElement) {
     Array.from(linksNav).forEach((linkStyleDefault:Element) => {
@@ -189,12 +208,12 @@ Array.from(linksNavAside).forEach((link:any) => {
   })
 })
 
+searchForm?.addEventListener('submit', (e):void =>{
+  e.preventDefault()
+  dataMusic.searchMusic(searchInput.value)
+})
 searchIcon?.addEventListener('click', ():void =>{
-  const seacrhUrl: string = 'https://api.deezer.com/search'
-  const searchTerm: string = searchInput.value
-  contentLibrary.innerHTML = ``
-  dataMusic.insertData(`${seacrhUrl}?q=${searchTerm}`)
-  dataMusic.verifyMusicList();
+  dataMusic.searchMusic(searchInput.value)
 })
 
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");

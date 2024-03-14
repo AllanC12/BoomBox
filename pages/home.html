@@ -20,10 +20,10 @@
     <main>
         <aside>
             <ul class="navigation">
-                <div class="wraper-input">
+                <form id="searchForm" class="wraper-input">
                     <input type="text" id="search" class="search" placeholder="Pesquisar">
                     <i class="bi bi-search" id="searchIcon"></i>
-                </div>
+                </form>
                 <li>
                     <i class="bi bi-geo-alt"></i><span id="explorer">Explorar</span>
                 </li>
@@ -75,8 +75,10 @@
         </div>
     </main>
     <div class="div-player">
+        <div class="box-music-name">
+            <p id="musicName"></p>
+        </div>
         <audio id="player" src='' controls></audio>
-        
     </div>
 </body>
 

@@ -24,16 +24,16 @@ aside {
   padding: 30px 15px;
   border-right: 1px solid #e0b1c2;
 }
-aside div.wraper-input {
+aside form.wraper-input {
   position: relative;
 }
-aside div.wraper-input input[type=text] {
+aside form.wraper-input input[type=text] {
   width: 100%;
   height: 30px;
   padding-left: 2px;
   outline: 0;
 }
-aside div.wraper-input i.bi-search {
+aside form.wraper-input i.bi-search {
   position: absolute;
   right: 5px;
   top: 7px;
@@ -203,13 +203,22 @@ aside h3 {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   width: 100%;
   padding: 5px 0;
   background-color: #262525;
   position: absolute;
   bottom: 0;
 }
+.div-player div.box-music-name {
+  color: #f5e4ea;
+  margin: 10px;
+}
+.div-player audio {
+  width: 1000px;
+  height: 35px;
+}
 .div-player audio::-webkit-media-controls-panel {
-  background-color: #fff;
+  background-color: #f5e4ea;
   width: 900px;
 }/*# sourceMappingURL=home.css.map */

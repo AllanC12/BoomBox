@@ -23,7 +23,7 @@ aside{
     padding: 30px 15px;
     border-right: 1px solid #e0b1c2;
 
-    div.wraper-input{
+    form.wraper-input{
         position: relative;
 
         input[type="text"]{
@@ -179,14 +179,26 @@ aside{
 
 .div-player{
     @include defineFlex(center,center);
+    flex-direction: column;
     width: 100%;
     padding: 5px 0;
     background-color: #262525;
     position: absolute;
     bottom: 0;
 
+   div.box-music-name{
+    color: #f5e4ea;
+    margin: 10px;
+   }
+
+    audio{
+        width: 1000px;
+        height: 35px;
+    }
+    
     audio::-webkit-media-controls-panel{
-        background-color: #fff;
+        background-color:#f5e4ea;
         width: 900px;
     }
+
 }
