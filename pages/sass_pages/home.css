@@ -40,7 +40,18 @@ aside div.wraper-input i.bi-search {
   cursor: pointer;
 }
 aside span {
+  text-decoration: none;
+  font-size: 1em;
+  color: #121111;
+  margin-right: 25px;
+  padding: 10px;
+  border-radius: 5px;
   cursor: pointer;
+  transition: 0.5s;
+}
+aside span:hover {
+  background-color: #000;
+  color: #fff;
 }
 aside ul {
   list-style-type: none;

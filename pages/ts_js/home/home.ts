@@ -2,6 +2,8 @@ import {IMusic,IData } from "../../../interfaces/dataMusic";
 import { handleLoader } from "../formConfigs/formConfig.js";
 
 const linksNav = document.getElementById("nav-links")?.children as HTMLCollection;
+const linksNavAside = document.querySelectorAll(".navigation li span") as NodeList
+console.log(linksNavAside)
 const linkTracks = document.getElementById("tracks") as HTMLElement;
 const linkArtists = document.getElementById("artists") as HTMLElement;
 const linkAlbums = document.getElementById("albums") as HTMLElement;
@@ -105,11 +107,16 @@ class HandleDataMusic{
 
 }
 
+
+
 class HandleLinks {
+
+
+
   private styleLinks (link:HTMLElement) {
     Array.from(linksNav).forEach((linkStyleDefault:Element) => {
       if (linkStyleDefault instanceof HTMLElement) {
-        linkStyleDefault.style.setProperty('background-color','#faf5f7')
+        linkStyleDefault.style.setProperty('background-color','transparent')
         linkStyleDefault.style.setProperty('color','#000')
       }
     })
@@ -117,14 +124,15 @@ class HandleLinks {
     link?.style.setProperty('color','#fff')
   }
 
-  private resetAndInsertLayout(urlContent: string,linkVisitedElement: HTMLElement): void{
+  private resetAndInsertLayout(urlContent: string,linkVisitedElement: any = null): void{
     contentLibrary.innerHTML = ``;
     dataMusic.insertData(urlContent);
     dataMusic.verifyMusicList();
     linkVisited = linkVisitedElement
   }
 
-  public navigationInUpMenu (link:Element){
+
+  public callEndPoints (link:Element){
     switch (link.id) {
       case "tracks":
         this.resetAndInsertLayout('https://api.deezer.com/chart/0/tracks',linkTracks)
@@ -138,6 +146,25 @@ class HandleLinks {
         this.resetAndInsertLayout("https://api.deezer.com/chart/0/albums",linkAlbums)
         this.styleLinks(linkVisited)
         break;
+       case "explorer":
+        this.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks",linkExplorer)
+        break;
+
+       case "myMusics":
+        this.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks",linkMyMusics)
+        break;
+       case "recomendations":
+        this.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks",linkRecomendations)
+        break;
+       case "playsRecently":
+        this.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks",linkPlaysRecently)
+        break;
+       case "radio":
+        this.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks",linkRadio)
+        break;
+       case "playingNow":
+        this.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks",linkPlayingNow)
+        break;
     }
   }
 }
@@ -146,14 +173,19 @@ const construct = new ConstructLayout()
 const dataMusic = new HandleDataMusic()
 const manipulateLinks  = new HandleLinks()
 
-linkExplorer?.addEventListener('click',(e):void => {
-  e.preventDefault()
-  dataMusic.insertData('https://api.deezer.com/chart/2/tracks')
-})
+// linkExplorer?.addEventListener('click',(e):void => {
+//   e.preventDefault()
+//   dataMusic.insertData('https://api.deezer.com/chart/2/tracks')
+// })
 
 Array.from(linksNav).forEach((link:Element) => {
   link.addEventListener("click", ():void =>{
-    manipulateLinks.navigationInUpMenu(link)
+    manipulateLinks.callEndPoints(link)
+  })
+})
+Array.from(linksNavAside).forEach((link:any) => {
+  link.addEventListener("click", ():void =>{
+    manipulateLinks.callEndPoints(link)
   })
 })
 

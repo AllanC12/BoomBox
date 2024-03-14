@@ -44,9 +44,20 @@ aside{
 
     
     span{
+        text-decoration: none;
+        font-size: 1em;
+        color:#121111;
+        margin-right: 25px;
+        padding: 10px;
+        border-radius: 5px;
         cursor: pointer;
+        transition: .5s;
     }
 
+    span:hover{
+       background-color: #000;
+       color: #fff;
+    }
 
 
     ul{
