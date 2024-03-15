@@ -188,12 +188,13 @@ aside{
 
    div.box-music-name{
     color: #f5e4ea;
-    margin: 10px;
+    margin: 5px;
    }
 
     audio{
         width: 1000px;
         height: 35px;
+        display: none;
     }
     
     audio::-webkit-media-controls-panel{
