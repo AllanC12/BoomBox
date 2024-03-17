@@ -45,7 +45,7 @@ class ConstructLayout {
   public getDataFromLayout(url: string, itemApi: IMusic) {
     const title: string = url.includes("artists") ? itemApi.name: itemApi.title;
     const artist: string = url.includes("tracks") ? itemApi.artist.name : itemApi.name;
-    const image: string = url.includes("albums") || url.includes("tracks") || url.includes("?q=") ? itemApi.artist.picture_big : itemApi.picture_big;
+    const image: string = url.includes("albums") || url.includes("tracks") || url.includes("?q=")  ? itemApi.artist.picture_big : itemApi.picture_big;
     const preview: string = itemApi.preview;
     const idAlbum: number | null = url.includes("albums") ? itemApi.id : null;
     const idArtist: number | null = url.includes("artists") ? itemApi.id : null;
@@ -59,6 +59,9 @@ class ConstructLayout {
       idArtist,
     };
 
+    console.log(image)
+
+
     this.layoutBoxMusic(dataFromlayout);
   }
 
@@ -68,11 +71,11 @@ class ConstructLayout {
     const boxMusic = document.createElement("div");
     const titleMusic: string = title === artist ? "" : title;
     const artistMusic: string | undefined = artist ? artist : "";
+    const imageLink: string = image ? image : image
 
 
     handleLoader(loader, "show");
     boxMusic.classList.add("box-music");
-
     boxMusic.innerHTML = `
       <div id='preview-link' idAlbum=${idAlbum} idArtist=${idArtist} preview='${preview}'>
         <div class="image-box">
@@ -125,11 +128,14 @@ class HandleDataMusic {
         //Box de artista
         const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`
         this.insertData(urlArtist)
-        console.log('artista')
       }
 
     }
   }
+
+  // public playersRecently(){
+    
+  // }
 
   public verifyMusicList(): void {
     setTimeout(() => {
@@ -137,8 +143,7 @@ class HandleDataMusic {
         for (let i = 0; i < contentLibrary.children.length; i++) {
           contentLibrary.children[i].addEventListener("click", () => {
             let linkPreview: string | null =
-              contentLibrary.children[i].children[0].getAttribute("preview");
-              console.log(contentLibrary.children[i])
+            contentLibrary.children[i].children[0].getAttribute("preview");
             this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
             this.getDataAboutMusic(contentLibrary.children[i]);
             this.playMusic(linkPreview);

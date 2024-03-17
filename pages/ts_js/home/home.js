@@ -50,6 +50,7 @@ class ConstructLayout {
             idAlbum,
             idArtist,
         };
+        console.log(image);
         this.layoutBoxMusic(dataFromlayout);
     }
     layoutBoxMusic(dataLayoutBox) {
@@ -57,6 +58,7 @@ class ConstructLayout {
         const boxMusic = document.createElement("div");
         const titleMusic = title === artist ? "" : title;
         const artistMusic = artist ? artist : "";
+        const imageLink = image ? image : image;
         handleLoader(loader, "show");
         boxMusic.classList.add("box-music");
         boxMusic.innerHTML = `
@@ -107,17 +109,17 @@ class HandleDataMusic {
                 //Box de artista
                 const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
                 this.insertData(urlArtist);
-                console.log('artista');
             }
         }
     }
+    // public playersRecently(){
+    // }
     verifyMusicList() {
         setTimeout(() => {
             if (contentLibrary.children.length > 0) {
                 for (let i = 0; i < contentLibrary.children.length; i++) {
                     contentLibrary.children[i].addEventListener("click", () => {
                         let linkPreview = contentLibrary.children[i].children[0].getAttribute("preview");
-                        console.log(contentLibrary.children[i]);
                         this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
                         this.getDataAboutMusic(contentLibrary.children[i]);
                         this.playMusic(linkPreview);
