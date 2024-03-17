@@ -42,10 +42,25 @@ class ConstructLayout {
     contentLibrary.prepend(errorMsg);
   }
 
-  public getDataFromLayout(url: string, itemApi: IMusic) {
+  public getDataFromLayout(url: string, itemApi: IMusic){
+    const getImage = ():string => {
+      let linkImage:string;
+
+      if(url.includes('albums') || url.includes('tracks') || url.includes('?q=')){
+        linkImage = itemApi.artist.picture_big
+      }else if(url.includes('artist')){
+        linkImage = itemApi.album.cover_big
+      }else{
+        linkImage = itemApi.picture_big
+      }
+
+      return linkImage
+    }
+
     const title: string = url.includes("artists") ? itemApi.name: itemApi.title;
     const artist: string = url.includes("tracks") ? itemApi.artist.name : itemApi.name;
-    const image: string = url.includes("albums") || url.includes("tracks") || url.includes("?q=")  ? itemApi.artist.picture_big : itemApi.picture_big;
+    const imageArtist: string = url.includes('top?limit') ? itemApi.album.cover_big : ''
+    const imageAlbumTracks: string = url.includes("albums") || url.includes("tracks") || url.includes("?q=")  ? itemApi.artist.picture_big : itemApi.picture_big;
     const preview: string = itemApi.preview;
     const idAlbum: number | null = url.includes("albums") ? itemApi.id : null;
     const idArtist: number | null = url.includes("artists") ? itemApi.id : null;
@@ -53,16 +68,16 @@ class ConstructLayout {
     const dataFromlayout: ILayoutBoxMusic = {
       title,
       artist,
-      image,
+      image: imageAlbumTracks || imageArtist,
       preview,
       idAlbum,
       idArtist,
     };
 
-    console.log(image)
-
-
     this.layoutBoxMusic(dataFromlayout);
+
+    dataMusic.verifyMusicList();
+
   }
 
   private layoutBoxMusic(dataLayoutBox: ILayoutBoxMusic): void {
@@ -70,8 +85,7 @@ class ConstructLayout {
 
     const boxMusic = document.createElement("div");
     const titleMusic: string = title === artist ? "" : title;
-    const artistMusic: string | undefined = artist ? artist : "";
-    const imageLink: string = image ? image : image
+    const artistMusic: string  = artist ? artist : '';
 
 
     handleLoader(loader, "show");
@@ -105,10 +119,12 @@ class HandleDataMusic {
   }
 
   private playMusic = (source: string | null): void => {
-    if (source) {
+    if (source?.includes('https://')) {
       player?.style.setProperty("display", "block");
       player?.setAttribute("src", source);
       player?.setAttribute("autoplay", "true");
+      console.log('musica tocada')
+
     }
   };
 
@@ -120,12 +136,11 @@ class HandleDataMusic {
 
   private verifyBoxMusic(linkPreview: string | null, element: ParentNode) {
     if (linkPreview === "undefined") {
-      //Box de artista ou de album
+
       const idAlbum = element.children[0].getAttribute("idAlbum")
       const idArtist = element.children[0].getAttribute("idArtist")
 
       if(idAlbum === 'null'){
-        //Box de artista
         const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`
         this.insertData(urlArtist)
       }
@@ -140,13 +155,16 @@ class HandleDataMusic {
   public verifyMusicList(): void {
     setTimeout(() => {
       if (contentLibrary.children.length > 0) {
+
         for (let i = 0; i < contentLibrary.children.length; i++) {
+
           contentLibrary.children[i].addEventListener("click", () => {
-            let linkPreview: string | null =
-            contentLibrary.children[i].children[0].getAttribute("preview");
+
+            let linkPreview: string | null = contentLibrary.children[i].children[0].getAttribute("preview");
             this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
             this.getDataAboutMusic(contentLibrary.children[i]);
             this.playMusic(linkPreview);
+
           });
         }
       }
@@ -154,6 +172,7 @@ class HandleDataMusic {
   }
 
   public insertData(url: string): void {
+
     this.connectApi(url).then((resp: IData) => {
       if (resp.data.length === 0) {
         construct.layoutError();
@@ -162,9 +181,9 @@ class HandleDataMusic {
 
       resp.data.map((cover: IMusic) => {
         construct.getDataFromLayout(url, cover);
-        console.log(cover)
       });
     });
+
   }
 
   public searchMusic(searchTerm: string): void {

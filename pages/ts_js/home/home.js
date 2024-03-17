@@ -36,29 +36,42 @@ class ConstructLayout {
         contentLibrary.prepend(errorMsg);
     }
     getDataFromLayout(url, itemApi) {
+        const getImage = () => {
+            let linkImage;
+            if (url.includes('albums') || url.includes('tracks') || url.includes('?q=')) {
+                linkImage = itemApi.artist.picture_big;
+            }
+            else if (url.includes('artist')) {
+                linkImage = itemApi.album.cover_big;
+            }
+            else {
+                linkImage = itemApi.picture_big;
+            }
+            return linkImage;
+        };
         const title = url.includes("artists") ? itemApi.name : itemApi.title;
         const artist = url.includes("tracks") ? itemApi.artist.name : itemApi.name;
-        const image = url.includes("albums") || url.includes("tracks") || url.includes("?q=") ? itemApi.artist.picture_big : itemApi.picture_big;
+        const imageArtist = url.includes('top?limit') ? itemApi.album.cover_big : '';
+        const imageAlbumTracks = url.includes("albums") || url.includes("tracks") || url.includes("?q=") ? itemApi.artist.picture_big : itemApi.picture_big;
         const preview = itemApi.preview;
         const idAlbum = url.includes("albums") ? itemApi.id : null;
         const idArtist = url.includes("artists") ? itemApi.id : null;
         const dataFromlayout = {
             title,
             artist,
-            image,
+            image: imageAlbumTracks || imageArtist,
             preview,
             idAlbum,
             idArtist,
         };
-        console.log(image);
         this.layoutBoxMusic(dataFromlayout);
+        dataMusic.verifyMusicList();
     }
     layoutBoxMusic(dataLayoutBox) {
         const { title, artist, image, preview, idAlbum, idArtist } = dataLayoutBox;
         const boxMusic = document.createElement("div");
         const titleMusic = title === artist ? "" : title;
-        const artistMusic = artist ? artist : "";
-        const imageLink = image ? image : image;
+        const artistMusic = artist ? artist : '';
         handleLoader(loader, "show");
         boxMusic.classList.add("box-music");
         boxMusic.innerHTML = `
@@ -80,10 +93,11 @@ class ConstructLayout {
 class HandleDataMusic {
     constructor() {
         this.playMusic = (source) => {
-            if (source) {
+            if (source === null || source === void 0 ? void 0 : source.includes('https://')) {
                 player === null || player === void 0 ? void 0 : player.style.setProperty("display", "block");
                 player === null || player === void 0 ? void 0 : player.setAttribute("src", source);
                 player === null || player === void 0 ? void 0 : player.setAttribute("autoplay", "true");
+                console.log('musica tocada');
             }
         };
     }
@@ -102,11 +116,9 @@ class HandleDataMusic {
     }
     verifyBoxMusic(linkPreview, element) {
         if (linkPreview === "undefined") {
-            //Box de artista ou de album
             const idAlbum = element.children[0].getAttribute("idAlbum");
             const idArtist = element.children[0].getAttribute("idArtist");
             if (idAlbum === 'null') {
-                //Box de artista
                 const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
                 this.insertData(urlArtist);
             }
@@ -136,7 +148,6 @@ class HandleDataMusic {
             }
             resp.data.map((cover) => {
                 construct.getDataFromLayout(url, cover);
-                console.log(cover);
             });
         });
     }
