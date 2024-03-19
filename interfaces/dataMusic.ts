@@ -3,7 +3,9 @@
 export interface IMusic {
   title:string,
   name: string,
-  album: Object,
+  album: {
+    cover_big: string
+  },
   id:number
   artist: {
     name:string,
