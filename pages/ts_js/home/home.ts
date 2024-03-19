@@ -42,25 +42,14 @@ class ConstructLayout {
     contentLibrary.prepend(errorMsg);
   }
 
-  public getDataFromLayout(url: string, itemApi: IMusic){
-    const getImage = ():string => {
-      let linkImage:string;
+  public getDataFromLayoutMusic(url: string, itemApi: IMusic){
 
-      if(url.includes('albums') || url.includes('tracks') || url.includes('?q=')){
-        linkImage = itemApi.artist.picture_big
-      }else if(url.includes('artist')){
-        linkImage = itemApi.album.cover_big
-      }else{
-        linkImage = itemApi.picture_big
-      }
-
-      return linkImage
-    }
-
-    const title: string = url.includes("artists") ? itemApi.name: itemApi.title;
+    const title: string = url.includes("artists") ? itemApi.name : itemApi.title;
     const artist: string = url.includes("tracks") ? itemApi.artist.name : itemApi.name;
-    const imageArtist: string = url.includes('top?limit') ? itemApi.album.cover_big : ''
-    const imageAlbumTracks: string = url.includes("albums") || url.includes("tracks") || url.includes("?q=")  ? itemApi.artist.picture_big : itemApi.picture_big;
+    const imageArtist: string  = url.includes('top?limit') ? itemApi.album.cover_big : ''
+    const imageAlbums: string = url.includes("albums") ? itemApi.artist.picture_big : itemApi.picture_big
+    const imageTracks: string = url.includes("tracks") || url.includes("?q=")  ? itemApi.artist.picture_big : itemApi.picture_big;
+    const imageAlbumSingle: string | null= url.includes('/album/') ? sessionStorage.getItem('image_album_single') : null
     const preview: string = itemApi.preview;
     const idAlbum: number | null = url.includes("albums") ? itemApi.id : null;
     const idArtist: number | null = url.includes("artists") ? itemApi.id : null;
@@ -68,7 +57,7 @@ class ConstructLayout {
     const dataFromlayout: ILayoutBoxMusic = {
       title,
       artist,
-      image: imageAlbumTracks || imageArtist,
+      image: imageTracks || imageArtist || imageAlbums || imageAlbumSingle,
       preview,
       idAlbum,
       idArtist,
@@ -93,7 +82,7 @@ class ConstructLayout {
     boxMusic.innerHTML = `
       <div id='preview-link' idAlbum=${idAlbum} idArtist=${idArtist} preview='${preview}'>
         <div class="image-box">
-        <img src='${image}'/></div>
+        <img id='image_box' src='${image}'/></div>
         </div>
         <div class="title-music">
           <p class="title">
@@ -123,13 +112,17 @@ class HandleDataMusic {
       player?.style.setProperty("display", "block");
       player?.setAttribute("src", source);
       player?.setAttribute("autoplay", "true");
-      console.log('musica tocada')
-
     }
   };
 
   private getDataAboutMusic(element: ParentNode) {
     let titleMusicElement = element.children[1].children[0] as HTMLElement;
+    let linkImageAlbum: string | undefined | null= element ? document.getElementById('image_box')?.getAttribute('src') : null
+
+    if(linkImageAlbum){
+      sessionStorage.setItem('image_album_single',linkImageAlbum)
+    }
+
     let titleMusic: string = titleMusicElement.innerText;
     musicName.innerText = titleMusic;
   }
@@ -140,33 +133,40 @@ class HandleDataMusic {
       const idAlbum = element.children[0].getAttribute("idAlbum")
       const idArtist = element.children[0].getAttribute("idArtist")
 
-      if(idAlbum === 'null'){
+      if(idArtist !== 'null'){
         const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`
         this.insertData(urlArtist)
+      }
+
+
+      if(idAlbum !== 'null'){
+        const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`
+        this.insertData(urlAlbum)
       }
 
     }
   }
 
-  // public playersRecently(){
-    
-  // }
 
   public verifyMusicList(): void {
+
     setTimeout(() => {
+
       if (contentLibrary.children.length > 0) {
 
         for (let i = 0; i < contentLibrary.children.length; i++) {
 
-          contentLibrary.children[i].addEventListener("click", () => {
-
+          contentLibrary.children[i].addEventListener("click", (e) => {
             let linkPreview: string | null = contentLibrary.children[i].children[0].getAttribute("preview");
+            
             this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
             this.getDataAboutMusic(contentLibrary.children[i]);
             this.playMusic(linkPreview);
-
           });
+          
         }
+
+        
       }
     }, 1000);
   }
@@ -180,8 +180,9 @@ class HandleDataMusic {
       }
 
       resp.data.map((cover: IMusic) => {
-        construct.getDataFromLayout(url, cover);
+        construct.getDataFromLayoutMusic(url, cover);
       });
+
     });
 
   }
@@ -206,10 +207,7 @@ class HandleLinks {
     link?.style.setProperty("color", "#fff");
   }
 
-  private resetAndInsertLayout(
-    urlContent: string,
-    linkVisitedElement: any = null
-  ): void {
+  private resetAndInsertLayout( urlContent: string, linkVisitedElement: HTMLElement): void {
     contentLibrary.innerHTML = ``;
     dataMusic.insertData(urlContent);
     dataMusic.verifyMusicList();
@@ -294,6 +292,7 @@ Array.from(linksNav).forEach((link: Element) => {
     manipulateLinks.callEndPoints(link);
   });
 });
+
 Array.from(linksNavAside).forEach((link: any) => {
   link.addEventListener("click", (): void => {
     manipulateLinks.callEndPoints(link);
@@ -304,6 +303,7 @@ searchForm?.addEventListener("submit", (e): void => {
   e.preventDefault();
   dataMusic.searchMusic(searchInput.value);
 });
+
 searchIcon?.addEventListener("click", (): void => {
   dataMusic.searchMusic(searchInput.value);
 });
