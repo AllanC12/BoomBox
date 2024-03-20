@@ -42,7 +42,6 @@ class ConstructLayout {
         const imageAlbums = url.includes("albums") ? itemApi.artist.picture_big : itemApi.picture_big;
         const imageTracks = url.includes("tracks") || url.includes("?q=") ? itemApi.artist.picture_big : itemApi.picture_big;
         const imageAlbumSingle = url.includes('/album/') ? sessionStorage.getItem('image_album_single') : null;
-        console.log(imageAlbumSingle);
         const preview = itemApi.preview;
         const idAlbum = url.includes("albums") ? itemApi.id : null;
         const idArtist = url.includes("artists") ? itemApi.id : null;
@@ -64,11 +63,15 @@ class ConstructLayout {
         const artistMusic = artist ? artist : '';
         handleLoader(loader, "show");
         boxMusic.classList.add("box-music");
+        boxMusic.setAttribute('id_album', `${idAlbum}`);
+        boxMusic.setAttribute('id_artist', `${idArtist}`);
+        boxMusic.setAttribute('preview_music', `${preview}`);
+        boxMusic.setAttribute('preview_image', `${image}`);
         boxMusic.innerHTML = `
-      <div id='preview-link' idAlbum=${idAlbum} idArtist=${idArtist} preview='${preview}'>
+      <div id='preview-link'>
         <div class="image-box">
-        <img id='image_box' src='${image}'/></div>
-        </div>
+        <img class='image_box' src='${image}'/></div>
+         </div>
         <div class="title-music">
           <p class="title">
               ${titleMusic} - ${artistMusic}
@@ -99,9 +102,9 @@ class HandleDataMusic {
         });
     }
     getDataAboutMusic(element) {
-        var _a;
         let titleMusicElement = element.children[1].children[0];
-        let linkImageAlbum = element ? (_a = document.getElementById('image_box')) === null || _a === void 0 ? void 0 : _a.getAttribute('src') : null;
+        let linkImageAlbum = element.getAttribute('src');
+        // console.log(element.childNodes[3].firstChild)
         if (linkImageAlbum) {
             sessionStorage.setItem('image_album_single', linkImageAlbum);
         }
@@ -110,8 +113,8 @@ class HandleDataMusic {
     }
     verifyBoxMusic(linkPreview, element) {
         if (linkPreview === "undefined") {
-            const idAlbum = element.children[0].getAttribute("idAlbum");
-            const idArtist = element.children[0].getAttribute("idArtist");
+            const idAlbum = element.getAttribute("id_album");
+            const idArtist = element.getAttribute("id_artist");
             if (idArtist !== 'null') {
                 const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
                 this.insertData(urlArtist);
@@ -122,14 +125,12 @@ class HandleDataMusic {
             }
         }
     }
-    // public playersRecently(){
-    // }
     verifyMusicList() {
         setTimeout(() => {
             if (contentLibrary.children.length > 0) {
                 for (let i = 0; i < contentLibrary.children.length; i++) {
                     contentLibrary.children[i].addEventListener("click", (e) => {
-                        let linkPreview = contentLibrary.children[i].children[0].getAttribute("preview");
+                        let linkPreview = contentLibrary.children[i].getAttribute("preview_music");
                         this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
                         this.getDataAboutMusic(contentLibrary.children[i]);
                         this.playMusic(linkPreview);

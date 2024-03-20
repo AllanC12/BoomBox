@@ -76,14 +76,19 @@ class ConstructLayout {
     const titleMusic: string = title === artist ? "" : title;
     const artistMusic: string  = artist ? artist : '';
 
-
     handleLoader(loader, "show");
+
     boxMusic.classList.add("box-music");
+    boxMusic.setAttribute('id_album',`${idAlbum}`)
+    boxMusic.setAttribute('id_artist',`${idArtist}`)
+    boxMusic.setAttribute('preview_music',`${preview}`)
+    boxMusic.setAttribute('preview_image',`${image}`)
+
     boxMusic.innerHTML = `
-      <div id='preview-link' idAlbum=${idAlbum} idArtist=${idArtist} preview='${preview}'>
+      <div id='preview-link'>
         <div class="image-box">
-        <img id='image_box' src='${image}'/></div>
-        </div>
+        <img class='image_box' src='${image}'/></div>
+         </div>
         <div class="title-music">
           <p class="title">
               ${titleMusic} - ${artistMusic}
@@ -114,10 +119,13 @@ class HandleDataMusic {
       player?.setAttribute("autoplay", "true");
     }
   };
+  
 
-  private getDataAboutMusic(element: ParentNode) {
+  private getDataAboutMusic(element: Element) {
     let titleMusicElement = element.children[1].children[0] as HTMLElement;
-    let linkImageAlbum: string | undefined | null= element ? document.getElementById('image_box')?.getAttribute('src') : null
+    let linkImageAlbum:string | null = element.getAttribute('src')
+
+    // console.log(element.childNodes[3].firstChild)
 
     if(linkImageAlbum){
       sessionStorage.setItem('image_album_single',linkImageAlbum)
@@ -127,11 +135,12 @@ class HandleDataMusic {
     musicName.innerText = titleMusic;
   }
 
-  private verifyBoxMusic(linkPreview: string | null, element: ParentNode) {
+  private verifyBoxMusic(linkPreview: string | null, element: Element,) {
     if (linkPreview === "undefined") {
 
-      const idAlbum = element.children[0].getAttribute("idAlbum")
-      const idArtist = element.children[0].getAttribute("idArtist")
+      const idAlbum = element.getAttribute("id_album")
+      const idArtist = element.getAttribute("id_artist")
+
 
       if(idArtist !== 'null'){
         const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`
@@ -157,8 +166,7 @@ class HandleDataMusic {
         for (let i = 0; i < contentLibrary.children.length; i++) {
 
           contentLibrary.children[i].addEventListener("click", (e) => {
-            let linkPreview: string | null = contentLibrary.children[i].children[0].getAttribute("preview");
-            
+            let linkPreview: string | null = contentLibrary.children[i].getAttribute("preview_music");
             this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
             this.getDataAboutMusic(contentLibrary.children[i]);
             this.playMusic(linkPreview);
@@ -196,6 +204,7 @@ class HandleDataMusic {
 }
 
 class HandleLinks {
+
   private styleLinks(link: HTMLElement) {
     Array.from(linksNav).forEach((linkStyleDefault: Element) => {
       if (linkStyleDefault instanceof HTMLElement) {
