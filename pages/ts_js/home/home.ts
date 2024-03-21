@@ -7,20 +7,6 @@ const linksNav = document.getElementById("nav-links")
 const linksNavAside = document.querySelectorAll(
   ".navigation li span"
 ) as NodeList;
-const linkTracks = document.getElementById("tracks") as HTMLElement;
-const linkArtists = document.getElementById("artists") as HTMLElement;
-const linkAlbums = document.getElementById("albums") as HTMLElement;
-
-const linkExplorer = document.getElementById("explorer") as HTMLElement;
-const linkMyMusics = document.getElementById("myMusics") as HTMLElement;
-const linkRecomendations = document.getElementById(
-  "recomendations"
-) as HTMLElement;
-const linkPlaysRecently = document.getElementById(
-  "playsRecently"
-) as HTMLElement;
-const linkRadio = document.getElementById("radio") as HTMLElement;
-const linkPlayingNow = document.getElementById("playingNow") as HTMLElement;
 const contentLibrary = document.querySelector(
   ".content-library"
 ) as HTMLElement;
@@ -32,9 +18,9 @@ const searchIcon = document.getElementById("searchIcon") as HTMLElement;
 const musicName = document.getElementById("musicName") as HTMLElement;
 
 let linkVisited: HTMLElement;
+let layoutLoaded: boolean = false;
 
 class ConstructLayout {
-
   public layoutError(): void {
     const errorMsg = document.createElement("p");
     errorMsg.classList.add("errorMsg");
@@ -42,14 +28,26 @@ class ConstructLayout {
     contentLibrary.prepend(errorMsg);
   }
 
-  public getDataFromLayoutMusic(url: string, itemApi: IMusic){
-
-    const title: string = url.includes("artists") ? itemApi.name : itemApi.title;
-    const artist: string = url.includes("tracks") ? itemApi.artist.name : itemApi.name;
-    const imageArtist: string  = url.includes('top?limit') ? itemApi.album.cover_big : ''
-    const imageAlbums: string = url.includes("albums") ? itemApi.artist.picture_big : itemApi.picture_big
-    const imageTracks: string = url.includes("tracks") || url.includes("?q=")  ? itemApi.artist.picture_big : itemApi.picture_big;
-    const imageAlbumSingle: string | null= url.includes('/album/') ? sessionStorage.getItem('image_album_single') : null
+  public getDataFromLayoutMusic(url: string, itemApi: IMusic) {
+    const title: string = url.includes("artists")
+      ? itemApi.name
+      : itemApi.title;
+    const artist: string = url.includes("tracks")
+      ? itemApi.artist.name
+      : itemApi.name;
+    const imageArtist: string = url.includes("top?limit")
+      ? itemApi.album.cover_big
+      : "";
+    const imageAlbums: string = url.includes("albums")
+      ? itemApi.artist.picture_big
+      : itemApi.picture_big;
+    const imageTracks: string =
+      url.includes("tracks") || url.includes("?q=")
+        ? itemApi.artist.picture_big
+        : itemApi.picture_big;
+    const imageAlbumSingle: string | null = url.includes("/album/")
+      ? sessionStorage.getItem("image_album_single")
+      : null;
     const preview: string = itemApi.preview;
     const idAlbum: number | null = url.includes("albums") ? itemApi.id : null;
     const idArtist: number | null = url.includes("artists") ? itemApi.id : null;
@@ -66,7 +64,6 @@ class ConstructLayout {
     this.layoutBoxMusic(dataFromlayout);
 
     dataMusic.verifyMusicList();
-
   }
 
   private layoutBoxMusic(dataLayoutBox: ILayoutBoxMusic): void {
@@ -74,15 +71,16 @@ class ConstructLayout {
 
     const boxMusic = document.createElement("div");
     const titleMusic: string = title === artist ? "" : title;
-    const artistMusic: string  = artist ? artist : '';
+    const artistMusic: string = artist ? artist : "";
 
     handleLoader(loader, "show");
 
     boxMusic.classList.add("box-music");
-    boxMusic.setAttribute('id_album',`${idAlbum}`)
-    boxMusic.setAttribute('id_artist',`${idArtist}`)
-    boxMusic.setAttribute('preview_music',`${preview}`)
-    boxMusic.setAttribute('preview_image',`${image}`)
+    boxMusic.setAttribute("id_album", `${idAlbum}`);
+    boxMusic.setAttribute("id_artist", `${idArtist}`);
+    boxMusic.setAttribute("preview_music", `${preview}`);
+    boxMusic.setAttribute("preview_image", `${image}`);
+    boxMusic.setAttribute("preview_image_album", `${image}`);
 
     boxMusic.innerHTML = `
       <div id='preview-link'>
@@ -98,9 +96,17 @@ class ConstructLayout {
       `;
     contentLibrary.prepend(boxMusic);
     handleLoader(loader, "none");
+    layoutLoaded = true;
   }
 
+  public resetAndInsertLayout(urlContent: string): void {
+    contentLibrary.innerHTML = ``;
+    dataMusic.insertData(urlContent);
+  }
 
+  public resetLayout() {
+    contentLibrary.innerHTML = ``;
+  }
 }
 
 class HandleDataMusic {
@@ -113,75 +119,104 @@ class HandleDataMusic {
   }
 
   private playMusic = (source: string | null): void => {
-    if (source?.includes('https://')) {
+    if (source?.includes("https://")) {
       player?.style.setProperty("display", "block");
       player?.setAttribute("src", source);
       player?.setAttribute("autoplay", "true");
     }
   };
-  
 
   private getDataAboutMusic(element: Element) {
     let titleMusicElement = element.children[1].children[0] as HTMLElement;
-    let linkImageAlbum:string | null = element.getAttribute('src')
+    let linkImageAlbum: string | null = element.getAttribute("preview_image_album");
 
     // console.log(element.childNodes[3].firstChild)
+    console.log(element)
 
-    if(linkImageAlbum){
-      sessionStorage.setItem('image_album_single',linkImageAlbum)
+    if (linkImageAlbum) {
+      sessionStorage.setItem("image_album_single", linkImageAlbum);
+
     }
 
     let titleMusic: string = titleMusicElement.innerText;
     musicName.innerText = titleMusic;
   }
 
-  private verifyBoxMusic(linkPreview: string | null, element: Element,) {
+  private verifyBoxMusic(linkPreview: string | null, element: Element) {
+
     if (linkPreview === "undefined") {
 
-      const idAlbum = element.getAttribute("id_album")
-      const idArtist = element.getAttribute("id_artist")
+      const idAlbum = element.getAttribute("id_album");
+      const idArtist = element.getAttribute("id_artist");
 
+        if (idArtist !== "null") {
+          const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
+          construct.resetLayout();
+          this.insertData(urlArtist);
+          // manipulateLinks.resetAndInsertLayout(urlArtist)
+        }
 
-      if(idArtist !== 'null'){
-        const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`
-        this.insertData(urlArtist)
-      }
+        if (idAlbum !== "null") {
+          const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`;
+          construct.resetLayout();
+          this.insertData(urlAlbum);
+          // construct.resetAndInsertLayout(urlAlbum)
+        }
 
+      // if (layoutLoaded) {
+      //   if (idArtist !== "null") {
+      //     const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
+      //     this.insertData(urlArtist);
+      //     // manipulateLinks.resetAndInsertLayout(urlArtist)
+      //   }
 
-      if(idAlbum !== 'null'){
-        const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`
-        this.insertData(urlAlbum)
-      }
-
+      //   if (idAlbum !== "null") {
+      //     const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`;
+      //     construct.resetLayout();
+      //     this.insertData(urlAlbum);
+      //     // construct.resetAndInsertLayout(urlAlbum)
+      //   }
+      // }else {
+      //   return
+      // }
     }
   }
-
 
   public verifyMusicList(): void {
 
     setTimeout(() => {
+      for (let i = 0; i < contentLibrary.children.length; i++) {
 
-      if (contentLibrary.children.length > 0) {
-
-        for (let i = 0; i < contentLibrary.children.length; i++) {
-
-          contentLibrary.children[i].addEventListener("click", (e) => {
-            let linkPreview: string | null = contentLibrary.children[i].getAttribute("preview_music");
-            this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
-            this.getDataAboutMusic(contentLibrary.children[i]);
-            this.playMusic(linkPreview);
-          });
-          
-        }
-
-        
+        contentLibrary.children[i].addEventListener("click", (e) => {
+          let linkPreview: string | null =  contentLibrary.children[i].getAttribute("preview_music");
+          this.getDataAboutMusic(contentLibrary.children[i]);
+          this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
+          this.playMusic(linkPreview);
+        });
       }
-    }, 1000);
+    },1000)
+
+    // if(layoutLoaded){
+    //   for (let i = 0; i < contentLibrary.children.length; i++) {
+ 
+    //     contentLibrary.children[i].addEventListener("click", (e) => {
+    //       let linkPreview: string | null =  contentLibrary.children[i].getAttribute("preview_music");
+    //       this.getDataAboutMusic(contentLibrary.children[i]);
+    //       this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
+    //       this.playMusic(linkPreview);
+    //       console.log(contentLibrary.children[i])
+    //     });
+    //   }
+    // }else {
+    //   return
+    // }
+
+
+
   }
 
-  public insertData(url: string): void {
-
-    this.connectApi(url).then((resp: IData) => {
+  public async insertData(url: string): Promise<void> {
+    await this.connectApi(url).then((resp: IData) => {
       if (resp.data.length === 0) {
         construct.layoutError();
         return;
@@ -190,9 +225,8 @@ class HandleDataMusic {
       resp.data.map((cover: IMusic) => {
         construct.getDataFromLayoutMusic(url, cover);
       });
-
+      
     });
-
   }
 
   public searchMusic(searchTerm: string): void {
@@ -204,84 +238,45 @@ class HandleDataMusic {
 }
 
 class HandleLinks {
-
-  private styleLinks(link: HTMLElement) {
-    Array.from(linksNav).forEach((linkStyleDefault: Element) => {
-      if (linkStyleDefault instanceof HTMLElement) {
-        linkStyleDefault.style.setProperty("background-color", "transparent");
-        linkStyleDefault.style.setProperty("color", "#000");
-      }
-    });
-    link?.style.setProperty("background-color", "#000");
-    link?.style.setProperty("color", "#fff");
-  }
-
-  private resetAndInsertLayout( urlContent: string, linkVisitedElement: HTMLElement): void {
-    contentLibrary.innerHTML = ``;
-    dataMusic.insertData(urlContent);
-    dataMusic.verifyMusicList();
-    linkVisited = linkVisitedElement;
+  public linksStyle(linkStyled: HTMLElement): void {
+    linkVisited?.style.setProperty("background-color", "transparent");
+    linkVisited?.style.setProperty("color", "#000");
+    linkStyled?.style.setProperty("background-color", "#000");
+    linkStyled?.style.setProperty("color", "#fff");
+    linkVisited = linkStyled;
   }
 
   public callEndPoints(link: Element) {
     switch (link.id) {
       case "tracks":
-        this.resetAndInsertLayout(
-          "https://api.deezer.com/chart/0/tracks",
-          linkTracks
-        );
-        this.styleLinks(linkVisited);
+        construct.resetAndInsertLayout("https://api.deezer.com/chart/0/tracks");
         break;
       case "artists":
-        this.resetAndInsertLayout(
-          "https://api.deezer.com/chart/0/artists",
-          linkArtists
+        construct.resetAndInsertLayout(
+          "https://api.deezer.com/chart/0/artists"
         );
-        this.styleLinks(linkVisited);
         break;
       case "albums":
-        this.resetAndInsertLayout(
-          "https://api.deezer.com/chart/0/albums",
-          linkAlbums
-        );
-        this.styleLinks(linkVisited);
+        construct.resetAndInsertLayout("https://api.deezer.com/chart/0/albums");
         break;
       case "explorer":
-        this.resetAndInsertLayout(
-          "https://api.deezer.com/chart/2/tracks",
-          linkExplorer
-        );
+        construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
         break;
 
       case "myMusics":
-        this.resetAndInsertLayout(
-          "https://api.deezer.com/chart/2/tracks",
-          linkMyMusics
-        );
+        construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
         break;
       case "recomendations":
-        this.resetAndInsertLayout(
-          "https://api.deezer.com/chart/2/tracks",
-          linkRecomendations
-        );
+        construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
         break;
       case "playsRecently":
-        this.resetAndInsertLayout(
-          "https://api.deezer.com/chart/2/tracks",
-          linkPlaysRecently
-        );
+        construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
         break;
       case "radio":
-        this.resetAndInsertLayout(
-          "https://api.deezer.com/chart/2/tracks",
-          linkRadio
-        );
+        construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
         break;
       case "playingNow":
-        this.resetAndInsertLayout(
-          "https://api.deezer.com/chart/2/tracks",
-          linkPlayingNow
-        );
+        construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
         break;
     }
   }
@@ -291,14 +286,12 @@ const construct = new ConstructLayout();
 const dataMusic = new HandleDataMusic();
 const manipulateLinks = new HandleLinks();
 
-// linkExplorer?.addEventListener('click',(e):void => {
-//   e.preventDefault()
-//   dataMusic.insertData('https://api.deezer.com/chart/2/tracks')
-// })
-
 Array.from(linksNav).forEach((link: Element) => {
-  link.addEventListener("click", (): void => {
+  link.addEventListener("click", (e): void => {
     manipulateLinks.callEndPoints(link);
+    if (e.target instanceof HTMLElement) {
+      manipulateLinks.linksStyle(e.target);
+    }
   });
 });
 
