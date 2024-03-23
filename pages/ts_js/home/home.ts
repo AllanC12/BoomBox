@@ -96,16 +96,11 @@ class ConstructLayout {
       `;
     contentLibrary.prepend(boxMusic);
     handleLoader(loader, "none");
-    layoutLoaded = true;
   }
 
   public resetAndInsertLayout(urlContent: string): void {
     contentLibrary.innerHTML = ``;
     dataMusic.insertData(urlContent);
-  }
-
-  public resetLayout() {
-    contentLibrary.innerHTML = ``;
   }
 }
 
@@ -130,12 +125,8 @@ class HandleDataMusic {
     let titleMusicElement = element.children[1].children[0] as HTMLElement;
     let linkImageAlbum: string | null = element.getAttribute("preview_image_album");
 
-    // console.log(element.childNodes[3].firstChild)
-    console.log(element)
-
     if (linkImageAlbum) {
       sessionStorage.setItem("image_album_single", linkImageAlbum);
-
     }
 
     let titleMusic: string = titleMusicElement.innerText;
@@ -143,75 +134,42 @@ class HandleDataMusic {
   }
 
   private verifyBoxMusic(linkPreview: string | null, element: Element) {
-
-    if (linkPreview === "undefined") {
-
       const idAlbum = element.getAttribute("id_album");
       const idArtist = element.getAttribute("id_artist");
 
+      this.getDataAboutMusic(element)
+
+      if(linkPreview === 'undefined'){
+
         if (idArtist !== "null") {
           const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
-          construct.resetLayout();
           this.insertData(urlArtist);
-          // manipulateLinks.resetAndInsertLayout(urlArtist)
         }
-
+  
         if (idAlbum !== "null") {
-          const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`;
-          construct.resetLayout();
+          const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`; 
           this.insertData(urlAlbum);
-          // construct.resetAndInsertLayout(urlAlbum)
         }
+      }else{
+        this.playMusic(linkPreview);
+      }
 
-      // if (layoutLoaded) {
-      //   if (idArtist !== "null") {
-      //     const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
-      //     this.insertData(urlArtist);
-      //     // manipulateLinks.resetAndInsertLayout(urlArtist)
-      //   }
 
-      //   if (idAlbum !== "null") {
-      //     const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`;
-      //     construct.resetLayout();
-      //     this.insertData(urlAlbum);
-      //     // construct.resetAndInsertLayout(urlAlbum)
-      //   }
-      // }else {
-      //   return
-      // }
-    }
+
   }
 
   public verifyMusicList(): void {
 
-    setTimeout(() => {
+    if (layoutLoaded) {
       for (let i = 0; i < contentLibrary.children.length; i++) {
-
         contentLibrary.children[i].addEventListener("click", (e) => {
-          let linkPreview: string | null =  contentLibrary.children[i].getAttribute("preview_music");
-          this.getDataAboutMusic(contentLibrary.children[i]);
+          let linkPreview: string | null = contentLibrary.children[i].getAttribute("preview_music");
           this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
-          this.playMusic(linkPreview);
         });
       }
-    },1000)
-
-    // if(layoutLoaded){
-    //   for (let i = 0; i < contentLibrary.children.length; i++) {
- 
-    //     contentLibrary.children[i].addEventListener("click", (e) => {
-    //       let linkPreview: string | null =  contentLibrary.children[i].getAttribute("preview_music");
-    //       this.getDataAboutMusic(contentLibrary.children[i]);
-    //       this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
-    //       this.playMusic(linkPreview);
-    //       console.log(contentLibrary.children[i])
-    //     });
-    //   }
-    // }else {
-    //   return
-    // }
-
-
+    } else {
+      handleLoader(loader, "show");
+    }
 
   }
 
@@ -225,8 +183,9 @@ class HandleDataMusic {
       resp.data.map((cover: IMusic) => {
         construct.getDataFromLayoutMusic(url, cover);
       });
-      
     });
+
+    layoutLoaded = true;
   }
 
   public searchMusic(searchTerm: string): void {
@@ -262,7 +221,6 @@ class HandleLinks {
       case "explorer":
         construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
         break;
-
       case "myMusics":
         construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
         break;
