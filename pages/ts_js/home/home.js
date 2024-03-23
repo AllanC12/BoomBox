@@ -86,14 +86,10 @@ class ConstructLayout {
       `;
         contentLibrary.prepend(boxMusic);
         handleLoader(loader, "none");
-        layoutLoaded = true;
     }
     resetAndInsertLayout(urlContent) {
         contentLibrary.innerHTML = ``;
         dataMusic.insertData(urlContent);
-    }
-    resetLayout() {
-        contentLibrary.innerHTML = ``;
     }
 }
 class HandleDataMusic {
@@ -117,8 +113,6 @@ class HandleDataMusic {
     getDataAboutMusic(element) {
         let titleMusicElement = element.children[1].children[0];
         let linkImageAlbum = element.getAttribute("preview_image_album");
-        // console.log(element.childNodes[3].firstChild)
-        console.log(element);
         if (linkImageAlbum) {
             sessionStorage.setItem("image_album_single", linkImageAlbum);
         }
@@ -126,62 +120,35 @@ class HandleDataMusic {
         musicName.innerText = titleMusic;
     }
     verifyBoxMusic(linkPreview, element) {
-        if (linkPreview === "undefined") {
-            const idAlbum = element.getAttribute("id_album");
-            const idArtist = element.getAttribute("id_artist");
+        const idAlbum = element.getAttribute("id_album");
+        const idArtist = element.getAttribute("id_artist");
+        this.getDataAboutMusic(element);
+        if (linkPreview === 'undefined') {
             if (idArtist !== "null") {
                 const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
-                construct.resetLayout();
                 this.insertData(urlArtist);
-                // manipulateLinks.resetAndInsertLayout(urlArtist)
             }
             if (idAlbum !== "null") {
                 const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`;
-                construct.resetLayout();
                 this.insertData(urlAlbum);
-                // construct.resetAndInsertLayout(urlAlbum)
             }
-            // if (layoutLoaded) {
-            //   if (idArtist !== "null") {
-            //     const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
-            //     this.insertData(urlArtist);
-            //     // manipulateLinks.resetAndInsertLayout(urlArtist)
-            //   }
-            //   if (idAlbum !== "null") {
-            //     const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`;
-            //     construct.resetLayout();
-            //     this.insertData(urlAlbum);
-            //     // construct.resetAndInsertLayout(urlAlbum)
-            //   }
-            // }else {
-            //   return
-            // }
+        }
+        else {
+            this.playMusic(linkPreview);
         }
     }
     verifyMusicList() {
-        setTimeout(() => {
+        if (layoutLoaded) {
             for (let i = 0; i < contentLibrary.children.length; i++) {
                 contentLibrary.children[i].addEventListener("click", (e) => {
                     let linkPreview = contentLibrary.children[i].getAttribute("preview_music");
-                    this.getDataAboutMusic(contentLibrary.children[i]);
                     this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
-                    this.playMusic(linkPreview);
                 });
             }
-        }, 1000);
-        // if(layoutLoaded){
-        //   for (let i = 0; i < contentLibrary.children.length; i++) {
-        //     contentLibrary.children[i].addEventListener("click", (e) => {
-        //       let linkPreview: string | null =  contentLibrary.children[i].getAttribute("preview_music");
-        //       this.getDataAboutMusic(contentLibrary.children[i]);
-        //       this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
-        //       this.playMusic(linkPreview);
-        //       console.log(contentLibrary.children[i])
-        //     });
-        //   }
-        // }else {
-        //   return
-        // }
+        }
+        else {
+            handleLoader(loader, "show");
+        }
     }
     insertData(url) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -194,6 +161,7 @@ class HandleDataMusic {
                     construct.getDataFromLayoutMusic(url, cover);
                 });
             });
+            layoutLoaded = true;
         });
     }
     searchMusic(searchTerm) {
