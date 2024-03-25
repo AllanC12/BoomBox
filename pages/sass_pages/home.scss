@@ -148,13 +148,13 @@ aside{
             min-height: 275px;
             background-color: #ccc;
             margin: 10px 0;
-            cursor: pointer;
             transition: .5s;
             border-radius: 5px;
 
             .image-box{
                 height: 80%;
                 border-radius: 5px;
+                cursor: pointer;
 
                 img{
                     object-fit: cover;
@@ -163,9 +163,10 @@ aside{
                 }
 
             }
-            .title-music{
+            p.title{
                 margin: 7px;
                 text-align: center;
+                cursor: pointer;
             }
         }
 

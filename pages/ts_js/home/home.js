@@ -18,6 +18,7 @@ const searchForm = document.getElementById("searchForm");
 const searchInput = document.getElementById("search");
 const searchIcon = document.getElementById("searchIcon");
 const musicName = document.getElementById("musicName");
+const titleMusicElement = document.querySelector('.title-music');
 let linkVisited;
 let layoutLoaded = false;
 class ConstructLayout {
@@ -58,7 +59,6 @@ class ConstructLayout {
             idArtist,
         };
         this.layoutBoxMusic(dataFromlayout);
-        dataMusic.verifyMusicList();
     }
     layoutBoxMusic(dataLayoutBox) {
         const { title, artist, image, preview, idAlbum, idArtist } = dataLayoutBox;
@@ -74,14 +74,12 @@ class ConstructLayout {
         boxMusic.setAttribute("preview_image_album", `${image}`);
         boxMusic.innerHTML = `
       <div id='preview-link'>
-        <div class="image-box">
-        <img class='image_box' src='${image}'/></div>
-         </div>
-        <div class="title-music">
+       <div class='image-box'>
+         <img  src='${image}'/></div>
+       </div>
           <p class="title">
               ${titleMusic} - ${artistMusic}
           </p>
-          </div>
         </div>
       `;
         contentLibrary.prepend(boxMusic);
@@ -111,7 +109,7 @@ class HandleDataMusic {
         });
     }
     getDataAboutMusic(element) {
-        let titleMusicElement = element.children[1].children[0];
+        let titleMusicElement = element.children[1];
         let linkImageAlbum = element.getAttribute("preview_image_album");
         if (linkImageAlbum) {
             sessionStorage.setItem("image_album_single", linkImageAlbum);
@@ -126,11 +124,11 @@ class HandleDataMusic {
         if (linkPreview === 'undefined') {
             if (idArtist !== "null") {
                 const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
-                this.insertData(urlArtist);
+                construct.resetAndInsertLayout(urlArtist);
             }
             if (idAlbum !== "null") {
                 const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`;
-                this.insertData(urlAlbum);
+                construct.resetAndInsertLayout(urlAlbum);
             }
         }
         else {
@@ -146,9 +144,6 @@ class HandleDataMusic {
                 });
             }
         }
-        else {
-            handleLoader(loader, "show");
-        }
     }
     insertData(url) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -162,6 +157,8 @@ class HandleDataMusic {
                 });
             });
             layoutLoaded = true;
+            dataMusic.verifyMusicList();
+            return;
         });
     }
     searchMusic(searchTerm) {
@@ -235,4 +232,3 @@ searchIcon === null || searchIcon === void 0 ? void 0 : searchIcon.addEventListe
     dataMusic.searchMusic(searchInput.value);
 });
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
-dataMusic.verifyMusicList();
