@@ -179,15 +179,17 @@ aside h3 {
   transition: 0.5s;
   border-radius: 5px;
 }
-.library .content-library .box-music img {
-  cursor: pointer;
+.library .content-library .box-music .image-box {
+  height: 80%;
   border-radius: 5px;
+  cursor: pointer;
+}
+.library .content-library .box-music .image-box img {
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
   max-width: 100%;
-  height: 80%;
 }
 .library .content-library .box-music p.title {
   margin: 7px;

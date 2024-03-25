@@ -85,7 +85,9 @@ class ConstructLayout {
 
     boxMusic.innerHTML = `
       <div id='preview-link'>
-          <img  src='${image}'/></div>
+       <div class='image-box'>
+         <img  src='${image}'/></div>
+       </div>
           <p class="title">
               ${titleMusic} - ${artistMusic}
           </p>
@@ -100,6 +102,8 @@ class ConstructLayout {
     contentLibrary.innerHTML = ``;
     dataMusic.insertData(urlContent);
   }
+
+
 }
 
 class HandleDataMusic {
@@ -143,13 +147,12 @@ class HandleDataMusic {
 
         if (idArtist !== "null") {
           const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
-          this.insertData(urlArtist);
+          construct.resetAndInsertLayout(urlArtist)
         }
   
         if (idAlbum !== "null") {
           const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`; 
-          this.insertData(urlAlbum);
-          return
+          construct.resetAndInsertLayout(urlAlbum)
         }
 
       }else{
@@ -165,9 +168,6 @@ class HandleDataMusic {
         contentLibrary.children[i].addEventListener("click", (e) => {
             let linkPreview: string | null = contentLibrary.children[i].getAttribute("preview_music");
             this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
-            console.log(contentLibrary.children[i])
-          
-
         });
         
       }
@@ -176,7 +176,7 @@ class HandleDataMusic {
 
   public async insertData(url: string): Promise<void> {
 
-    await this.connectApi(url).then((resp: IData) => {      
+    await this.connectApi(url).then((resp: IData) => {  
       if (resp.data.length === 0) {
           construct.layoutError();
           return;
@@ -190,6 +190,7 @@ class HandleDataMusic {
     layoutLoaded = true;
 
     dataMusic.verifyMusicList();
+    
     return
   }
 

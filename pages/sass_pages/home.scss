@@ -151,17 +151,18 @@ aside{
             transition: .5s;
             border-radius: 5px;
 
-            
-            img{
-                cursor: pointer;
-                border-radius: 5px;
-                object-fit: cover;
-                object-position: center;
-                max-width: 100%;
+            .image-box{
                 height: 80%;
+                border-radius: 5px;
+                cursor: pointer;
+
+                img{
+                    object-fit: cover;
+                    object-position: center;
+                    max-width: 100%;
                 }
 
-            
+            }
             p.title{
                 margin: 7px;
                 text-align: center;
