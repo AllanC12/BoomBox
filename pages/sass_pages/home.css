@@ -176,24 +176,23 @@ aside h3 {
   min-height: 275px;
   background-color: #ccc;
   margin: 10px 0;
-  cursor: pointer;
   transition: 0.5s;
   border-radius: 5px;
 }
-.library .content-library .box-music .image-box {
-  height: 80%;
+.library .content-library .box-music img {
+  cursor: pointer;
   border-radius: 5px;
-}
-.library .content-library .box-music .image-box img {
   -o-object-fit: cover;
      object-fit: cover;
   -o-object-position: center;
      object-position: center;
   max-width: 100%;
+  height: 80%;
 }
-.library .content-library .box-music .title-music {
+.library .content-library .box-music p.title {
   margin: 7px;
   text-align: center;
+  cursor: pointer;
 }
 .library .content-library .box-music:hover {
   scale: 1.05;

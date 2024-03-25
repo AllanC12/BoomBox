@@ -16,11 +16,13 @@ const searchForm = document.getElementById("searchForm") as HTMLFormElement;
 const searchInput = document.getElementById("search") as HTMLInputElement;
 const searchIcon = document.getElementById("searchIcon") as HTMLElement;
 const musicName = document.getElementById("musicName") as HTMLElement;
+const titleMusicElement = document.querySelector('.title-music') as HTMLElement
 
 let linkVisited: HTMLElement;
 let layoutLoaded: boolean = false;
 
 class ConstructLayout {
+  
   public layoutError(): void {
     const errorMsg = document.createElement("p");
     errorMsg.classList.add("errorMsg");
@@ -63,7 +65,6 @@ class ConstructLayout {
 
     this.layoutBoxMusic(dataFromlayout);
 
-    dataMusic.verifyMusicList();
   }
 
   private layoutBoxMusic(dataLayoutBox: ILayoutBoxMusic): void {
@@ -84,18 +85,15 @@ class ConstructLayout {
 
     boxMusic.innerHTML = `
       <div id='preview-link'>
-        <div class="image-box">
-        <img class='image_box' src='${image}'/></div>
-         </div>
-        <div class="title-music">
+          <img  src='${image}'/></div>
           <p class="title">
               ${titleMusic} - ${artistMusic}
           </p>
-          </div>
         </div>
       `;
     contentLibrary.prepend(boxMusic);
     handleLoader(loader, "none");
+
   }
 
   public resetAndInsertLayout(urlContent: string): void {
@@ -105,6 +103,7 @@ class ConstructLayout {
 }
 
 class HandleDataMusic {
+
   private async connectApi(endPoint: string): Promise<IData> {
     handleLoader(loader, "show");
     const resp = await fetch(endPoint).then((resp) => resp.json());
@@ -122,18 +121,19 @@ class HandleDataMusic {
   };
 
   private getDataAboutMusic(element: Element) {
-    let titleMusicElement = element.children[1].children[0] as HTMLElement;
-    let linkImageAlbum: string | null = element.getAttribute("preview_image_album");
+    let titleMusicElement = element.children[1] as HTMLElement;
 
+    let linkImageAlbum: string | null = element.getAttribute("preview_image_album");
+    
     if (linkImageAlbum) {
       sessionStorage.setItem("image_album_single", linkImageAlbum);
     }
-
+    
     let titleMusic: string = titleMusicElement.innerText;
     musicName.innerText = titleMusic;
   }
 
-  private verifyBoxMusic(linkPreview: string | null, element: Element) {
+  private verifyBoxMusic(linkPreview: string | null, element: Element ) {
       const idAlbum = element.getAttribute("id_album");
       const idArtist = element.getAttribute("id_artist");
 
@@ -149,12 +149,12 @@ class HandleDataMusic {
         if (idAlbum !== "null") {
           const urlAlbum = `https://api.deezer.com/album/${idAlbum}/tracks`; 
           this.insertData(urlAlbum);
+          return
         }
+
       }else{
         this.playMusic(linkPreview);
       }
-
-
 
   }
 
@@ -163,29 +163,34 @@ class HandleDataMusic {
     if (layoutLoaded) {
       for (let i = 0; i < contentLibrary.children.length; i++) {
         contentLibrary.children[i].addEventListener("click", (e) => {
-          let linkPreview: string | null = contentLibrary.children[i].getAttribute("preview_music");
-          this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
-        });
-      }
-    } else {
-      handleLoader(loader, "show");
-    }
+            let linkPreview: string | null = contentLibrary.children[i].getAttribute("preview_music");
+            this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
+            console.log(contentLibrary.children[i])
+          
 
+        });
+        
+      }
+    }
   }
 
   public async insertData(url: string): Promise<void> {
-    await this.connectApi(url).then((resp: IData) => {
+
+    await this.connectApi(url).then((resp: IData) => {      
       if (resp.data.length === 0) {
-        construct.layoutError();
-        return;
-      }
+          construct.layoutError();
+          return;
+        }
 
       resp.data.map((cover: IMusic) => {
         construct.getDataFromLayoutMusic(url, cover);
       });
     });
-
+    
     layoutLoaded = true;
+
+    dataMusic.verifyMusicList();
+    return
   }
 
   public searchMusic(searchTerm: string): void {
@@ -269,4 +274,4 @@ searchIcon?.addEventListener("click", (): void => {
 });
 
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
-dataMusic.verifyMusicList();
+

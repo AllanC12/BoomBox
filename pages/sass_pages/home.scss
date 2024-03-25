@@ -148,24 +148,24 @@ aside{
             min-height: 275px;
             background-color: #ccc;
             margin: 10px 0;
-            cursor: pointer;
             transition: .5s;
             border-radius: 5px;
 
-            .image-box{
-                height: 80%;
+            
+            img{
+                cursor: pointer;
                 border-radius: 5px;
-
-                img{
-                    object-fit: cover;
-                    object-position: center;
-                    max-width: 100%;
+                object-fit: cover;
+                object-position: center;
+                max-width: 100%;
+                height: 80%;
                 }
 
-            }
-            .title-music{
+            
+            p.title{
                 margin: 7px;
                 text-align: center;
+                cursor: pointer;
             }
         }
 
