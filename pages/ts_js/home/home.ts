@@ -17,6 +17,8 @@ const searchInput = document.getElementById("search") as HTMLInputElement;
 const searchIcon = document.getElementById("searchIcon") as HTMLElement;
 const musicName = document.getElementById("musicName") as HTMLElement;
 const titleMusicElement = document.querySelector('.title-music') as HTMLElement
+const boxImageMusicPlayer = document.querySelector('.img-music') as HTMLElement
+const imageMusicPlayer = document.querySelector('.img-music img') as HTMLElement
 
 let linkVisited: HTMLElement;
 let layoutLoaded: boolean = false;
@@ -88,9 +90,9 @@ class ConstructLayout {
        <div class='image-box'>
          <img  src='${image}'/></div>
        </div>
-          <p class="title">
+          <h4 class="title">
               ${titleMusic} - ${artistMusic}
-          </p>
+          </h4>
         </div>
       `;
     contentLibrary.prepend(boxMusic);
@@ -116,12 +118,22 @@ class HandleDataMusic {
     return resp;
   }
 
-  private playMusic = (source: string | null): void => {
+  private applyImageInPlayer(preview_image: string | null){
+    if(preview_image){
+      boxImageMusicPlayer?.style.setProperty("display", "block");
+      imageMusicPlayer?.setAttribute('src',preview_image)
+    }
+
+
+  }
+
+  private playMusic = (source: string | null,preview_image: string | null): void => {
     if (source?.includes("https://")) {
       player?.style.setProperty("display", "block");
       player?.setAttribute("src", source);
       player?.setAttribute("autoplay", "true");
     }
+    this.applyImageInPlayer(preview_image)
   };
 
   private getDataAboutMusic(element: Element) {
@@ -140,6 +152,7 @@ class HandleDataMusic {
   private verifyBoxMusic(linkPreview: string | null, element: Element ) {
       const idAlbum = element.getAttribute("id_album");
       const idArtist = element.getAttribute("id_artist");
+      const preview_image = element.getAttribute("preview_image");
 
       this.getDataAboutMusic(element)
 
@@ -156,7 +169,8 @@ class HandleDataMusic {
         }
 
       }else{
-        this.playMusic(linkPreview);
+        this.playMusic(linkPreview,preview_image);
+        console.log(preview_image)
       }
 
   }
@@ -217,9 +231,7 @@ class HandleLinks {
         construct.resetAndInsertLayout("https://api.deezer.com/chart/0/tracks");
         break;
       case "artists":
-        construct.resetAndInsertLayout(
-          "https://api.deezer.com/chart/0/artists"
-        );
+        construct.resetAndInsertLayout("https://api.deezer.com/chart/0/artists");
         break;
       case "albums":
         construct.resetAndInsertLayout("https://api.deezer.com/chart/0/albums");
@@ -237,7 +249,7 @@ class HandleLinks {
         construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
         break;
       case "radio":
-        construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
+        construct.resetAndInsertLayout("https://api.deezer.com/radio/37151/tracks");
         break;
       case "playingNow":
         construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");

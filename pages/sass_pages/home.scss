@@ -112,12 +112,12 @@ aside{
             margin-right: 25px;
             padding: 10px;
             border-radius: 5px;
-            cursor: pointer
+            cursor: pointer;
+            transition: .3s;
         }
 
-        span:active{
-            background-color: #000;
-            color: #fff;
+        span:hover{
+            background-color: #ccc;
         }
 
     }
@@ -163,7 +163,7 @@ aside{
                 }
 
             }
-            p.title{
+            h4.title{
                 margin: 7px;
                 text-align: center;
                 cursor: pointer;
@@ -171,7 +171,7 @@ aside{
         }
 
         .box-music:hover{
-            scale: 1.05;
+            scale: 1.02;
         }
 
 
@@ -189,18 +189,36 @@ aside{
 
    div.box-music-name{
     color: #f5e4ea;
-    margin: 5px;
    }
 
+   .wraper-player{
+    @include defineFlex(center,center);
+    gap: 15px;
+    flex-direction: row;
+
+    .img-music{
+        width: 70px;
+        height: 70px;
+        display: none;
+
+        
+        img{
+            max-width: 100%;
+            object-fit: cover;
+        }
+    }
+
     audio{
-        width: 1000px;
+        width: 800px;
         height: 35px;
         display: none;
     }
-    
+
+        
     audio::-webkit-media-controls-panel{
         background-color:#f5e4ea;
-        width: 900px;
     }
+
+   }
 
 }

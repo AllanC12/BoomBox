@@ -19,6 +19,8 @@ const searchInput = document.getElementById("search");
 const searchIcon = document.getElementById("searchIcon");
 const musicName = document.getElementById("musicName");
 const titleMusicElement = document.querySelector('.title-music');
+const boxImageMusicPlayer = document.querySelector('.img-music');
+const imageMusicPlayer = document.querySelector('.img-music img');
 let linkVisited;
 let layoutLoaded = false;
 class ConstructLayout {
@@ -77,9 +79,9 @@ class ConstructLayout {
        <div class='image-box'>
          <img  src='${image}'/></div>
        </div>
-          <p class="title">
+          <h4 class="title">
               ${titleMusic} - ${artistMusic}
-          </p>
+          </h4>
         </div>
       `;
         contentLibrary.prepend(boxMusic);
@@ -92,12 +94,13 @@ class ConstructLayout {
 }
 class HandleDataMusic {
     constructor() {
-        this.playMusic = (source) => {
+        this.playMusic = (source, preview_image) => {
             if (source === null || source === void 0 ? void 0 : source.includes("https://")) {
                 player === null || player === void 0 ? void 0 : player.style.setProperty("display", "block");
                 player === null || player === void 0 ? void 0 : player.setAttribute("src", source);
                 player === null || player === void 0 ? void 0 : player.setAttribute("autoplay", "true");
             }
+            this.applyImageInPlayer(preview_image);
         };
     }
     connectApi(endPoint) {
@@ -107,6 +110,12 @@ class HandleDataMusic {
             handleLoader(loader, "none");
             return resp;
         });
+    }
+    applyImageInPlayer(preview_image) {
+        if (preview_image) {
+            boxImageMusicPlayer === null || boxImageMusicPlayer === void 0 ? void 0 : boxImageMusicPlayer.style.setProperty("display", "block");
+            imageMusicPlayer === null || imageMusicPlayer === void 0 ? void 0 : imageMusicPlayer.setAttribute('src', preview_image);
+        }
     }
     getDataAboutMusic(element) {
         let titleMusicElement = element.children[1];
@@ -120,6 +129,7 @@ class HandleDataMusic {
     verifyBoxMusic(linkPreview, element) {
         const idAlbum = element.getAttribute("id_album");
         const idArtist = element.getAttribute("id_artist");
+        const preview_image = element.getAttribute("preview_image");
         this.getDataAboutMusic(element);
         if (linkPreview === 'undefined') {
             if (idArtist !== "null") {
@@ -132,7 +142,8 @@ class HandleDataMusic {
             }
         }
         else {
-            this.playMusic(linkPreview);
+            this.playMusic(linkPreview, preview_image);
+            console.log(preview_image);
         }
     }
     verifyMusicList() {
@@ -200,7 +211,7 @@ class HandleLinks {
                 construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
                 break;
             case "radio":
-                construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
+                construct.resetAndInsertLayout("https://api.deezer.com/radio/37151/tracks");
                 break;
             case "playingNow":
                 construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
