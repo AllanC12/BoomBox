@@ -98,10 +98,10 @@ aside h3 {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
+  transition: 0.3s;
 }
-.library nav span:active {
-  background-color: #000;
-  color: #fff;
+.library nav span:hover {
+  background-color: #ccc;
 }
 .library .content-library {
   display: flex;
@@ -191,13 +191,13 @@ aside h3 {
      object-position: center;
   max-width: 100%;
 }
-.library .content-library .box-music p.title {
+.library .content-library .box-music h4.title {
   margin: 7px;
   text-align: center;
   cursor: pointer;
 }
 .library .content-library .box-music:hover {
-  scale: 1.05;
+  scale: 1.02;
 }
 
 .div-player {
@@ -213,14 +213,29 @@ aside h3 {
 }
 .div-player div.box-music-name {
   color: #f5e4ea;
-  margin: 5px;
 }
-.div-player audio {
-  width: 1000px;
+.div-player .wraper-player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-direction: row;
+}
+.div-player .wraper-player .img-music {
+  width: 70px;
+  height: 70px;
+  display: none;
+}
+.div-player .wraper-player .img-music img {
+  max-width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.div-player .wraper-player audio {
+  width: 800px;
   height: 35px;
   display: none;
 }
-.div-player audio::-webkit-media-controls-panel {
+.div-player .wraper-player audio::-webkit-media-controls-panel {
   background-color: #f5e4ea;
-  width: 900px;
 }/*# sourceMappingURL=home.css.map */
