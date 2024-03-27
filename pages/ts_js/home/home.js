@@ -7,20 +7,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var _a;
 import { handleLoader } from "../formConfigs/formConfig.js";
-const linksNav = (_a = document.getElementById("nav-links")) === null || _a === void 0 ? void 0 : _a.children;
-const linksNavAside = document.querySelectorAll(".navigation li span");
+const linksNav = document.querySelectorAll("#nav-links span");
 const contentLibrary = document.querySelector(".content-library");
 const player = document.getElementById("player");
 const loader = document.getElementById("loader");
 const searchForm = document.getElementById("searchForm");
 const searchInput = document.getElementById("search");
 const searchIcon = document.getElementById("searchIcon");
+const linksAside = document.querySelectorAll(".navigation li span");
 const musicName = document.getElementById("musicName");
-const titleMusicElement = document.querySelector('.title-music');
-const boxImageMusicPlayer = document.querySelector('.img-music');
-const imageMusicPlayer = document.querySelector('.img-music img');
+const boxImageMusicPlayer = document.querySelector(".img-music");
+const imageMusicPlayer = document.querySelector(".img-music img");
 let linkVisited;
 let layoutLoaded = false;
 class ConstructLayout {
@@ -114,7 +112,7 @@ class HandleDataMusic {
     applyImageInPlayer(preview_image) {
         if (preview_image) {
             boxImageMusicPlayer === null || boxImageMusicPlayer === void 0 ? void 0 : boxImageMusicPlayer.style.setProperty("display", "block");
-            imageMusicPlayer === null || imageMusicPlayer === void 0 ? void 0 : imageMusicPlayer.setAttribute('src', preview_image);
+            imageMusicPlayer === null || imageMusicPlayer === void 0 ? void 0 : imageMusicPlayer.setAttribute("src", preview_image);
         }
     }
     getDataAboutMusic(element) {
@@ -131,7 +129,7 @@ class HandleDataMusic {
         const idArtist = element.getAttribute("id_artist");
         const preview_image = element.getAttribute("preview_image");
         this.getDataAboutMusic(element);
-        if (linkPreview === 'undefined') {
+        if (linkPreview === "undefined") {
             if (idArtist !== "null") {
                 const urlArtist = `https://api.deezer.com/artist/${idArtist}/top?limit=50`;
                 construct.resetAndInsertLayout(urlArtist);
@@ -188,53 +186,52 @@ class HandleLinks {
         linkVisited = linkStyled;
     }
     callEndPoints(link) {
-        switch (link.id) {
-            case "tracks":
-                construct.resetAndInsertLayout("https://api.deezer.com/chart/0/tracks");
-                break;
-            case "artists":
-                construct.resetAndInsertLayout("https://api.deezer.com/chart/0/artists");
-                break;
-            case "albums":
-                construct.resetAndInsertLayout("https://api.deezer.com/chart/0/albums");
-                break;
-            case "explorer":
-                construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
-                break;
-            case "myMusics":
-                construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
-                break;
-            case "recomendations":
-                construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
-                break;
-            case "playsRecently":
-                construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
-                break;
-            case "radio":
-                construct.resetAndInsertLayout("https://api.deezer.com/radio/37151/tracks");
-                break;
-            case "playingNow":
-                construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
-                break;
+        if (link instanceof HTMLElement) {
+            switch (link.id) {
+                case "tracks":
+                    construct.resetAndInsertLayout("https://api.deezer.com/chart/0/tracks");
+                    break;
+                case "artists":
+                    construct.resetAndInsertLayout("https://api.deezer.com/chart/0/artists");
+                    break;
+                case "albums":
+                    construct.resetAndInsertLayout("https://api.deezer.com/chart/0/albums");
+                    break;
+                case "explorer":
+                    construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
+                    break;
+                case "myMusics":
+                    construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
+                    break;
+                case "recomendations":
+                    construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
+                    break;
+                case "playsRecently":
+                    construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
+                    break;
+                case "radio":
+                    construct.resetAndInsertLayout("https://api.deezer.com/radio/37151/tracks");
+                    break;
+                case "playingNow":
+                    construct.resetAndInsertLayout("https://api.deezer.com/chart/2/tracks");
+                    break;
+            }
         }
+    }
+    applyStylesLinks(listLinks) {
+        Array.from(listLinks).forEach((link) => {
+            link.addEventListener("click", (e) => {
+                manipulateLinks.callEndPoints(link);
+                if (e.target instanceof HTMLElement) {
+                    manipulateLinks.linksStyle(e.target);
+                }
+            });
+        });
     }
 }
 const construct = new ConstructLayout();
 const dataMusic = new HandleDataMusic();
 const manipulateLinks = new HandleLinks();
-Array.from(linksNav).forEach((link) => {
-    link.addEventListener("click", (e) => {
-        manipulateLinks.callEndPoints(link);
-        if (e.target instanceof HTMLElement) {
-            manipulateLinks.linksStyle(e.target);
-        }
-    });
-});
-Array.from(linksNavAside).forEach((link) => {
-    link.addEventListener("click", () => {
-        manipulateLinks.callEndPoints(link);
-    });
-});
 searchForm === null || searchForm === void 0 ? void 0 : searchForm.addEventListener("submit", (e) => {
     e.preventDefault();
     dataMusic.searchMusic(searchInput.value);
@@ -243,3 +240,5 @@ searchIcon === null || searchIcon === void 0 ? void 0 : searchIcon.addEventListe
     dataMusic.searchMusic(searchInput.value);
 });
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
+manipulateLinks.applyStylesLinks(linksAside);
+manipulateLinks.applyStylesLinks(linksNav);

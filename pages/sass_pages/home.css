@@ -86,11 +86,11 @@ aside h3 {
   font-family: "Bungee Shade", sans-serif;
   font-size: 18px;
 }
-.library nav {
+.library nav#nav-links {
   padding: 10px 0;
   border-bottom: 4px solid #e9ebf0;
 }
-.library nav span {
+.library nav#nav-links span {
   text-decoration: none;
   font-size: 1.5em;
   color: #121111;
@@ -100,7 +100,7 @@ aside h3 {
   cursor: pointer;
   transition: 0.3s;
 }
-.library nav span:hover {
+.library nav#nav-links span:hover {
   background-color: #ccc;
 }
 .library .content-library {
@@ -222,8 +222,8 @@ aside h3 {
   flex-direction: row;
 }
 .div-player .wraper-player .img-music {
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   display: none;
 }
 .div-player .wraper-player .img-music img {
