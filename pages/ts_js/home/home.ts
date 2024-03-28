@@ -1,11 +1,9 @@
-import { IMusic, IData } from "../../../interfaces/dataMusic";
+import { IMusic, IData, IGenre } from "../../../interfaces/dataMusic";
 import { ILayoutBoxMusic } from "../../../interfaces/Layout";
 import { handleLoader } from "../formConfigs/formConfig.js";
 
 const linksNav = document.querySelectorAll("#nav-links span")as NodeList;
-const contentLibrary = document.querySelector(
-  ".content-library"
-) as HTMLElement;
+const contentLibrary = document.querySelector(".content-library") as HTMLElement;
 const player = document.getElementById("player") as HTMLElement;
 const loader = document.getElementById("loader") as HTMLElement;
 const searchForm = document.getElementById("searchForm") as HTMLFormElement;
@@ -14,9 +12,8 @@ const searchIcon = document.getElementById("searchIcon") as HTMLElement;
 const linksAside = document.querySelectorAll(".navigation li span") as NodeList;
 const musicName = document.getElementById("musicName") as HTMLElement;
 const boxImageMusicPlayer = document.querySelector(".img-music") as HTMLElement;
-const imageMusicPlayer = document.querySelector(
-  ".img-music img"
-) as HTMLElement;
+const imageMusicPlayer = document.querySelector(".img-music img") as HTMLElement;
+
 
 let linkVisited: HTMLElement;
 let layoutLoaded: boolean = false;
@@ -28,6 +25,26 @@ class ConstructLayout {
     errorMsg.innerText = "Não há resultados encontrados";
     contentLibrary.prepend(errorMsg);
   }
+
+  private constructListGenres(genre:string,idGenre: number): void {
+    const selectFilter = document.getElementById('filter_by') as HTMLSelectElement
+    const genreElement = document.createElement('option')
+    genreElement.setAttribute('id',`${idGenre}`)
+    genreElement.textContent = genre
+    selectFilter.appendChild(genreElement)
+    
+  }
+
+  public listGenres(): void {
+     const urlGenres: string = `https://api.deezer.com/genre`
+     const response = dataMusic.connectApi(urlGenres).then((resp:IData) => {
+        resp.data.forEach((genre: IGenre) => {
+          const {id,name} = genre
+          this.constructListGenres(name,id)
+        })
+     })
+  }
+
 
   public getDataFromLayoutMusic(url: string, itemApi: IMusic) {
     const title: string = url.includes("artists")
@@ -102,7 +119,7 @@ class ConstructLayout {
 }
 
 class HandleDataMusic {
-  private async connectApi(endPoint: string): Promise<IData> {
+  public async connectApi(endPoint: string): Promise<IData> {
     handleLoader(loader, "show");
     const resp = await fetch(endPoint).then((resp) => resp.json());
     handleLoader(loader, "none");
@@ -195,7 +212,6 @@ class HandleDataMusic {
 
     dataMusic.verifyMusicList();
 
-    return;
   }
 
   public searchMusic(searchTerm: string): void {
@@ -294,7 +310,8 @@ searchIcon?.addEventListener("click", (): void => {
 });
 
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
-
 manipulateLinks.applyStylesLinks(linksAside);
 manipulateLinks.applyStylesLinks(linksNav);
+
+construct.listGenres()
 

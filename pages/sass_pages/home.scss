@@ -55,8 +55,7 @@ aside{
     }
 
     span:hover{
-       background-color: #000;
-       color: #fff;
+        background-color: #ccc;
     }
 
 
@@ -120,6 +119,32 @@ aside{
             background-color: #ccc;
         }
 
+    }
+
+    .filter{
+        @include defineFlex(flex-start,center);
+        gap: 10px;
+
+        p{
+            font-size: 18px;
+        }
+
+        select{
+            margin: 15px;
+
+            option{
+                font-size: 19px;
+            }
+        }
+
+        .btn-filter{
+          background-color: #121111;
+          color: #fff;
+          font-size: 19px;
+          border-radius: 5px;
+          padding: 3px 17px;
+          cursor: pointer;
+        }
     }
 
     .content-library{

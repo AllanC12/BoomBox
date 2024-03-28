@@ -17,3 +17,12 @@ export interface IData {
   data: [];
   total: number;
 }
+
+export interface IGenre {
+  id: number;
+  name: string
+  picture: string
+  picture_big: string
+  picture_medium: string
+
+}
