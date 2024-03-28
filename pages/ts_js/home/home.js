@@ -28,6 +28,22 @@ class ConstructLayout {
         errorMsg.innerText = "Não há resultados encontrados";
         contentLibrary.prepend(errorMsg);
     }
+    constructListGenres(genre, idGenre) {
+        const selectFilter = document.getElementById('filter_by');
+        const genreElement = document.createElement('option');
+        genreElement.setAttribute('id', `${idGenre}`);
+        genreElement.textContent = genre;
+        selectFilter.appendChild(genreElement);
+    }
+    listGenres() {
+        const urlGenres = `https://api.deezer.com/genre`;
+        const response = dataMusic.connectApi(urlGenres).then((resp) => {
+            resp.data.forEach((genre) => {
+                const { id, name } = genre;
+                this.constructListGenres(name, id);
+            });
+        });
+    }
     getDataFromLayoutMusic(url, itemApi) {
         const title = url.includes("artists")
             ? itemApi.name
@@ -167,7 +183,6 @@ class HandleDataMusic {
             });
             layoutLoaded = true;
             dataMusic.verifyMusicList();
-            return;
         });
     }
     searchMusic(searchTerm) {
@@ -242,3 +257,4 @@ searchIcon === null || searchIcon === void 0 ? void 0 : searchIcon.addEventListe
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
 manipulateLinks.applyStylesLinks(linksAside);
 manipulateLinks.applyStylesLinks(linksNav);
+construct.listGenres();

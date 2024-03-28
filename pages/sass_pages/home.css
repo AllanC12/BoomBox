@@ -50,8 +50,7 @@ aside span {
   transition: 0.5s;
 }
 aside span:hover {
-  background-color: #000;
-  color: #fff;
+  background-color: #ccc;
 }
 aside ul {
   list-style-type: none;
@@ -102,6 +101,29 @@ aside h3 {
 }
 .library nav#nav-links span:hover {
   background-color: #ccc;
+}
+.library .filter {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+.library .filter p {
+  font-size: 18px;
+}
+.library .filter select {
+  margin: 15px;
+}
+.library .filter select option {
+  font-size: 19px;
+}
+.library .filter .btn-filter {
+  background-color: #121111;
+  color: #fff;
+  font-size: 19px;
+  border-radius: 5px;
+  padding: 3px 17px;
+  cursor: pointer;
 }
 .library .content-library {
   display: flex;
