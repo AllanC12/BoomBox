@@ -4,15 +4,18 @@ import { handleLoader } from "../formConfigs/formConfig.js";
 
 const linksNav = document.querySelectorAll("#nav-links span")as NodeList;
 const contentLibrary = document.querySelector(".content-library") as HTMLElement;
+const btnFilter = document.getElementById('btn_filter') as HTMLButtonElement
+const selectFilter = document.getElementById('filter_by') as HTMLSelectElement;
 const player = document.getElementById("player") as HTMLElement;
 const loader = document.getElementById("loader") as HTMLElement;
 const searchForm = document.getElementById("searchForm") as HTMLFormElement;
-const searchInput = document.getElementById("search") as HTMLInputElement;
+const searchInput = document.getElementById("searchInput") as HTMLInputElement;
 const searchIcon = document.getElementById("searchIcon") as HTMLElement;
 const linksAside = document.querySelectorAll(".navigation li span") as NodeList;
 const musicName = document.getElementById("musicName") as HTMLElement;
 const boxImageMusicPlayer = document.querySelector(".img-music") as HTMLElement;
 const imageMusicPlayer = document.querySelector(".img-music img") as HTMLElement;
+
 
 
 let linkVisited: HTMLElement;
@@ -119,6 +122,7 @@ class ConstructLayout {
 }
 
 class HandleDataMusic {
+
   public async connectApi(endPoint: string): Promise<IData> {
     handleLoader(loader, "show");
     const resp = await fetch(endPoint).then((resp) => resp.json());
@@ -180,7 +184,6 @@ class HandleDataMusic {
       }
     } else {
       this.playMusic(linkPreview, preview_image);
-      console.log(preview_image);
     }
   }
 
@@ -219,6 +222,13 @@ class HandleDataMusic {
     contentLibrary.innerHTML = ``;
     dataMusic.insertData(`${seacrhUrl}?q=${searchTerm}`);
     dataMusic.verifyMusicList();
+  }
+
+  public filterMusic(){
+    const optionSelected = selectFilter.options[selectFilter.selectedIndex]
+    const idOptionSelected = optionSelected.getAttribute('id')
+    const urlFilterByGenre = `https://api.deezer.com/genre/${idOptionSelected}/artists`
+    construct.resetAndInsertLayout(urlFilterByGenre)   
   }
 }
 
@@ -308,6 +318,10 @@ searchForm?.addEventListener("submit", (e): void => {
 searchIcon?.addEventListener("click", (): void => {
   dataMusic.searchMusic(searchInput.value);
 });
+
+btnFilter?.addEventListener('click',() => {
+  dataMusic.filterMusic()
+})
 
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
 manipulateLinks.applyStylesLinks(linksAside);

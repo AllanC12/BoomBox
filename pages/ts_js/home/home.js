@@ -10,10 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { handleLoader } from "../formConfigs/formConfig.js";
 const linksNav = document.querySelectorAll("#nav-links span");
 const contentLibrary = document.querySelector(".content-library");
+const btnFilter = document.getElementById('btn_filter');
+const selectFilter = document.getElementById('filter_by');
 const player = document.getElementById("player");
 const loader = document.getElementById("loader");
 const searchForm = document.getElementById("searchForm");
-const searchInput = document.getElementById("search");
+const searchInput = document.getElementById("searchInput");
 const searchIcon = document.getElementById("searchIcon");
 const linksAside = document.querySelectorAll(".navigation li span");
 const musicName = document.getElementById("musicName");
@@ -157,7 +159,6 @@ class HandleDataMusic {
         }
         else {
             this.playMusic(linkPreview, preview_image);
-            console.log(preview_image);
         }
     }
     verifyMusicList() {
@@ -190,6 +191,12 @@ class HandleDataMusic {
         contentLibrary.innerHTML = ``;
         dataMusic.insertData(`${seacrhUrl}?q=${searchTerm}`);
         dataMusic.verifyMusicList();
+    }
+    filterMusic() {
+        const optionSelected = selectFilter.options[selectFilter.selectedIndex];
+        const idOptionSelected = optionSelected.getAttribute('id');
+        const urlFilterByGenre = `https://api.deezer.com/genre/${idOptionSelected}/artists`;
+        construct.resetAndInsertLayout(urlFilterByGenre);
     }
 }
 class HandleLinks {
@@ -253,6 +260,9 @@ searchForm === null || searchForm === void 0 ? void 0 : searchForm.addEventListe
 });
 searchIcon === null || searchIcon === void 0 ? void 0 : searchIcon.addEventListener("click", () => {
     dataMusic.searchMusic(searchInput.value);
+});
+btnFilter === null || btnFilter === void 0 ? void 0 : btnFilter.addEventListener('click', () => {
+    dataMusic.filterMusic();
 });
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
 manipulateLinks.applyStylesLinks(linksAside);
