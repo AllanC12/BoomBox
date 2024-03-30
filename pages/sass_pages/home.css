@@ -105,24 +105,22 @@ aside h3 {
 .library .filter {
   display: flex;
   justify-content: flex-start;
-  align-items: center;
-  gap: 10px;
+  align-items: flex-end;
+  gap: 20px;
+  margin-top: 15px;
 }
 .library .filter p {
   font-size: 18px;
 }
-.library .filter select {
-  margin: 15px;
-}
-.library .filter select option {
+.library .filter option {
   font-size: 19px;
 }
 .library .filter .btn-filter {
   background-color: #121111;
   color: #fff;
-  font-size: 19px;
+  font-size: 15px;
   border-radius: 5px;
-  padding: 3px 17px;
+  padding: 3px 15px;
   cursor: pointer;
 }
 .library .content-library {

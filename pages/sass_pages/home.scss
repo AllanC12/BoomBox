@@ -122,27 +122,26 @@ aside{
     }
 
     .filter{
-        @include defineFlex(flex-start,center);
-        gap: 10px;
+        @include defineFlex(flex-start,flex-end);
+        gap: 20px;
+        margin-top: 15px;
 
         p{
             font-size: 18px;
         }
 
-        select{
-            margin: 15px;
 
-            option{
-                font-size: 19px;
-            }
+        option{
+            font-size: 19px;
         }
+        
 
         .btn-filter{
           background-color: #121111;
           color: #fff;
-          font-size: 19px;
+          font-size: 15px;
           border-radius: 5px;
-          padding: 3px 17px;
+          padding: 3px 15px;
           cursor: pointer;
         }
     }
