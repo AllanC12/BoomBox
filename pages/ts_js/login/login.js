@@ -38,6 +38,7 @@ class Login {
         else {
             insertBoxMsg('Bem vindo!', boxMessage);
             accessAccepted(inputListElement);
+            localStorage.setItem('idUser', `${dataUser[0].id}`);
             return true;
         }
     }

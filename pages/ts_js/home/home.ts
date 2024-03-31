@@ -15,6 +15,8 @@ const linksAside = document.querySelectorAll(".navigation li span") as NodeList;
 const musicName = document.getElementById("musicName") as HTMLElement;
 const boxImageMusicPlayer = document.querySelector(".img-music") as HTMLElement;
 const imageMusicPlayer = document.querySelector(".img-music img") as HTMLElement;
+const divPlayer = document.querySelector('.div-player') as HTMLElement
+const btnSaveMusic = document.getElementById('btnSaveMusic') as HTMLButtonElement
 
 
 
@@ -143,6 +145,7 @@ class HandleDataMusic {
     preview_image: string | null
   ): void => {
     if (source?.includes("https://")) {
+      divPlayer?.style.setProperty("display", "flex")
       player?.style.setProperty("display", "block");
       player?.setAttribute("src", source);
       player?.setAttribute("autoplay", "true");
@@ -229,6 +232,10 @@ class HandleDataMusic {
     const idOptionSelected = optionSelected.getAttribute('id')
     const urlFilterByGenre = `https://api.deezer.com/genre/${idOptionSelected}/artists`
     construct.resetAndInsertLayout(urlFilterByGenre)   
+  }
+
+  public saveMusic():void {
+    
   }
 }
 
@@ -321,6 +328,10 @@ searchIcon?.addEventListener("click", (): void => {
 
 btnFilter?.addEventListener('click',() => {
   dataMusic.filterMusic()
+})
+
+btnSaveMusic?.addEventListener('click',() => {
+  dataMusic.saveMusic()
 })
 
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");

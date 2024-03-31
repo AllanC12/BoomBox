@@ -12,7 +12,7 @@ html,body{
 
 main{
     @include defineFlex(space-between,center);
-    height: 94%;
+    height: 100%;
 }
 
 aside{
@@ -48,7 +48,7 @@ aside{
         font-size: 1em;
         color:#121111;
         margin-right: 25px;
-        padding: 10px;
+        padding: 8px;
         border-radius: 5px;
         cursor: pointer;
         transition: .5s;
@@ -109,7 +109,7 @@ aside{
             font-size: 1.5em;
             color:#121111;
             margin-right: 25px;
-            padding: 10px;
+            padding: 5px 7px;
             border-radius: 5px;
             cursor: pointer;
             transition: .3s;
@@ -151,7 +151,7 @@ aside{
         @include defineFlex(space-around,flex-start);
         flex-wrap: wrap;
         padding: 10px 0px;
-        height: 85%;
+        height: 70%;
         overflow-y: auto;
 
         #loader{
@@ -210,9 +210,12 @@ aside{
     background-color: #262525;
     position: absolute;
     bottom: 0;
+    display: none;
+
 
    div.box-music-name{
     color: #f5e4ea;
+    text-align: center;
    }
 
    .wraper-player{
@@ -223,7 +226,6 @@ aside{
     .img-music{
         width: 60px;
         height: 60px;
-        display: none;
 
         
         img{
@@ -235,12 +237,21 @@ aside{
     audio{
         width: 800px;
         height: 35px;
-        display: none;
     }
 
         
     audio::-webkit-media-controls-panel{
         background-color:#f5e4ea;
+    }
+
+    .btn_save_music{
+        font-size: 17px;
+        padding: 5px 10px;
+        border-radius: 8px;
+        border: none;
+        background-color:#000;
+        color: #fff;
+        cursor: pointer;
     }
 
    }

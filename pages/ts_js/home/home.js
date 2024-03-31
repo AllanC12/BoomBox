@@ -21,6 +21,8 @@ const linksAside = document.querySelectorAll(".navigation li span");
 const musicName = document.getElementById("musicName");
 const boxImageMusicPlayer = document.querySelector(".img-music");
 const imageMusicPlayer = document.querySelector(".img-music img");
+const divPlayer = document.querySelector('.div-player');
+const btnSaveMusic = document.getElementById('btnSaveMusic');
 let linkVisited;
 let layoutLoaded = false;
 class ConstructLayout {
@@ -112,6 +114,7 @@ class HandleDataMusic {
     constructor() {
         this.playMusic = (source, preview_image) => {
             if (source === null || source === void 0 ? void 0 : source.includes("https://")) {
+                divPlayer === null || divPlayer === void 0 ? void 0 : divPlayer.style.setProperty("display", "flex");
                 player === null || player === void 0 ? void 0 : player.style.setProperty("display", "block");
                 player === null || player === void 0 ? void 0 : player.setAttribute("src", source);
                 player === null || player === void 0 ? void 0 : player.setAttribute("autoplay", "true");
@@ -198,6 +201,8 @@ class HandleDataMusic {
         const urlFilterByGenre = `https://api.deezer.com/genre/${idOptionSelected}/artists`;
         construct.resetAndInsertLayout(urlFilterByGenre);
     }
+    saveMusic() {
+    }
 }
 class HandleLinks {
     linksStyle(linkStyled) {
@@ -263,6 +268,9 @@ searchIcon === null || searchIcon === void 0 ? void 0 : searchIcon.addEventListe
 });
 btnFilter === null || btnFilter === void 0 ? void 0 : btnFilter.addEventListener('click', () => {
     dataMusic.filterMusic();
+});
+btnSaveMusic === null || btnSaveMusic === void 0 ? void 0 : btnSaveMusic.addEventListener('click', () => {
+    dataMusic.saveMusic();
 });
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
 manipulateLinks.applyStylesLinks(linksAside);
