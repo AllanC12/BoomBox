@@ -87,6 +87,7 @@ class Register{
       password: inputPasswordElement.value,
       confirmPassword: inputConfirmPasswordElement.value,
       urlPhoto: inputUrlPhotoElement.value === null ? '' : inputUrlPhotoElement.value,
+      musics_save: []
     };
     
 

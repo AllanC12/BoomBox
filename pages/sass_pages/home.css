@@ -14,7 +14,7 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 94%;
+  height: 100%;
 }
 
 aside {
@@ -44,7 +44,7 @@ aside span {
   font-size: 1em;
   color: #121111;
   margin-right: 25px;
-  padding: 10px;
+  padding: 8px;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.5s;
@@ -94,7 +94,7 @@ aside h3 {
   font-size: 1.5em;
   color: #121111;
   margin-right: 25px;
-  padding: 10px;
+  padding: 5px 7px;
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
@@ -129,7 +129,7 @@ aside h3 {
   align-items: flex-start;
   flex-wrap: wrap;
   padding: 10px 0px;
-  height: 85%;
+  height: 70%;
   overflow-y: auto;
 }
 .library .content-library #loader {
@@ -230,9 +230,11 @@ aside h3 {
   background-color: #262525;
   position: absolute;
   bottom: 0;
+  display: none;
 }
 .div-player div.box-music-name {
   color: #f5e4ea;
+  text-align: center;
 }
 .div-player .wraper-player {
   display: flex;
@@ -244,7 +246,6 @@ aside h3 {
 .div-player .wraper-player .img-music {
   width: 60px;
   height: 60px;
-  display: none;
 }
 .div-player .wraper-player .img-music img {
   max-width: 100%;
@@ -254,8 +255,16 @@ aside h3 {
 .div-player .wraper-player audio {
   width: 800px;
   height: 35px;
-  display: none;
 }
 .div-player .wraper-player audio::-webkit-media-controls-panel {
   background-color: #f5e4ea;
+}
+.div-player .wraper-player .btn_save_music {
+  font-size: 17px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
 }/*# sourceMappingURL=home.css.map */

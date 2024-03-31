@@ -24,5 +24,10 @@ export interface IGenre {
   picture: string
   picture_big: string
   picture_medium: string
+}
 
+export interface IPlayingNow {
+   nameMusic?: string | null
+   previewMusic?: string | null
+   previewImage?: string | null
 }

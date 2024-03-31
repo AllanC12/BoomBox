@@ -1,4 +1,4 @@
-import { IMusic, IData, IGenre } from "../../../interfaces/dataMusic";
+import { IMusic, IData, IGenre, IPlayingNow } from "../../../interfaces/dataMusic";
 import { ILayoutBoxMusic } from "../../../interfaces/Layout";
 import { handleLoader } from "../formConfigs/formConfig.js";
 
@@ -15,9 +15,11 @@ const linksAside = document.querySelectorAll(".navigation li span") as NodeList;
 const musicName = document.getElementById("musicName") as HTMLElement;
 const boxImageMusicPlayer = document.querySelector(".img-music") as HTMLElement;
 const imageMusicPlayer = document.querySelector(".img-music img") as HTMLElement;
+const divPlayer = document.querySelector('.div-player') as HTMLElement
+const btnSaveMusic = document.getElementById('btnSaveMusic') as HTMLButtonElement
 
 
-
+const musicPlayingNow: IPlayingNow = {}
 let linkVisited: HTMLElement;
 let layoutLoaded: boolean = false;
 
@@ -143,6 +145,7 @@ class HandleDataMusic {
     preview_image: string | null
   ): void => {
     if (source?.includes("https://")) {
+      divPlayer?.style.setProperty("display", "flex")
       player?.style.setProperty("display", "block");
       player?.setAttribute("src", source);
       player?.setAttribute("autoplay", "true");
@@ -165,6 +168,15 @@ class HandleDataMusic {
     musicName.innerText = titleMusic;
   }
 
+  private getDataMusicPlayingNow(element: Element){
+      const titleMusicElement = element.children[1] as HTMLElement
+      
+      musicPlayingNow.nameMusic = titleMusicElement.innerText
+      musicPlayingNow.previewMusic = element.getAttribute("preview_music")
+      musicPlayingNow.previewImage = element.getAttribute("preview_image")
+
+  }
+
   private verifyBoxMusic(linkPreview: string | null, element: Element) {
     const idAlbum = element.getAttribute("id_album");
     const idArtist = element.getAttribute("id_artist");
@@ -184,6 +196,7 @@ class HandleDataMusic {
       }
     } else {
       this.playMusic(linkPreview, preview_image);
+      this.getDataMusicPlayingNow(element)
     }
   }
 
@@ -192,7 +205,7 @@ class HandleDataMusic {
       for (let i = 0; i < contentLibrary.children.length; i++) {
         contentLibrary.children[i].addEventListener("click", (e) => {
           let linkPreview: string | null =
-            contentLibrary.children[i].getAttribute("preview_music");
+          contentLibrary.children[i].getAttribute("preview_music");
           this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
         });
       }
@@ -229,6 +242,12 @@ class HandleDataMusic {
     const idOptionSelected = optionSelected.getAttribute('id')
     const urlFilterByGenre = `https://api.deezer.com/genre/${idOptionSelected}/artists`
     construct.resetAndInsertLayout(urlFilterByGenre)   
+  }
+
+  public async saveMusic():Promise<void> {
+    const idUser = localStorage.getItem('idUser')
+    const urlServer: string = `http://boomboxapi.glitch.me/users/${idUser}`
+
   }
 }
 
@@ -321,6 +340,12 @@ searchIcon?.addEventListener("click", (): void => {
 
 btnFilter?.addEventListener('click',() => {
   dataMusic.filterMusic()
+})
+
+btnSaveMusic?.addEventListener('click',() => {
+  dataMusic.saveMusic()
+  console.log(musicPlayingNow)
+
 })
 
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
