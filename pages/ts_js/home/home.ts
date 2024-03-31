@@ -1,4 +1,4 @@
-import { IMusic, IData, IGenre } from "../../../interfaces/dataMusic";
+import { IMusic, IData, IGenre, IPlayingNow } from "../../../interfaces/dataMusic";
 import { ILayoutBoxMusic } from "../../../interfaces/Layout";
 import { handleLoader } from "../formConfigs/formConfig.js";
 
@@ -19,7 +19,7 @@ const divPlayer = document.querySelector('.div-player') as HTMLElement
 const btnSaveMusic = document.getElementById('btnSaveMusic') as HTMLButtonElement
 
 
-
+const musicPlayingNow: IPlayingNow = {}
 let linkVisited: HTMLElement;
 let layoutLoaded: boolean = false;
 
@@ -168,6 +168,15 @@ class HandleDataMusic {
     musicName.innerText = titleMusic;
   }
 
+  private getDataMusicPlayingNow(element: Element){
+      const titleMusicElement = element.children[1] as HTMLElement
+      
+      musicPlayingNow.nameMusic = titleMusicElement.innerText
+      musicPlayingNow.previewMusic = element.getAttribute("preview_music")
+      musicPlayingNow.previewImage = element.getAttribute("preview_image")
+
+  }
+
   private verifyBoxMusic(linkPreview: string | null, element: Element) {
     const idAlbum = element.getAttribute("id_album");
     const idArtist = element.getAttribute("id_artist");
@@ -187,6 +196,7 @@ class HandleDataMusic {
       }
     } else {
       this.playMusic(linkPreview, preview_image);
+      this.getDataMusicPlayingNow(element)
     }
   }
 
@@ -195,7 +205,7 @@ class HandleDataMusic {
       for (let i = 0; i < contentLibrary.children.length; i++) {
         contentLibrary.children[i].addEventListener("click", (e) => {
           let linkPreview: string | null =
-            contentLibrary.children[i].getAttribute("preview_music");
+          contentLibrary.children[i].getAttribute("preview_music");
           this.verifyBoxMusic(linkPreview, contentLibrary.children[i]);
         });
       }
@@ -234,8 +244,10 @@ class HandleDataMusic {
     construct.resetAndInsertLayout(urlFilterByGenre)   
   }
 
-  public saveMusic():void {
-    
+  public async saveMusic():Promise<void> {
+    const idUser = localStorage.getItem('idUser')
+    const urlServer: string = `http://boomboxapi.glitch.me/users/${idUser}`
+
   }
 }
 
@@ -332,6 +344,8 @@ btnFilter?.addEventListener('click',() => {
 
 btnSaveMusic?.addEventListener('click',() => {
   dataMusic.saveMusic()
+  console.log(musicPlayingNow)
+
 })
 
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");

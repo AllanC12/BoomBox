@@ -23,6 +23,7 @@ const boxImageMusicPlayer = document.querySelector(".img-music");
 const imageMusicPlayer = document.querySelector(".img-music img");
 const divPlayer = document.querySelector('.div-player');
 const btnSaveMusic = document.getElementById('btnSaveMusic');
+const musicPlayingNow = {};
 let linkVisited;
 let layoutLoaded = false;
 class ConstructLayout {
@@ -145,6 +146,12 @@ class HandleDataMusic {
         let titleMusic = titleMusicElement.innerText;
         musicName.innerText = titleMusic;
     }
+    getDataMusicPlayingNow(element) {
+        const titleMusicElement = element.children[1];
+        musicPlayingNow.nameMusic = titleMusicElement.innerText;
+        musicPlayingNow.previewMusic = element.getAttribute("preview_music");
+        musicPlayingNow.previewImage = element.getAttribute("preview_image");
+    }
     verifyBoxMusic(linkPreview, element) {
         const idAlbum = element.getAttribute("id_album");
         const idArtist = element.getAttribute("id_artist");
@@ -162,6 +169,7 @@ class HandleDataMusic {
         }
         else {
             this.playMusic(linkPreview, preview_image);
+            this.getDataMusicPlayingNow(element);
         }
     }
     verifyMusicList() {
@@ -202,6 +210,10 @@ class HandleDataMusic {
         construct.resetAndInsertLayout(urlFilterByGenre);
     }
     saveMusic() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const idUser = localStorage.getItem('idUser');
+            const urlServer = `http://boomboxapi.glitch.me/users/${idUser}`;
+        });
     }
 }
 class HandleLinks {
@@ -271,6 +283,7 @@ btnFilter === null || btnFilter === void 0 ? void 0 : btnFilter.addEventListener
 });
 btnSaveMusic === null || btnSaveMusic === void 0 ? void 0 : btnSaveMusic.addEventListener('click', () => {
     dataMusic.saveMusic();
+    console.log(musicPlayingNow);
 });
 dataMusic.insertData("https://api.deezer.com/chart/0/tracks");
 manipulateLinks.applyStylesLinks(linksAside);
